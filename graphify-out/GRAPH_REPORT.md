@@ -1,12 +1,18 @@
-# Graph Report - .  (2026-07-22)
+# Graph Report - woofer  (2026-07-22)
 
 ## Corpus Check
-- Corpus is ~1,989 words - fits in a single context window. You may not need a graph.
+- 8 files · ~2,092 words
+- Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 37 nodes · 29 edges · 13 communities (8 shown, 5 thin omitted)
+- 39 nodes · 30 edges · 14 communities (9 shown, 5 thin omitted)
 - Extraction: 83% EXTRACTED · 17% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.83)
 - Token cost: 0 input · 0 output
+
+## Graph Freshness
+- Built from commit: `1d460f13`
+- Run `git rev-parse HEAD` and compare to check if the graph is stale.
+- Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - Counter App UI
@@ -51,7 +57,7 @@
 - **woofer Package Dependencies** — pubspec_cupertino_icons, pubspec_flutter_lints, pubspec_flutter_test [INFERRED 0.75]
 - **App Launcher Icon (resolution variants)** — android_app_src_main_res_mipmap_hdpi_ic_launcher, android_app_src_main_res_mipmap_mdpi_ic_launcher, android_app_src_main_res_mipmap_xhdpi_ic_launcher, android_app_src_main_res_mipmap_xxhdpi_ic_launcher, android_app_src_main_res_mipmap_xxxhdpi_ic_launcher [EXTRACTED 1.00]
 
-## Communities (13 total, 5 thin omitted)
+## Communities (14 total, 5 thin omitted)
 
 ### Community 0 - "Counter App UI"
 Cohesion: 0.22
@@ -63,7 +69,7 @@ Nodes (6): App Launcher Icon (xxxhdpi) — Flutter Logo, Flutter Framework, cupe
 
 ### Community 2 - "Widget Test Harness"
 Cohesion: 0.40
-Nodes (4): package:flutter/material.dart, package:flutter_test/flutter_test.dart, package:woofer/main.dart, main
+Nodes (4): main, package:flutter/material.dart, package:flutter_test/flutter_test.dart, package:woofer/main.dart
 
 ### Community 3 - "Home Page State"
 Cohesion: 0.50
@@ -82,9 +88,9 @@ Nodes (3): Dart Static Analyzer, flutter_lints Lint Ruleset, flutter_lints Dev D
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `Flutter Framework` connect `Flutter Project & Deps` to `Dart Lint & Analysis`?**
-  _High betweenness centrality (0.038) - this node is a cross-community bridge._
+  _High betweenness centrality (0.034) - this node is a cross-community bridge._
 - **Why does `MyHomePage` connect `Home Page State` to `Counter App UI`?**
-  _High betweenness centrality (0.025) - this node is a cross-community bridge._
+  _High betweenness centrality (0.023) - this node is a cross-community bridge._
 - **Are the 4 inferred relationships involving `Flutter Framework` (e.g. with `App Launcher Icon (xxxhdpi) — Flutter Logo` and `cupertino_icons Dependency`) actually correct?**
   _`Flutter Framework` has 4 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `title`, `_counter`, `main` to the rest of the system?**

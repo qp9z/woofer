@@ -37,31 +37,34 @@
     {
       "label": "build.gradle.kts",
       "file_type": "code",
-      "source_file": "android/app/build.gradle.kts",
+      "source_file": "app/android/app/build.gradle.kts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "android_app_build_gradle",
+      "id": "app_android_app_build_gradle",
       "community": 6,
+      "community_name": "Gradle Build Config",
       "norm_label": "build.gradle.kts"
     },
     {
       "label": "MainActivity.kt",
       "file_type": "code",
-      "source_file": "android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "android_app_src_main_kotlin_com_example_woofer_mainactivity",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity",
       "community": 5,
+      "community_name": "Android Host Activity",
       "norm_label": "mainactivity.kt"
     },
     {
       "label": "MainActivity",
       "file_type": "code",
-      "source_file": "android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
       "community": 5,
+      "community_name": "Android Host Activity",
       "norm_label": "mainactivity"
     },
     {
@@ -72,46 +75,51 @@
       "_origin": "ast",
       "id": "flutteractivity",
       "community": 5,
+      "community_name": "Android Host Activity",
       "norm_label": "flutteractivity"
     },
     {
       "label": "build.gradle.kts",
       "file_type": "code",
-      "source_file": "android/build.gradle.kts",
+      "source_file": "app/android/build.gradle.kts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "android_build_gradle",
+      "id": "app_android_build_gradle",
       "community": 11,
+      "community_name": "Gradle App Build",
       "norm_label": "build.gradle.kts"
     },
     {
       "label": "settings.gradle.kts",
       "file_type": "code",
-      "source_file": "android/settings.gradle.kts",
+      "source_file": "app/android/settings.gradle.kts",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "android_settings_gradle",
+      "id": "app_android_settings_gradle",
       "community": 12,
+      "community_name": "Gradle Settings",
       "norm_label": "settings.gradle.kts"
     },
     {
       "label": "main.dart",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main",
+      "id": "app_lib_main",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "main.dart"
     },
     {
       "label": "MyApp",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_myapp",
+      "id": "app_lib_main_myapp",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "myapp"
     },
     {
@@ -122,16 +130,18 @@
       "_origin": "ast",
       "id": "statelesswidget",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "statelesswidget"
     },
     {
       "label": "MyHomePage",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_myhomepage",
+      "id": "app_lib_main_myhomepage",
       "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "myhomepage"
     },
     {
@@ -142,16 +152,18 @@
       "_origin": "ast",
       "id": "statefulwidget",
       "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "statefulwidget"
     },
     {
       "label": "_MyHomePageState",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_myhomepagestate",
+      "id": "app_lib_main_myhomepagestate",
       "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "_myhomepagestate"
     },
     {
@@ -162,66 +174,73 @@
       "_origin": "ast",
       "id": "state",
       "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "state"
     },
     {
       "label": "title",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_title",
+      "id": "app_lib_main_title",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "title"
     },
     {
       "label": "_counter",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_counter",
+      "id": "app_lib_main_counter",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "_counter"
     },
     {
       "label": "main",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_main",
+      "id": "app_lib_main_main",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "main"
     },
     {
       "label": "build",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_build",
+      "id": "app_lib_main_build",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "build"
     },
     {
       "label": "createState",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_createstate",
+      "id": "app_lib_main_createstate",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "createstate"
     },
     {
       "label": "_incrementCounter",
       "file_type": "code",
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "lib_main_incrementcounter",
+      "id": "app_lib_main_incrementcounter",
       "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "_incrementcounter"
     },
     {
@@ -232,26 +251,29 @@
       "_origin": "ast",
       "id": "package_flutter_material_dart",
       "community": 2,
+      "community_name": "Widget Test Harness",
       "norm_label": "package:flutter/material.dart"
     },
     {
       "label": "widget_test.dart",
       "file_type": "code",
-      "source_file": "test/widget_test.dart",
+      "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "test_widget_test",
+      "id": "app_test_widget_test",
       "community": 2,
+      "community_name": "Widget Test Harness",
       "norm_label": "widget_test.dart"
     },
     {
       "label": "main",
       "file_type": "code",
-      "source_file": "test/widget_test.dart",
+      "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "test_widget_test_main",
+      "id": "app_test_widget_test_main",
       "community": 2,
+      "community_name": "Widget Test Harness",
       "norm_label": "main"
     },
     {
@@ -262,6 +284,7 @@
       "_origin": "ast",
       "id": "package_flutter_test_flutter_test_dart",
       "community": 2,
+      "community_name": "Widget Test Harness",
       "norm_label": "package:flutter_test/flutter_test.dart"
     },
     {
@@ -272,7 +295,30 @@
       "_origin": "ast",
       "id": "package_woofer_main_dart",
       "community": 2,
+      "community_name": "Widget Test Harness",
       "norm_label": "package:woofer/main.dart"
+    },
+    {
+      "label": "main.py",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "backend_main",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "main.py"
+    },
+    {
+      "label": "ping()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "backend_main_ping",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "ping()"
     },
     {
       "label": "woofer (Flutter Project)",
@@ -283,9 +329,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "readme_woofer",
       "community": 1,
-      "norm_label": "woofer (flutter project)"
+      "norm_label": "woofer (flutter project)",
+      "community_name": "Flutter Project & Deps",
+      "id": "readme_woofer"
     },
     {
       "label": "Flutter Framework",
@@ -296,9 +343,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "flutter_framework",
       "community": 1,
-      "norm_label": "flutter framework"
+      "norm_label": "flutter framework",
+      "community_name": "Flutter Project & Deps",
+      "id": "flutter_framework"
     },
     {
       "label": "cupertino_icons Dependency",
@@ -309,9 +357,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "pubspec_cupertino_icons",
       "community": 1,
-      "norm_label": "cupertino_icons dependency"
+      "norm_label": "cupertino_icons dependency",
+      "community_name": "Flutter Project & Deps",
+      "id": "pubspec_cupertino_icons"
     },
     {
       "label": "flutter_lints Dev Dependency",
@@ -322,9 +371,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "pubspec_flutter_lints",
       "community": 4,
-      "norm_label": "flutter_lints dev dependency"
+      "norm_label": "flutter_lints dev dependency",
+      "community_name": "Dart Lint & Analysis",
+      "id": "pubspec_flutter_lints"
     },
     {
       "label": "flutter_test Dev Dependency",
@@ -335,9 +385,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "pubspec_flutter_test",
       "community": 1,
-      "norm_label": "flutter_test dev dependency"
+      "norm_label": "flutter_test dev dependency",
+      "community_name": "Flutter Project & Deps",
+      "id": "pubspec_flutter_test"
     },
     {
       "label": "Material Design (uses-material-design)",
@@ -348,9 +399,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "pubspec_material_design",
       "community": 1,
-      "norm_label": "material design (uses-material-design)"
+      "norm_label": "material design (uses-material-design)",
+      "community_name": "Flutter Project & Deps",
+      "id": "pubspec_material_design"
     },
     {
       "label": "flutter_lints Lint Ruleset",
@@ -361,9 +413,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "analysis_options_flutter_lints_ruleset",
       "community": 4,
-      "norm_label": "flutter_lints lint ruleset"
+      "norm_label": "flutter_lints lint ruleset",
+      "community_name": "Dart Lint & Analysis",
+      "id": "analysis_options_flutter_lints_ruleset"
     },
     {
       "label": "Dart Static Analyzer",
@@ -374,9 +427,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "analysis_options_dart_analyzer",
       "community": 4,
-      "norm_label": "dart static analyzer"
+      "norm_label": "dart static analyzer",
+      "community_name": "Dart Lint & Analysis",
+      "id": "analysis_options_dart_analyzer"
     },
     {
       "label": "App Launcher Icon (hdpi) \u2014 Flutter Logo",
@@ -387,9 +441,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "android_app_src_main_res_mipmap_hdpi_ic_launcher",
       "community": 7,
-      "norm_label": "app launcher icon (hdpi) \u2014 flutter logo"
+      "norm_label": "app launcher icon (hdpi) \u2014 flutter logo",
+      "community_name": "Launcher Icon (hdpi)",
+      "id": "android_app_src_main_res_mipmap_hdpi_ic_launcher"
     },
     {
       "label": "App Launcher Icon (mdpi) \u2014 Flutter Logo",
@@ -400,9 +455,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "android_app_src_main_res_mipmap_mdpi_ic_launcher",
       "community": 8,
-      "norm_label": "app launcher icon (mdpi) \u2014 flutter logo"
+      "norm_label": "app launcher icon (mdpi) \u2014 flutter logo",
+      "community_name": "Launcher Icon (mdpi)",
+      "id": "android_app_src_main_res_mipmap_mdpi_ic_launcher"
     },
     {
       "label": "App Launcher Icon (xhdpi) \u2014 Flutter Logo",
@@ -413,9 +469,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "android_app_src_main_res_mipmap_xhdpi_ic_launcher",
       "community": 9,
-      "norm_label": "app launcher icon (xhdpi) \u2014 flutter logo"
+      "norm_label": "app launcher icon (xhdpi) \u2014 flutter logo",
+      "community_name": "Launcher Icon (xhdpi)",
+      "id": "android_app_src_main_res_mipmap_xhdpi_ic_launcher"
     },
     {
       "label": "App Launcher Icon (xxhdpi) \u2014 Flutter Logo",
@@ -426,9 +483,10 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "android_app_src_main_res_mipmap_xxhdpi_ic_launcher",
       "community": 10,
-      "norm_label": "app launcher icon (xxhdpi) \u2014 flutter logo"
+      "norm_label": "app launcher icon (xxhdpi) \u2014 flutter logo",
+      "community_name": "Launcher Icon (xxhdpi)",
+      "id": "android_app_src_main_res_mipmap_xxhdpi_ic_launcher"
     },
     {
       "label": "App Launcher Icon (xxxhdpi) \u2014 Flutter Logo",
@@ -439,31 +497,32 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "id": "android_app_src_main_res_mipmap_xxxhdpi_ic_launcher",
       "community": 1,
-      "norm_label": "app launcher icon (xxxhdpi) \u2014 flutter logo"
+      "norm_label": "app launcher icon (xxxhdpi) \u2014 flutter logo",
+      "community_name": "Flutter Project & Deps",
+      "id": "android_app_src_main_res_mipmap_xxxhdpi_ic_launcher"
     }
   ],
   "links": [
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
-      "source_file": "android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "android_app_src_main_kotlin_com_example_woofer_mainactivity",
-      "target": "android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
       "confidence_score": 1.0
     },
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
-      "source_file": "android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
       "target": "flutteractivity",
       "confidence_score": 1.0
     },
@@ -471,199 +530,210 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_build"
+      "source": "app_lib_main",
+      "target": "app_lib_main_build"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_counter"
+      "source": "app_lib_main",
+      "target": "app_lib_main_counter"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_createstate"
+      "source": "app_lib_main",
+      "target": "app_lib_main_createstate"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_incrementcounter"
+      "source": "app_lib_main",
+      "target": "app_lib_main_incrementcounter"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_main"
+      "source": "app_lib_main",
+      "target": "app_lib_main_main"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_myapp"
+      "source": "app_lib_main",
+      "target": "app_lib_main_myapp"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_myhomepage"
+      "source": "app_lib_main",
+      "target": "app_lib_main_myhomepage"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_myhomepagestate"
+      "source": "app_lib_main",
+      "target": "app_lib_main_myhomepagestate"
     },
     {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
-      "target": "lib_main_title"
+      "source": "app_lib_main",
+      "target": "app_lib_main_title"
     },
     {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main",
+      "source": "app_lib_main",
       "target": "package_flutter_material_dart"
     },
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main_myapp",
+      "source": "app_lib_main_myapp",
       "target": "statelesswidget"
     },
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main_myhomepage",
+      "source": "app_lib_main_myhomepage",
       "target": "statefulwidget"
     },
     {
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main_myhomepagestate",
-      "target": "lib_main_myhomepage"
+      "source": "app_lib_main_myhomepagestate",
+      "target": "app_lib_main_myhomepage"
     },
     {
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "lib/main.dart",
+      "source_file": "app/lib/main.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "lib_main_myhomepagestate",
+      "source": "app_lib_main_myhomepagestate",
       "target": "state"
     },
     {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "test/widget_test.dart",
+      "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "test_widget_test",
+      "source": "app_test_widget_test",
       "target": "package_flutter_material_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/widget_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_widget_test",
+      "target": "app_test_widget_test_main"
     },
     {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "test/widget_test.dart",
+      "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "test_widget_test",
+      "source": "app_test_widget_test",
       "target": "package_flutter_test_flutter_test_dart"
     },
     {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "test/widget_test.dart",
+      "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "test_widget_test",
+      "source": "app_test_widget_test",
       "target": "package_woofer_main_dart"
     },
     {
-      "relation": "defines",
+      "relation": "contains",
       "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "test/widget_test.dart",
-      "source_location": null,
+      "source_file": "backend/main.py",
+      "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "test_widget_test",
-      "target": "test_widget_test_main"
+      "source": "backend_main",
+      "target": "backend_main_ping",
+      "confidence_score": 1.0
     },
     {
       "relation": "references",
@@ -785,5 +855,6 @@
       "confidence_score": 1.0,
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
-  ]
+  ],
+  "built_at_commit": "1d460f132b1cea12ea3e334b485dda0adebd3050"
 }

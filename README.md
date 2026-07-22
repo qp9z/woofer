@@ -1,21 +1,45 @@
-<<<<<<< HEAD
 # woofer
 
-A new Flutter project.
+Monorepo for an Android social / YouTube downloader.
 
-## Getting Started
+- **`backend/`** — Python FastAPI service using `yt-dlp` + `ffmpeg`.
+- **`app/`** — Flutter Android app (targets Android only).
 
-This project is a starting point for a Flutter application.
+No UI or download logic yet — this is the scaffold.
 
-A few resources to get you started if this is your first Flutter project:
+## backend
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+FastAPI service. Requires Python 3.10+ (and `ffmpeg` on PATH for real downloads).
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-=======
-# woofer
->>>>>>> 4982a25b52ddca744602ea363319d0f5533936c9
+```bash
+cd backend
+python -m venv .venv
+# Windows:  .venv\Scripts\activate
+# Unix:     source .venv/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
+
+Health check: `GET http://127.0.0.1:8000/ping` → `{"status": "ok"}`
+
+### Docker (bundles ffmpeg)
+
+```bash
+cd backend
+docker build -t woofer-backend .
+docker run -p 8000:8000 woofer-backend
+```
+
+## app
+
+Flutter app, Android only. Requires the Flutter SDK.
+
+```bash
+cd app
+flutter pub get
+flutter run          # on a connected Android device/emulator
+flutter build apk    # release APK
+```
+
+Dependencies: `dio` (HTTP), `permission_handler` (storage/permissions),
+`path_provider` (download paths), `sqflite` (local download history).
