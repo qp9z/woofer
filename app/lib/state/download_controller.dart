@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart' show CancelToken;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../models/media_format.dart';
@@ -15,6 +16,12 @@ final apiClientProvider = Provider<ApiClient>((ref) => ApiClient());
 final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
 final historyServiceProvider = FutureProvider<HistoryService>((ref) => HistoryService.open());
 
+/// Past downloads, newest first. Invalidated whenever a download is recorded.
+final historyListProvider = FutureProvider<List<HistoryEntry>>((ref) async {
+  final history = await ref.watch(historyServiceProvider.future);
+  return history.getAll();
+});
+
 /// The one entry point for the download flow. Drives [DownloadState] through
 /// idle → loading → formatsReady → downloading → done | error.
 final downloadControllerProvider =
@@ -22,6 +29,8 @@ final downloadControllerProvider =
 
 class DownloadController extends Notifier<DownloadState> {
   String? _url;
+  CancelToken? _cancelToken;
+  bool _cancelled = false;
 
   @override
   DownloadState build() => const Idle();
@@ -53,6 +62,13 @@ class DownloadController extends Notifier<DownloadState> {
     state = const Idle();
   }
 
+  /// Abort an in-flight download: kills the HTTP stream, drops the partial
+  /// file, and returns to format selection (not an error state).
+  void cancel() {
+    _cancelled = true;
+    _cancelToken?.cancel('cancelled by user');
+  }
+
   /// Download the selected format, save it to Downloads, and record history.
   /// No-op unless a format is selected in [FormatsReady].
   Future<void> download() async {
@@ -70,6 +86,10 @@ class DownloadController extends Notifier<DownloadState> {
 
     state = Downloading(format: format, received: 0, total: format.filesize ?? -1);
 
+    _cancelled = false;
+    final token = CancelToken();
+    _cancelToken = token;
+
     final tmp = File(
         '${Directory.systemTemp.path}/woofer_${DateTime.now().millisecondsSinceEpoch}.$ext');
     try {
@@ -78,6 +98,7 @@ class DownloadController extends Notifier<DownloadState> {
         format.formatId,
         mode,
         savePath: tmp.path,
+        cancelToken: token,
         onProgress: (received, total) {
           state = Downloading(format: format, received: received, total: total);
         },
@@ -100,7 +121,10 @@ class DownloadController extends Notifier<DownloadState> {
       state = Done(path: path, uri: saved.uri);
     } on ApiException catch (e) {
       await _deleteQuietly(tmp);
-      state = Failed(e.code, e.message);
+      // A cancel surfaces as a stream error — that's a user action, not a failure.
+      state = _cancelled ? FormatsReady(info, selected: format) : Failed(e.code, e.message);
+    } finally {
+      _cancelToken = null;
     }
   }
 
@@ -116,6 +140,7 @@ class DownloadController extends Notifier<DownloadState> {
         format: format.resolution ?? format.note ?? format.formatId,
         size: format.filesize,
       ));
+      ref.invalidate(historyListProvider); // HistoryScreen picks it up
     } catch (_) {
       // ponytail: history is best-effort — logging failure must not fail a saved download.
     }

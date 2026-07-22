@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:dio/dio.dart' show CancelToken;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
@@ -31,8 +32,16 @@ class _FakeApi extends ApiClient {
 
   @override
   Future<File> download(String url, String formatId, String mode,
-      {required String savePath, ProgressCallback? onProgress}) async {
+      {required String savePath,
+      ProgressCallback? onProgress,
+      CancelToken? cancelToken}) async {
     lastMode = mode;
+    onProgress?.call(512, 1024);
+    await Future<void>.delayed(Duration.zero); // let a cancel land mid-transfer
+    // Mirror dio: a cancelled token aborts the transfer with an error.
+    if (cancelToken?.isCancelled ?? false) {
+      throw const ApiException(code: ApiErrorCode.network, message: 'cancelled');
+    }
     final f = File(savePath)..writeAsStringSync('data');
     onProgress?.call(1024, 1024);
     return f;
@@ -133,6 +142,25 @@ void main() {
 
     expect(c.read(downloadControllerProvider), isA<Done>());
     expect(api.lastMode, 'audio');
+  });
+
+  test('cancel aborts the transfer and returns to format selection', () async {
+    final c = _container(_FakeApi(), _FakeStorage(), history);
+    addTearDown(c.dispose);
+    final ctrl = c.read(downloadControllerProvider.notifier);
+
+    await ctrl.extract('http://y/x');
+    ctrl.selectFormat(_video);
+
+    final pending = ctrl.download();
+    ctrl.cancel();
+    await pending;
+
+    // A cancel is a user action, not a Failed state.
+    final s = c.read(downloadControllerProvider);
+    expect(s, isA<FormatsReady>());
+    expect((s as FormatsReady).selected, _video);
+    expect(await history.getAll(), isEmpty);
   });
 
   test('save failure → error(unknown)', () async {

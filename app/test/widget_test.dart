@@ -1,9 +1,11 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:woofer/main.dart';
 
 void main() {
-  testWidgets('app boots into the glass gallery', (tester) async {
-    await tester.pumpWidget(const WooferApp());
-    expect(find.text('Glass Kit'), findsWidgets);
+  testWidgets('app boots into the downloader home screen', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: WooferApp()));
+    expect(find.text('Downloader'), findsWidgets);
+    expect(find.text('Fetch'), findsOneWidget);
   });
 }

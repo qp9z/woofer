@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'ui/gallery/glass_gallery.dart';
+import 'ui/screens/home_screen.dart';
 import 'ui/theme/app_theme.dart';
 
 void main() => runApp(const ProviderScope(child: WooferApp()));
@@ -15,8 +15,7 @@ class WooferApp extends StatelessWidget {
       title: 'woofer',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.of(Brightness.dark),
-      // Until real screens land, the app opens on the UI-kit gallery.
-      home: const GlassGalleryScreen(),
+      home: const HomeScreen(),
     );
   }
 }

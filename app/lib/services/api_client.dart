@@ -42,12 +42,14 @@ class ApiClient {
     String mode, {
     required String savePath,
     ProgressCallback? onProgress,
+    CancelToken? cancelToken,
   }) async {
     final Response<ResponseBody> resp;
     try {
       resp = await _dio.post<ResponseBody>(
         '/download',
         data: {'url': url, 'format_id': formatId, 'mode': mode},
+        cancelToken: cancelToken,
         options: Options(
           responseType: ResponseType.stream,
           validateStatus: (_) => true, // inspect error bodies ourselves
