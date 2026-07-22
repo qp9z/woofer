@@ -1,7 +1,7 @@
 {
   "README.md": {
-    "mtime": 1784719250.4547305,
-    "ast_hash": "eca00a87c8fdced38a445258d4884c95",
+    "mtime": 1784742912.0165598,
+    "ast_hash": "20d44fa801714a24f3c47336d5192b4c",
     "semantic_hash": ""
   },
   "app/android/app/build.gradle.kts": {
@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/pubspec.yaml": {
-    "mtime": 1784741200.3187196,
-    "ast_hash": "31c058f3b79920feb6fc315f8e284e70",
+    "mtime": 1784760661.9384465,
+    "ast_hash": "dee9497d0c4d34c2b9104eeebcaea849",
     "semantic_hash": ""
   },
   "app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
@@ -69,46 +69,6 @@
     "ast_hash": "57838d52c318faff743130c3fcfae0c6",
     "semantic_hash": ""
   },
-  "backend/main.py": {
-    "mtime": 1784720927.9510837,
-    "ast_hash": "bdf6517297c0cc3118f4034e60fdae56",
-    "semantic_hash": ""
-  },
-  "backend/requirements.txt": {
-    "mtime": 1784719208.9605627,
-    "ast_hash": "5a746bda3f9fb4cec413f3f4de1a50bf",
-    "semantic_hash": ""
-  },
-  "backend/test_extract.py": {
-    "mtime": 1784719689.1355586,
-    "ast_hash": "6b977edc46f1213d6d2b4d17311b14fd",
-    "semantic_hash": ""
-  },
-  "backend/requirements-dev.txt": {
-    "mtime": 1784719691.6201794,
-    "ast_hash": "e76ef37a5b4af8a407ca8d54476faf74",
-    "semantic_hash": ""
-  },
-  "backend/test_download.py": {
-    "mtime": 1784720463.3443775,
-    "ast_hash": "91608305056b052fa5666b33fd39edfb",
-    "semantic_hash": ""
-  },
-  "backend/conftest.py": {
-    "mtime": 1784720846.7026143,
-    "ast_hash": "0c86ed1223583b3fadba419b44d299b4",
-    "semantic_hash": ""
-  },
-  "backend/test_middleware.py": {
-    "mtime": 1784720934.8344607,
-    "ast_hash": "6e3492a91f92f99e8a146c9ac8c64ef8",
-    "semantic_hash": ""
-  },
-  "app/lib/config.dart": {
-    "mtime": 1784721123.6387346,
-    "ast_hash": "7826afe7cffe8a25d017c061c7fbaae2",
-    "semantic_hash": ""
-  },
   "app/lib/models/api_error.dart": {
     "mtime": 1784721139.7523816,
     "ast_hash": "f9a052f2a6f7aac6a838c20655387fd7",
@@ -122,11 +82,6 @@
   "app/lib/models/video_info.dart": {
     "mtime": 1784721135.7506495,
     "ast_hash": "fcfea47c10a4b1036d675e7ceef01b5a",
-    "semantic_hash": ""
-  },
-  "app/lib/services/api_client.dart": {
-    "mtime": 1784742037.786436,
-    "ast_hash": "3b8494476106b3fc8c0b8d0ff7dcbfab",
     "semantic_hash": ""
   },
   "app/lib/services/api_exception.dart": {
@@ -200,18 +155,13 @@
     "semantic_hash": ""
   },
   "app/lib/state/download_controller.dart": {
-    "mtime": 1784742075.5897846,
-    "ast_hash": "1a73357ce7a5570d55eb6345cebaf95a",
+    "mtime": 1784760641.580147,
+    "ast_hash": "87807d7e87dd134e21edbc7792e15d01",
     "semantic_hash": ""
   },
   "app/lib/state/download_state.dart": {
     "mtime": 1784740323.1770718,
     "ast_hash": "0c4064ffec9ae68a813e036ec69d0631",
-    "semantic_hash": ""
-  },
-  "app/test/download_controller_test.dart": {
-    "mtime": 1784742298.2981176,
-    "ast_hash": "a115af84435ed1a556a125ee943cbcd0",
     "semantic_hash": ""
   },
   "app/lib/state/share_intent.dart": {
