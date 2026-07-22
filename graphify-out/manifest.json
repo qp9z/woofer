@@ -10,8 +10,8 @@
     "semantic_hash": ""
   },
   "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt": {
-    "mtime": 1784716573.0557413,
-    "ast_hash": "6ef164aa20648d08d2f7f308682b98eb",
+    "mtime": 1784721841.176857,
+    "ast_hash": "e7456fd52ccb72ebc4a9aa8f63e53e2e",
     "semantic_hash": ""
   },
   "app/android/build.gradle.kts": {
@@ -137,6 +137,16 @@
   "app/test/json_parsing_test.dart": {
     "mtime": 1784721189.2079275,
     "ast_hash": "6e88324fe1376db26f0b7faf888eb5f3",
+    "semantic_hash": ""
+  },
+  "app/lib/services/storage_service.dart": {
+    "mtime": 1784721916.9883964,
+    "ast_hash": "ec3f84dd04fbb5db6382db6d55af2bcf",
+    "semantic_hash": ""
+  },
+  "app/test/storage_service_test.dart": {
+    "mtime": 1784721894.0904596,
+    "ast_hash": "772ea00818769e94c35a986e06b86787",
     "semantic_hash": ""
   }
 }

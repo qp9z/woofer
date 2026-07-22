@@ -60,7 +60,7 @@
       "label": "MainActivity",
       "file_type": "code",
       "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
-      "source_location": "L5",
+      "source_location": "L20",
       "_origin": "ast",
       "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
       "community": 5,
@@ -77,6 +77,83 @@
       "community": 5,
       "community_name": "Android Host Activity",
       "norm_label": "flutteractivity"
+    },
+    {
+      "label": ".configureFlutterEngine()",
+      "file_type": "code",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": ".configureflutterengine()"
+    },
+    {
+      "label": "FlutterEngine",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "flutterengine",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": "flutterengine"
+    },
+    {
+      "label": ".saveToDownloads()",
+      "file_type": "code",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L60",
+      "_origin": "ast",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_savetodownloads",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": ".savetodownloads()"
+    },
+    {
+      "label": ".openFile()",
+      "file_type": "code",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L100",
+      "_origin": "ast",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_openfile",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": ".openfile()"
+    },
+    {
+      "label": ".shareFile()",
+      "file_type": "code",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L113",
+      "_origin": "ast",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_sharefile",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": ".sharefile()"
+    },
+    {
+      "label": ".shareableUri()",
+      "file_type": "code",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L131",
+      "_origin": "ast",
+      "id": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_shareableuri",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": ".shareableuri()"
+    },
+    {
+      "label": "Uri",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "uri",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": "uri"
     },
     {
       "label": "build.gradle.kts",
@@ -767,8 +844,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_io",
-      "community": 2,
-      "community_name": "_error",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "dart:io"
     },
     {
@@ -981,6 +1058,281 @@
       "norm_label": "tostring"
     },
     {
+      "label": "storage_service.dart",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "storage_service.dart"
+    },
+    {
+      "label": "StorageStatus",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_storagestatus",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "storagestatus"
+    },
+    {
+      "label": "StorageResult",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_storageresult",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "storageresult"
+    },
+    {
+      "label": "StorageService",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_storageservice",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "storageservice"
+    },
+    {
+      "label": "status",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_status",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "status"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_path",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "path"
+    },
+    {
+      "label": "uri",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_uri",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "uri"
+    },
+    {
+      "label": "message",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_message",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "message"
+    },
+    {
+      "label": "isSuccess",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_issuccess",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "issuccess"
+    },
+    {
+      "label": "bool get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "bool_get",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "bool get"
+    },
+    {
+      "label": "PermissionGate",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_permissiongate",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "permissiongate"
+    },
+    {
+      "label": "appSubfolder",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_appsubfolder",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "appsubfolder"
+    },
+    {
+      "label": "_defaultChannel",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_defaultchannel",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "_defaultchannel"
+    },
+    {
+      "label": "static const MethodChannel",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "static_const_methodchannel",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "static const methodchannel"
+    },
+    {
+      "label": "_channel",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_channel",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "_channel"
+    },
+    {
+      "label": "MethodChannel",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "methodchannel",
+      "community": 5,
+      "community_name": "Android Host Activity",
+      "norm_label": "methodchannel"
+    },
+    {
+      "label": "toString",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_tostring",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "tostring"
+    },
+    {
+      "label": "saveToDownloads",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_savetodownloads",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "savetodownloads"
+    },
+    {
+      "label": "openFile",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_openfile",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "openfile"
+    },
+    {
+      "label": "shareFile",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_sharefile",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "sharefile"
+    },
+    {
+      "label": "_invokeBool",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_invokebool",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "_invokebool"
+    },
+    {
+      "label": "_ensurePermission",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_ensurepermission",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "_ensurepermission"
+    },
+    {
+      "label": "_sdkInt",
+      "file_type": "code",
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_storage_service_sdkint",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "_sdkint"
+    },
+    {
+      "label": "package:flutter/services.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_flutter_services_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:flutter/services.dart"
+    },
+    {
+      "label": "package:permission_handler/permission_handler.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_permission_handler_permission_handler_dart",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "package:permission_handler/permission_handler.dart"
+    },
+    {
       "label": "json_parsing_test.dart",
       "file_type": "code",
       "source_file": "app/test/json_parsing_test.dart",
@@ -1056,6 +1408,83 @@
       "community": 19,
       "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/services/api_exception.dart"
+    },
+    {
+      "label": "storage_service_test.dart",
+      "file_type": "code",
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_storage_service_test",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "storage_service_test.dart"
+    },
+    {
+      "label": "channel",
+      "file_type": "code",
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_storage_service_test_channel",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "channel"
+    },
+    {
+      "label": "messenger",
+      "file_type": "code",
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_storage_service_test_messenger",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "messenger"
+    },
+    {
+      "label": "tmp",
+      "file_type": "code",
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_storage_service_test_tmp",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "tmp"
+    },
+    {
+      "label": "File",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "file",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "file"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_storage_service_test_main",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "main"
+    },
+    {
+      "label": "package:woofer/services/storage_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_storage_service_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/services/storage_service.dart"
     },
     {
       "label": "widget_test.dart",
@@ -1141,8 +1570,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "backend_main_ytdlp_version",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "_ytdlp_version()"
     },
     {
@@ -1152,8 +1581,8 @@
       "source_location": "L48",
       "_origin": "ast",
       "id": "backend_main_latest_pypi_version",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "_latest_pypi_version()"
     },
     {
@@ -1163,8 +1592,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "backend_main_norm_version",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "_norm_version()"
     },
     {
@@ -1174,8 +1603,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "backend_main_update_event",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "_update_event()"
     },
     {
@@ -1185,8 +1614,8 @@
       "source_location": "L71",
       "_origin": "ast",
       "id": "backend_main_check_ytdlp_update",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "_check_ytdlp_update()"
     },
     {
@@ -1196,8 +1625,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "backend_main_lifespan",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "lifespan()"
     },
     {
@@ -1504,8 +1933,8 @@
       "source_location": "L368",
       "_origin": "ast",
       "id": "backend_main_version",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "version()"
     },
     {
@@ -1537,8 +1966,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "backend_main_rationale_72",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "best-effort: log whether a newer yt-dlp exists on pypi. never raises."
     },
     {
@@ -1592,8 +2021,8 @@
       "source_location": "L369",
       "_origin": "ast",
       "id": "backend_main_rationale_369",
-      "community": 18,
-      "community_name": "_check_ytdlp_update",
+      "community": 13,
+      "community_name": "main.py",
       "norm_label": "yt-dlp and app version."
     },
     {
@@ -2092,7 +2521,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
-      "source_location": "L5",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity",
@@ -2100,14 +2529,165 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_openfile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L60",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_savetodownloads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_shareableuri",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L113",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_sharefile",
+      "confidence_score": 1.0
+    },
+    {
       "relation": "inherits",
       "confidence": "EXTRACTED",
       "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
-      "source_location": "L5",
+      "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity",
       "target": "flutteractivity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_openfile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_savetodownloads",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L46",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_sharefile",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "parameter_type",
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "target": "flutterengine",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_configureflutterengine",
+      "target": "methodchannel"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L102",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_openfile",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_shareableuri",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L116",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_sharefile",
+      "target": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_shareableuri",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt",
+      "source_location": "L131",
+      "weight": 1.0,
+      "context": "return_type",
+      "_origin": "ast",
+      "source": "app_android_app_src_main_kotlin_com_example_woofer_mainactivity_mainactivity_shareableuri",
+      "target": "uri",
       "confidence_score": 1.0
     },
     {
@@ -2142,6 +2722,18 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "app_lib_config",
+      "target": "static_const_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
       "target": "static_const_string"
     },
     {
@@ -2504,6 +3096,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/services/api_exception.dart",
       "source_location": null,
       "weight": 1.0,
@@ -2848,6 +3452,18 @@
       "target": "typedef"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "typedef"
+    },
+    {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -2857,6 +3473,28 @@
       "_origin": "ast",
       "source": "app_test_json_parsing_test",
       "target": "dart_convert"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "dart_io"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "dart_io"
     },
     {
       "relation": "imports",
@@ -3007,6 +3645,286 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_appsubfolder"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_channel"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_defaultchannel"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_ensurepermission"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_invokebool"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_issuccess"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_message"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_openfile"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_path"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "variable_type",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_permissiongate"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_savetodownloads"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_sdkint"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_sharefile"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_status"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_storageresult"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_storageservice"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "variable_type",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_storagestatus"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_tostring"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "app_lib_services_storage_service_uri"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "bool_get"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "methodchannel"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "package_flutter_services_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "package_permission_handler_permission_handler_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/storage_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_storage_service",
+      "target": "static_const_methodchannel"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_flutter_services_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/json_parsing_test.dart",
       "source_location": null,
       "weight": 1.0,
@@ -3073,12 +3991,90 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/widget_test.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_widget_test",
       "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "app_test_storage_service_test_channel"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "app_test_storage_service_test_main"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "app_test_storage_service_test_messenger"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "app_test_storage_service_test_tmp"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "file"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_woofer_services_storage_service_dart"
     },
     {
       "relation": "defines",
@@ -4557,5 +5553,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "ea6ad14d0c757b3943c35afe0f76d110bffd9abb"
+  "built_at_commit": "d421cd38a85adfac63e7e6b01aaa8d967174de06"
 }
