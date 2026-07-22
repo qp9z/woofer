@@ -140,8 +140,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_myhomepage",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "myhomepage"
     },
     {
@@ -151,8 +151,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "statefulwidget",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "statefulwidget"
     },
     {
@@ -162,8 +162,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_myhomepagestate",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "_myhomepagestate"
     },
     {
@@ -173,8 +173,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "state",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "state"
     },
     {
@@ -310,15 +310,180 @@
       "norm_label": "main.py"
     },
     {
+      "label": "ExtractRequest",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "backend_main_extractrequest",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "extractrequest"
+    },
+    {
+      "label": "BaseModel",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "basemodel",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "basemodel"
+    },
+    {
+      "label": "FormatModel",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "backend_main_formatmodel",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "formatmodel"
+    },
+    {
+      "label": "ExtractResponse",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "backend_main_extractresponse",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "extractresponse"
+    },
+    {
+      "label": "ExtractError",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L35",
+      "_origin": "ast",
+      "id": "backend_main_extracterror",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "extracterror"
+    },
+    {
+      "label": "_valid_url()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L41",
+      "_origin": "ast",
+      "id": "backend_main_valid_url",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "_valid_url()"
+    },
+    {
+      "label": "_classify_error()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L49",
+      "_origin": "ast",
+      "id": "backend_main_classify_error",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "_classify_error()"
+    },
+    {
+      "label": "_has()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L64",
+      "_origin": "ast",
+      "id": "backend_main_has",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "_has()"
+    },
+    {
+      "label": "_resolution()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L68",
+      "_origin": "ast",
+      "id": "backend_main_resolution",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "_resolution()"
+    },
+    {
+      "label": "_quality_key()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L81",
+      "_origin": "ast",
+      "id": "backend_main_quality_key",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "_quality_key()"
+    },
+    {
+      "label": "_build_response()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L91",
+      "_origin": "ast",
+      "id": "backend_main_build_response",
+      "community": 13,
+      "community_name": "main.py",
+      "norm_label": "_build_response()"
+    },
+    {
+      "label": "_error()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L117",
+      "_origin": "ast",
+      "id": "backend_main_error",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "_error()"
+    },
+    {
+      "label": "JSONResponse",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast",
+      "id": "jsonresponse",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "jsonresponse"
+    },
+    {
       "label": "ping()",
       "file_type": "code",
       "source_file": "backend/main.py",
-      "source_location": "L7",
+      "source_location": "L123",
       "_origin": "ast",
       "id": "backend_main_ping",
       "community": 13,
       "community_name": "main.py",
       "norm_label": "ping()"
+    },
+    {
+      "label": "extract()",
+      "file_type": "code",
+      "source_file": "backend/main.py",
+      "source_location": "L129",
+      "_origin": "ast",
+      "id": "backend_main_extract",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "extract()"
+    },
+    {
+      "label": "Map a yt-dlp error message to one of the documented error codes.",
+      "file_type": "rationale",
+      "source_file": "backend/main.py",
+      "source_location": "L50",
+      "_origin": "ast",
+      "id": "backend_main_rationale_50",
+      "community": 3,
+      "community_name": "Home Page State",
+      "norm_label": "map a yt-dlp error message to one of the documented error codes."
     },
     {
       "label": "woofer (Flutter Project)",
@@ -371,9 +536,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 1,
       "norm_label": "flutter_lints dev dependency",
-      "community_name": "Dart Lint & Analysis",
+      "community_name": "Flutter Project & Deps",
       "id": "pubspec_flutter_lints"
     },
     {
@@ -413,9 +578,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 1,
       "norm_label": "flutter_lints lint ruleset",
-      "community_name": "Dart Lint & Analysis",
+      "community_name": "Flutter Project & Deps",
       "id": "analysis_options_flutter_lints_ruleset"
     },
     {
@@ -427,9 +592,9 @@
       "captured_at": null,
       "author": null,
       "contributor": null,
-      "community": 4,
+      "community": 1,
       "norm_label": "dart static analyzer",
-      "community_name": "Dart Lint & Analysis",
+      "community_name": "Flutter Project & Deps",
       "id": "analysis_options_dart_analyzer"
     },
     {
@@ -728,11 +893,354 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "backend/main.py",
-      "source_location": "L7",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_build_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_classify_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_extract",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_extracterror",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_extractrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_extractresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_formatmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L64",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_has",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L123",
       "weight": 1.0,
       "_origin": "ast",
       "source": "backend_main",
       "target": "backend_main_ping",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L81",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_quality_key",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_resolution",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L41",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main",
+      "target": "backend_main_valid_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "parameter_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L129",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extract",
+      "target": "backend_main_extractrequest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extractrequest",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extracterror",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extractresponse",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_formatmodel",
+      "target": "basemodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L97",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_build_response",
+      "target": "backend_main_formatmodel",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L91",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_build_response",
+      "target": "backend_main_extractresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L130",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extract",
+      "target": "backend_main_valid_url",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L136",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extract",
+      "target": "backend_main_classify_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L50",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_rationale_50",
+      "target": "backend_main_classify_error",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_build_response",
+      "target": "backend_main_has",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L84",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_quality_key",
+      "target": "backend_main_has",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L76",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_resolution",
+      "target": "backend_main_has",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L100",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_build_response",
+      "target": "backend_main_resolution",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "indirect_call",
+      "context": "argument",
+      "confidence": "INFERRED",
+      "source_file": "backend/main.py",
+      "source_location": "L95",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_build_response",
+      "target": "backend_main_quality_key",
+      "confidence_score": 0.5
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extract",
+      "target": "backend_main_build_response",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "return_type",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_error",
+      "target": "jsonresponse",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/main.py",
+      "source_location": "L131",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "backend_main_extract",
+      "target": "backend_main_error",
       "confidence_score": 1.0
     },
     {
@@ -856,5 +1364,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "1d460f132b1cea12ea3e334b485dda0adebd3050"
+  "built_at_commit": "6b5753e4cb0b72c134b5b4b7dad7da2955adf076"
 }
