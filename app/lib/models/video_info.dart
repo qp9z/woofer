@@ -1,6 +1,7 @@
 import 'media_format.dart';
 
-/// Result of `POST /extract`, mirroring the backend `ExtractResponse`.
+/// Source-agnostic description of an extracted video: the same shape whether it
+/// came from youtube_explode_dart or a yt-dlp JSON blob ([fromJson]).
 class VideoInfo {
   final String? title;
   final String? thumbnail;
