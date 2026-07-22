@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'ui/gallery/glass_gallery.dart';
 import 'ui/theme/app_theme.dart';
 
-void main() => runApp(const WooferApp());
+void main() => runApp(const ProviderScope(child: WooferApp()));
 
 class WooferApp extends StatelessWidget {
   const WooferApp({super.key});

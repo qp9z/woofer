@@ -288,6 +288,17 @@
       "norm_label": "package:flutter/cupertino.dart"
     },
     {
+      "label": "package:flutter_riverpod/flutter_riverpod.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_flutter_riverpod_flutter_riverpod_dart",
+      "community": 0,
+      "community_name": "Counter App UI",
+      "norm_label": "package:flutter_riverpod/flutter_riverpod.dart"
+    },
+    {
       "label": "ui/gallery/glass_gallery.dart",
       "file_type": "code",
       "source_file": null,
@@ -624,8 +635,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "api_client.dart"
     },
     {
@@ -635,8 +646,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_apiclient",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "apiclient"
     },
     {
@@ -646,8 +657,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_progresscallback",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "progresscallback"
     },
     {
@@ -657,8 +668,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "typedef",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "typedef"
     },
     {
@@ -668,8 +679,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_dio",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_dio"
     },
     {
@@ -679,8 +690,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dio",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "dio"
     },
     {
@@ -690,8 +701,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_extract",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "extract"
     },
     {
@@ -701,8 +712,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_download",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "download"
     },
     {
@@ -712,8 +723,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_fromdioexception",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_fromdioexception"
     },
     {
@@ -723,8 +734,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_networkexception",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_networkexception"
     },
     {
@@ -734,8 +745,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_errorfromstream",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_errorfromstream"
     },
     {
@@ -745,8 +756,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_asjsonmap",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_asjsonmap"
     },
     {
@@ -756,8 +767,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_client_deletequietly",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "_deletequietly"
     },
     {
@@ -789,8 +800,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_dio_dio_dart",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "package:dio/dio.dart"
     },
     {
@@ -800,8 +811,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "config_dart",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "../config.dart"
     },
     {
@@ -822,8 +833,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "models_video_info_dart",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "../models/video_info.dart"
     },
     {
@@ -833,8 +844,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "api_exception_dart",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "api_exception.dart"
     },
     {
@@ -844,8 +855,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "responsebody",
-      "community": 2,
-      "community_name": "_error",
+      "community": 30,
+      "community_name": "api_client.dart",
       "norm_label": "responsebody"
     },
     {
@@ -1020,8 +1031,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_historyservice",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "historyservice"
     },
     {
@@ -1152,8 +1163,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "database",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "database"
     },
     {
@@ -1295,8 +1306,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_storage_service_storageresult",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "storageresult"
     },
     {
@@ -1306,8 +1317,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_storage_service_storageservice",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "storageservice"
     },
     {
@@ -1540,6 +1551,523 @@
       "community": 22,
       "community_name": "config.dart",
       "norm_label": "package:permission_handler/permission_handler.dart"
+    },
+    {
+      "label": "download_controller.dart",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "download_controller.dart"
+    },
+    {
+      "label": "DownloadController",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_downloadcontroller",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "downloadcontroller"
+    },
+    {
+      "label": "Notifier",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "notifier",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "notifier"
+    },
+    {
+      "label": "apiClientProvider",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_apiclientprovider",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "apiclientprovider"
+    },
+    {
+      "label": "storageServiceProvider",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_storageserviceprovider",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "storageserviceprovider"
+    },
+    {
+      "label": "historyServiceProvider",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_historyserviceprovider",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "historyserviceprovider"
+    },
+    {
+      "label": "downloadControllerProvider",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_downloadcontrollerprovider",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "downloadcontrollerprovider"
+    },
+    {
+      "label": "_url",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_url",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_url"
+    },
+    {
+      "label": "_api",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_api",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_api"
+    },
+    {
+      "label": "ApiClient get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "apiclient_get",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "apiclient get"
+    },
+    {
+      "label": "_storage",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_storage",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_storage"
+    },
+    {
+      "label": "StorageService get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "storageservice_get",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "storageservice get"
+    },
+    {
+      "label": "build",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_build",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "build"
+    },
+    {
+      "label": "extract",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_extract",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "extract"
+    },
+    {
+      "label": "selectFormat",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_selectformat",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "selectformat"
+    },
+    {
+      "label": "reset",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_reset",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "reset"
+    },
+    {
+      "label": "download",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_download",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "download"
+    },
+    {
+      "label": "_recordHistory",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_recordhistory",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_recordhistory"
+    },
+    {
+      "label": "_fileName",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_filename",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_filename"
+    },
+    {
+      "label": "_deleteQuietly",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_deletequietly",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_deletequietly"
+    },
+    {
+      "label": "../models/media_format.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "models_media_format_dart",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "../models/media_format.dart"
+    },
+    {
+      "label": "../services/api_client.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "services_api_client_dart",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "../services/api_client.dart"
+    },
+    {
+      "label": "../services/api_exception.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "services_api_exception_dart",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "../services/api_exception.dart"
+    },
+    {
+      "label": "../services/history_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "services_history_service_dart",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "../services/history_service.dart"
+    },
+    {
+      "label": "../services/storage_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "services_storage_service_dart",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "../services/storage_service.dart"
+    },
+    {
+      "label": "download_state.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "download_state_dart",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "download_state.dart"
+    },
+    {
+      "label": "download_state.dart",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "download_state.dart"
+    },
+    {
+      "label": "DownloadState",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_downloadstate",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "downloadstate"
+    },
+    {
+      "label": "Idle",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_idle",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "idle"
+    },
+    {
+      "label": "Loading",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_loading",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "loading"
+    },
+    {
+      "label": "FormatsReady",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_formatsready",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "formatsready"
+    },
+    {
+      "label": "Downloading",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_downloading",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "downloading"
+    },
+    {
+      "label": "Done",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_done",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "done"
+    },
+    {
+      "label": "Failed",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_failed",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "failed"
+    },
+    {
+      "label": "info",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_info",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "info"
+    },
+    {
+      "label": "selected",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_selected",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "selected"
+    },
+    {
+      "label": "formats",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_formats",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "formats"
+    },
+    {
+      "label": "format",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_format",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "format"
+    },
+    {
+      "label": "received",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_received",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "received"
+    },
+    {
+      "label": "total",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_total",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "total"
+    },
+    {
+      "label": "progress",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_progress",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "progress"
+    },
+    {
+      "label": "double? get",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "double_get",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "double? get"
+    },
+    {
+      "label": "path",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_path",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "path"
+    },
+    {
+      "label": "uri",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_uri",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "uri"
+    },
+    {
+      "label": "code",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_code",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "code"
+    },
+    {
+      "label": "message",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_message",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "message"
+    },
+    {
+      "label": "select",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_state_select",
+      "community": 24,
+      "community_name": "download_state.dart",
+      "norm_label": "select"
     },
     {
       "label": "glass_gallery.dart",
@@ -1999,8 +2527,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "static_const_color",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "static const color"
     },
     {
@@ -2120,8 +2648,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "glass_button.dart"
     },
     {
@@ -2153,8 +2681,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_child",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "child"
     },
     {
@@ -2175,8 +2703,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_onpressed",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "onpressed"
     },
     {
@@ -2197,8 +2725,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_padding",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "padding"
     },
     {
@@ -2219,8 +2747,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_radius",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "radius"
     },
     {
@@ -2230,8 +2758,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_blur",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "blur"
     },
     {
@@ -2241,8 +2769,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_tint",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "tint"
     },
     {
@@ -2263,8 +2791,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_enableblur",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "enableblur"
     },
     {
@@ -2274,8 +2802,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_expand",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "expand"
     },
     {
@@ -2285,8 +2813,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_icon",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "icon"
     },
     {
@@ -2296,8 +2824,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "icondata",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "icondata?"
     },
     {
@@ -2307,8 +2835,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_primarysentinel",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_primarysentinel"
     },
     {
@@ -2318,8 +2846,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_down",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_down"
     },
     {
@@ -2329,8 +2857,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_enabled",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_enabled"
     },
     {
@@ -2340,8 +2868,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_primary",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "primary"
     },
     {
@@ -2351,8 +2879,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_createstate",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "createstate"
     },
     {
@@ -2362,8 +2890,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_set",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_set"
     },
     {
@@ -2373,8 +2901,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_build",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "build"
     },
     {
@@ -3027,34 +3555,155 @@
       "norm_label": "t"
     },
     {
-      "label": "glass_ui_test.dart",
+      "label": "download_controller_test.dart",
       "file_type": "code",
-      "source_file": "app/test/glass_ui_test.dart",
+      "source_file": "app/test/download_controller_test.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "app_test_glass_ui_test",
+      "id": "app_test_download_controller_test",
       "community": 19,
       "community_name": "json_parsing_test.dart",
-      "norm_label": "glass_ui_test.dart"
+      "norm_label": "download_controller_test.dart"
     },
     {
-      "label": "_app",
+      "label": "_FakeApi",
       "file_type": "code",
-      "source_file": "app/test/glass_ui_test.dart",
+      "source_file": "app/test/download_controller_test.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "app_test_glass_ui_test_app",
+      "id": "app_test_download_controller_test_fakeapi",
+      "community": 30,
+      "community_name": "api_client.dart",
+      "norm_label": "_fakeapi"
+    },
+    {
+      "label": "_FakeStorage",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_fakestorage",
+      "community": 2,
+      "community_name": "_error",
+      "norm_label": "_fakestorage"
+    },
+    {
+      "label": "_audio",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_audio",
       "community": 19,
       "community_name": "json_parsing_test.dart",
-      "norm_label": "_app"
+      "norm_label": "_audio"
+    },
+    {
+      "label": "_video",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_video",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "_video"
+    },
+    {
+      "label": "extractError",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_extracterror",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "extracterror"
+    },
+    {
+      "label": "lastMode",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_lastmode",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "lastmode"
+    },
+    {
+      "label": "result",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_result",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "result"
+    },
+    {
+      "label": "history",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_history",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "history"
+    },
+    {
+      "label": "extract",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_extract",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "extract"
+    },
+    {
+      "label": "download",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_download",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "download"
+    },
+    {
+      "label": "saveToDownloads",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_savetodownloads",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "savetodownloads"
+    },
+    {
+      "label": "_container",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_container",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "_container"
     },
     {
       "label": "main",
       "file_type": "code",
-      "source_file": "app/test/glass_ui_test.dart",
+      "source_file": "app/test/download_controller_test.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "app_test_glass_ui_test_main",
+      "id": "app_test_download_controller_test_main",
       "community": 19,
       "community_name": "json_parsing_test.dart",
       "norm_label": "main"
@@ -3071,14 +3720,146 @@
       "norm_label": "package:flutter_test/flutter_test.dart"
     },
     {
+      "label": "package:sqflite_common_ffi/sqflite_ffi.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_sqflite_common_ffi_sqflite_ffi_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:sqflite_common_ffi/sqflite_ffi.dart"
+    },
+    {
+      "label": "package:woofer/models/media_format.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_models_media_format_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/models/media_format.dart"
+    },
+    {
+      "label": "package:woofer/models/video_info.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_models_video_info_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/models/video_info.dart"
+    },
+    {
+      "label": "package:woofer/services/api_client.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_api_client_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/services/api_client.dart"
+    },
+    {
+      "label": "package:woofer/services/api_exception.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_api_exception_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/services/api_exception.dart"
+    },
+    {
+      "label": "package:woofer/services/history_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_history_service_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/services/history_service.dart"
+    },
+    {
+      "label": "package:woofer/services/storage_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_storage_service_dart",
+      "community": 22,
+      "community_name": "config.dart",
+      "norm_label": "package:woofer/services/storage_service.dart"
+    },
+    {
+      "label": "package:woofer/state/download_controller.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_state_download_controller_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/state/download_controller.dart"
+    },
+    {
+      "label": "package:woofer/state/download_state.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_state_download_state_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/state/download_state.dart"
+    },
+    {
+      "label": "glass_ui_test.dart",
+      "file_type": "code",
+      "source_file": "app/test/glass_ui_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_glass_ui_test",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
+      "norm_label": "glass_ui_test.dart"
+    },
+    {
+      "label": "_app",
+      "file_type": "code",
+      "source_file": "app/test/glass_ui_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_glass_ui_test_app",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
+      "norm_label": "_app"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "app/test/glass_ui_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_glass_ui_test_main",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
+      "norm_label": "main"
+    },
+    {
       "label": "package:woofer/ui/theme/app_theme.dart",
       "file_type": "code",
       "source_file": null,
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_theme_app_theme_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/theme/app_theme.dart"
     },
     {
@@ -3088,8 +3869,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_button_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_button.dart"
     },
     {
@@ -3099,8 +3880,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_container_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_container.dart"
     },
     {
@@ -3110,8 +3891,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_scaffold_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_scaffold.dart"
     },
     {
@@ -3121,8 +3902,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_sheet_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 31,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_sheet.dart"
     },
     {
@@ -3132,8 +3913,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_history_service_test",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "history_service_test.dart"
     },
     {
@@ -3143,8 +3924,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_history_service_test_db",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "db"
     },
     {
@@ -3154,8 +3935,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_history_service_test_svc",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "svc"
     },
     {
@@ -3165,8 +3946,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_history_service_test_main",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "main"
     },
     {
@@ -3176,31 +3957,9 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_history_service_test_entry",
-      "community": 18,
-      "community_name": "history_service.dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "entry"
-    },
-    {
-      "label": "package:sqflite_common_ffi/sqflite_ffi.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_sqflite_common_ffi_sqflite_ffi_dart",
-      "community": 18,
-      "community_name": "history_service.dart",
-      "norm_label": "package:sqflite_common_ffi/sqflite_ffi.dart"
-    },
-    {
-      "label": "package:woofer/services/history_service.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_woofer_services_history_service_dart",
-      "community": 18,
-      "community_name": "history_service.dart",
-      "norm_label": "package:woofer/services/history_service.dart"
     },
     {
       "label": "json_parsing_test.dart",
@@ -3234,39 +3993,6 @@
       "community": 19,
       "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/models/api_error.dart"
-    },
-    {
-      "label": "package:woofer/models/media_format.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_woofer_models_media_format_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
-      "norm_label": "package:woofer/models/media_format.dart"
-    },
-    {
-      "label": "package:woofer/models/video_info.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_woofer_models_video_info_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
-      "norm_label": "package:woofer/models/video_info.dart"
-    },
-    {
-      "label": "package:woofer/services/api_exception.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_woofer_services_api_exception_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
-      "norm_label": "package:woofer/services/api_exception.dart"
     },
     {
       "label": "storage_service_test.dart",
@@ -3333,17 +4059,6 @@
       "community": 22,
       "community_name": "config.dart",
       "norm_label": "main"
-    },
-    {
-      "label": "package:woofer/services/storage_service.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_woofer_services_storage_service_dart",
-      "community": 22,
-      "community_name": "config.dart",
-      "norm_label": "package:woofer/services/storage_service.dart"
     },
     {
       "label": "widget_test.dart",
@@ -4660,6 +5375,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_lib_main",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/main.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_main",
       "target": "ui_gallery_glass_gallery_dart"
     },
     {
@@ -4850,6 +5576,28 @@
       "target": "package_flutter_cupertino_dart"
     },
     {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -5020,6 +5768,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_models_media_format_mediaformat"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/models/video_info.dart",
       "source_location": null,
       "weight": 1.0,
@@ -5068,6 +5828,30 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/ui/widgets/glass_scaffold.dart",
       "source_location": null,
       "weight": 1.0,
@@ -5086,6 +5870,18 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "app_lib_ui_widgets_glass_sheet",
+      "target": "string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "string"
     },
     {
@@ -5228,6 +6024,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_models_video_info_videoinfo"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/ui/widgets/glass_container.dart",
       "source_location": null,
       "weight": 1.0,
@@ -5235,6 +6043,18 @@
       "_origin": "ast",
       "source": "app_lib_ui_widgets_glass_container",
       "target": "double"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "list"
     },
     {
       "relation": "references",
@@ -5499,6 +6319,29 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_services_api_client_apiclient"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test_fakeapi",
+      "target": "app_lib_services_api_client_apiclient"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/services/storage_service.dart",
       "source_location": null,
       "weight": 1.0,
@@ -5533,6 +6376,28 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "dart_io"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "dart_io"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/storage_service_test.dart",
       "source_location": null,
       "weight": 1.0,
@@ -5550,6 +6415,28 @@
       "_origin": "ast",
       "source": "app_lib_services_api_exception",
       "target": "models_api_error_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "models_video_info_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "models_video_info_dart"
     },
     {
       "relation": "references",
@@ -5675,6 +6562,18 @@
       "target": "invalidurl_toolarge_ratelimited_unknown"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_services_api_exception_apierrorcode"
+    },
+    {
       "relation": "implements",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -5684,6 +6583,18 @@
       "_origin": "ast",
       "source": "app_lib_services_api_exception_apiexception",
       "target": "exception"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_services_api_exception_apiexception"
     },
     {
       "relation": "defines",
@@ -5950,6 +6861,30 @@
       "_origin": "ast",
       "source": "app_lib_services_history_service",
       "target": "package_sqflite_sqflite_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_services_history_service_historyservice"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_services_history_service_historyservice"
     },
     {
       "relation": "references",
@@ -6248,6 +7183,41 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_services_storage_service_storageresult"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_services_storage_service_storageservice"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test_fakestorage",
+      "target": "app_lib_services_storage_service_storageservice"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/ui/gallery/glass_gallery.dart",
       "source_location": null,
       "weight": 1.0,
@@ -6278,6 +7248,699 @@
       "_origin": "ast",
       "source": "app_test_storage_service_test",
       "target": "package_flutter_services_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "apiclient_get"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_api"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_apiclientprovider"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_build"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_deletequietly"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_download"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_downloadcontroller"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_downloadcontrollerprovider"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_extract"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_filename"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_historyserviceprovider"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_recordhistory"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_reset"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_selectformat"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_storage"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_storageserviceprovider"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_url"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "download_state_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "models_media_format_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "services_api_client_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "services_api_exception_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "services_history_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "services_storage_service_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "storageservice_get"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "riverpod_reference",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_downloadcontroller",
+      "target": "app_lib_state_download_controller_apiclientprovider"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "riverpod_reference",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_downloadcontroller",
+      "target": "app_lib_state_download_controller_historyserviceprovider"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "riverpod_reference",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_downloadcontroller",
+      "target": "app_lib_state_download_controller_storageserviceprovider"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_downloadcontroller",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_downloadcontroller",
+      "target": "notifier"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "riverpod_reference",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller_recordhistory",
+      "target": "app_lib_state_download_controller_historyserviceprovider"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "models_media_format_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "services_api_exception_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_code"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_done"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_downloading"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_failed"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_format"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_formats"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_formatsready"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_idle"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_info"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_loading"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_message"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_path"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_progress"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_received"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_select"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_selected"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_total"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "app_lib_state_download_state_uri"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_state",
+      "target": "double_get"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_done",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_downloading",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_failed",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_formatsready",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_idle",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_state.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_state_loading",
+      "target": "app_lib_state_download_state_downloadstate"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_state_download_state_idle"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_state_download_state_formatsready"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_state_download_state_done"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "type_lookup",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_lib_state_download_state_failed"
     },
     {
       "relation": "defines",
@@ -7960,6 +9623,380 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_audio"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_container"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_download"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_extract"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_extracterror"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_fakeapi"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_fakestorage"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_history"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_lastmode"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_main"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_result"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_savetodownloads"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_video"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_sqflite_common_ffi_sqflite_ffi_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_models_media_format_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_models_video_info_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_services_api_client_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_services_api_exception_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_services_history_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_services_storage_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_state_download_controller_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "package_woofer_state_download_state_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/glass_ui_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_glass_ui_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/json_parsing_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_json_parsing_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/widget_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_widget_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_sqflite_common_ffi_sqflite_ffi_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/json_parsing_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_json_parsing_test",
+      "target": "package_woofer_models_media_format_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/json_parsing_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_json_parsing_test",
+      "target": "package_woofer_models_video_info_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/json_parsing_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_json_parsing_test",
+      "target": "package_woofer_services_api_exception_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_woofer_services_history_service_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_woofer_services_storage_service_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/glass_ui_test.dart",
       "source_location": null,
       "weight": 1.0,
@@ -7977,17 +10014,6 @@
       "_origin": "ast",
       "source": "app_test_glass_ui_test",
       "target": "app_test_glass_ui_test_main"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/glass_ui_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_glass_ui_test",
-      "target": "package_flutter_test_flutter_test_dart"
     },
     {
       "relation": "imports",
@@ -8045,50 +10071,6 @@
       "target": "package_woofer_ui_widgets_glass_sheet_dart"
     },
     {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/history_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_history_service_test",
-      "target": "package_flutter_test_flutter_test_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/json_parsing_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_json_parsing_test",
-      "target": "package_flutter_test_flutter_test_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/storage_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_storage_service_test",
-      "target": "package_flutter_test_flutter_test_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/widget_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_widget_test",
-      "target": "package_flutter_test_flutter_test_dart"
-    },
-    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -8133,28 +10115,6 @@
       "target": "app_test_history_service_test_svc"
     },
     {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/history_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_history_service_test",
-      "target": "package_sqflite_common_ffi_sqflite_ffi_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/history_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_history_service_test",
-      "target": "package_woofer_services_history_service_dart"
-    },
-    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -8175,39 +10135,6 @@
       "_origin": "ast",
       "source": "app_test_json_parsing_test",
       "target": "package_woofer_models_api_error_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/json_parsing_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_json_parsing_test",
-      "target": "package_woofer_models_media_format_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/json_parsing_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_json_parsing_test",
-      "target": "package_woofer_models_video_info_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/json_parsing_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_json_parsing_test",
-      "target": "package_woofer_services_api_exception_dart"
     },
     {
       "relation": "defines",
@@ -8264,17 +10191,6 @@
       "_origin": "ast",
       "source": "app_test_storage_service_test",
       "target": "file"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/storage_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_storage_service_test",
-      "target": "package_woofer_services_storage_service_dart"
     },
     {
       "relation": "defines",
@@ -9753,5 +11669,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "bc2466ac44a676cfa1b301b4274dcd7303046d01"
+  "built_at_commit": "8fb089a053c8237d3ddb398f50c5d7ceb98d3571"
 }
