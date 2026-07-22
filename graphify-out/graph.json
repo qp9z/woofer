@@ -2070,6 +2070,138 @@
       "norm_label": "select"
     },
     {
+      "label": "share_intent.dart",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "share_intent.dart"
+    },
+    {
+      "label": "null",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_null",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "null"
+    },
+    {
+      "label": "return",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "return",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "return"
+    },
+    {
+      "label": "sharedUrlProvider",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_sharedurlprovider",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "sharedurlprovider"
+    },
+    {
+      "label": "controller",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_controller",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "controller"
+    },
+    {
+      "label": "initial",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_initial",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "initial"
+    },
+    {
+      "label": "initialUrl",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_initialurl",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "initialurl"
+    },
+    {
+      "label": "firstUrl",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_firsturl",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "firsturl"
+    },
+    {
+      "label": "_pickUrl",
+      "file_type": "code",
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_share_intent_pickurl",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "_pickurl"
+    },
+    {
+      "label": "dart:async",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "dart_async",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "dart:async"
+    },
+    {
+      "label": "package:receive_sharing_intent/receive_sharing_intent.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_receive_sharing_intent_receive_sharing_intent_dart",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "package:receive_sharing_intent/receive_sharing_intent.dart"
+    },
+    {
+      "label": "download_controller.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "download_controller_dart",
+      "community": 32,
+      "community_name": "share_intent.dart",
+      "norm_label": "download_controller.dart"
+    },
+    {
       "label": "glass_gallery.dart",
       "file_type": "code",
       "source_file": "app/lib/ui/gallery/glass_gallery.dart",
@@ -3995,6 +4127,39 @@
       "norm_label": "package:woofer/models/api_error.dart"
     },
     {
+      "label": "share_intent_test.dart",
+      "file_type": "code",
+      "source_file": "app/test/share_intent_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_share_intent_test",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "share_intent_test.dart"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "app/test/share_intent_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_share_intent_test_main",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "main"
+    },
+    {
+      "label": "package:woofer/state/share_intent.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_state_share_intent_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:woofer/state/share_intent.dart"
+    },
+    {
       "label": "storage_service_test.dart",
       "file_type": "code",
       "source_file": "app/test/storage_service_test.dart",
@@ -5584,6 +5749,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
+      "target": "package_flutter_riverpod_flutter_riverpod_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
       "target": "package_flutter_riverpod_flutter_riverpod_dart"
     },
     {
@@ -7946,6 +8122,128 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_controller"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_firsturl"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_initial"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_initialurl"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_null"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_pickurl"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "app_lib_state_share_intent_sharedurlprovider"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "dart_async"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "download_controller_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "package_receive_sharing_intent_receive_sharing_intent_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/share_intent.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_share_intent",
+      "target": "return"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/ui/gallery/glass_gallery.dart",
       "source_location": null,
       "weight": 1.0,
@@ -9909,6 +10207,17 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/test/share_intent_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_share_intent_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/storage_service_test.dart",
       "source_location": null,
       "weight": 1.0,
@@ -10135,6 +10444,28 @@
       "_origin": "ast",
       "source": "app_test_json_parsing_test",
       "target": "package_woofer_models_api_error_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/share_intent_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_share_intent_test",
+      "target": "app_test_share_intent_test_main"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/share_intent_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_share_intent_test",
+      "target": "package_woofer_state_share_intent_dart"
     },
     {
       "relation": "defines",
@@ -11669,5 +12000,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "8fb089a053c8237d3ddb398f50c5d7ceb98d3571"
+  "built_at_commit": "eda33d06751945895cb92474efcdb513c420b60a"
 }

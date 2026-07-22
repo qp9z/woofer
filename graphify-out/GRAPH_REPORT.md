@@ -1,16 +1,16 @@
 # Graph Report - woofer  (2026-07-22)
 
 ## Corpus Check
-- 34 files · ~10,976 words
+- 36 files · ~11,338 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 456 nodes · 583 edges · 32 communities (27 shown, 5 thin omitted)
+- 471 nodes · 598 edges · 33 communities (28 shown, 5 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 8 edges (avg confidence: 0.74)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8fb089a0`
+- Built from commit: `eda33d06`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,6 +43,7 @@
 - glass_button.dart
 - api_client.dart
 - glass_ui_test.dart
+- share_intent.dart
 
 ## God Nodes (most connected - your core abstractions)
 1. `download()` - 13 edges
@@ -75,7 +76,7 @@
 - **woofer Package Dependencies** — pubspec_cupertino_icons, pubspec_flutter_lints, pubspec_flutter_test [INFERRED 0.75]
 - **App Launcher Icon (resolution variants)** — android_app_src_main_res_mipmap_hdpi_ic_launcher, android_app_src_main_res_mipmap_mdpi_ic_launcher, android_app_src_main_res_mipmap_xhdpi_ic_launcher, android_app_src_main_res_mipmap_xxhdpi_ic_launcher, android_app_src_main_res_mipmap_xxxhdpi_ic_launcher [EXTRACTED 1.00]
 
-## Communities (32 total, 5 thin omitted)
+## Communities (33 total, 5 thin omitted)
 
 ### Community 0 - "Counter App UI"
 Cohesion: 0.25
@@ -118,8 +119,8 @@ Cohesion: 0.07
 Nodes (25): AppConfig, baseUrl, add, clear, createdAt, _createTableSql, _db, delete (+17 more)
 
 ### Community 19 - "json_parsing_test.dart"
-Cohesion: 0.07
-Nodes (32): HistoryService, StorageResult, _audio, _container, download, extract, extractError, history (+24 more)
+Cohesion: 0.06
+Nodes (34): HistoryService, StorageResult, _audio, _container, download, extract, extractError, history (+26 more)
 
 ### Community 20 - "glass_container.dart"
 Cohesion: 0.07
@@ -169,8 +170,12 @@ Nodes (18): api_exception.dart, ApiClient, _asJsonMap, _deleteQuietly, _dio, dow
 Cohesion: 0.25
 Nodes (7): _app, main, package:woofer/ui/theme/app_theme.dart, package:woofer/ui/widgets/glass_button.dart, package:woofer/ui/widgets/glass_container.dart, package:woofer/ui/widgets/glass_scaffold.dart, package:woofer/ui/widgets/glass_sheet.dart
 
+### Community 32 - "share_intent.dart"
+Cohesion: 0.17
+Nodes (11): controller, firstUrl, initial, initialUrl, null, _pickUrl, sharedUrlProvider, dart:async (+3 more)
+
 ## Knowledge Gaps
-- **221 isolated node(s):** `AppConfig`, `baseUrl`, `main`, `build`, `ApiError` (+216 more)
+- **229 isolated node(s):** `AppConfig`, `baseUrl`, `main`, `build`, `ApiError` (+224 more)
   These have ≤1 connection - possible missing edges or undocumented components.
 - **5 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
@@ -178,11 +183,11 @@ Nodes (7): _app, main, package:woofer/ui/theme/app_theme.dart, package:woofer/ui
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `HistoryService` connect `json_parsing_test.dart` to `history_service.dart`, `_error`?**
-  _High betweenness centrality (0.018) - this node is a cross-community bridge._
+  _High betweenness centrality (0.019) - this node is a cross-community bridge._
 - **Why does `ApiException` connect `_download_to_file` to `json_parsing_test.dart`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `AppConfig`, `baseUrl`, `main` to the rest of the system?**
-  _221 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _229 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `_error` be split into smaller, more focused modules?**
   _Cohesion score 0.08923076923076922 - nodes in this community are weakly interconnected._
 - **Should `main.py` be split into smaller, more focused modules?**
