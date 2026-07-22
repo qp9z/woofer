@@ -1,23 +1,167 @@
+import json
+import logging
 import mimetypes
 import os
 import re
 import shutil
 import tempfile
+import threading
+import time
+import urllib.request
+import uuid
+from collections import defaultdict, deque
+from contextlib import asynccontextmanager
 from pathlib import Path
 from typing import Literal
 from urllib.parse import urlparse
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse
 from pydantic import BaseModel
 from starlette.background import BackgroundTask
 from yt_dlp import YoutubeDL
 from yt_dlp.utils import DownloadError
 
-app = FastAPI(title="Woofer Downloader API")
+APP_VERSION = "0.1.0"
 
-# Reject downloads whose reported size exceeds this. Override with env var.
-MAX_DOWNLOAD_BYTES = int(os.getenv("MAX_DOWNLOAD_BYTES", str(500 * 1024 * 1024)))  # 500 MB
+# TODO: set this to your app's origin. A Flutter *web* build sends its page origin
+# (e.g. "https://app.example.com"); native Android/iOS builds send no Origin header,
+# so CORS never applies to them. One constant — edit it here.
+ALLOWED_ORIGIN = "http://localhost:8080"  # TODO: replace with your real app origin
+
+RATE_LIMIT = 10      # max requests per client IP ...
+RATE_WINDOW = 60.0   # ... within this many seconds
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
+log = logging.getLogger("woofer")
+
+
+def _ytdlp_version() -> str:
+    try:
+        from yt_dlp.version import __version__
+        return __version__
+    except Exception:
+        return "unknown"
+
+
+def _latest_pypi_version(pkg: str = "yt-dlp", timeout: float = 3.0) -> str | None:
+    try:
+        with urllib.request.urlopen(f"https://pypi.org/pypi/{pkg}/json", timeout=timeout) as resp:
+            return json.load(resp)["info"]["version"]
+    except Exception:
+        return None
+
+
+def _norm_version(v: str) -> tuple:
+    # yt-dlp uses date versions; PyPI canonicalises "2026.07.04" -> "2026.7.4",
+    # so compare numerically rather than by raw string.
+    return tuple(int(p) if p.isdigit() else p for p in v.split("."))
+
+
+def _update_event(current: str, latest: str | None) -> dict:
+    if latest is None:
+        return {"event": "ytdlp_update_check_skipped", "version": current}
+    if _norm_version(latest) != _norm_version(current):
+        return {"event": "ytdlp_update_available", "current": current,
+                "latest": latest, "hint": "pip install -U yt-dlp"}
+    return {"event": "ytdlp_up_to_date", "version": current}
+
+
+def _check_ytdlp_update() -> None:
+    """Best-effort: log whether a newer yt-dlp exists on PyPI. Never raises."""
+    log.info(json.dumps(_update_event(_ytdlp_version(), _latest_pypi_version())))
+
+
+@asynccontextmanager
+async def lifespan(_app):
+    log.info(json.dumps({"event": "startup", "app_version": APP_VERSION,
+                         "ytdlp_version": _ytdlp_version()}))
+    # Non-blocking: a slow or offline PyPI must never delay or break startup.
+    threading.Thread(target=_check_ytdlp_update, daemon=True).start()
+    yield
+
+
+app = FastAPI(title="Woofer Downloader API", lifespan=lifespan)
+
+
+# ---- middleware: rate limiting + structured logging + CORS ----
+# In-memory, per-process. ponytail: no Redis/DB — a dict of recent hit timestamps
+# per IP. With >1 worker each process keeps its own counter (fine for a soft limit).
+_rate_hits: dict[str, deque] = defaultdict(deque)
+
+
+def _rate_limited(ip: str) -> bool:
+    now = time.monotonic()
+    dq = _rate_hits[ip]
+    cutoff = now - RATE_WINDOW
+    while dq and dq[0] <= cutoff:
+        dq.popleft()
+    if len(dq) >= RATE_LIMIT:
+        return True
+    dq.append(now)
+    return False
+
+
+# Defined BEFORE logging_mw on purpose: Starlette runs the last-added middleware
+# outermost, so logging wraps rate limiting and thus also logs 429 responses.
+@app.middleware("http")
+async def rate_limit_mw(request: Request, call_next):
+    ip = request.client.host if request.client else "unknown"
+    if _rate_limited(ip):
+        return JSONResponse(
+            status_code=429,
+            content={"error_code": "RATE_LIMITED",
+                     "message": f"Rate limit exceeded ({RATE_LIMIT} requests / {int(RATE_WINDOW)}s)."},
+            headers={"Retry-After": str(int(RATE_WINDOW))},
+        )
+    return await call_next(request)
+
+
+@app.middleware("http")
+async def logging_mw(request: Request, call_next):
+    rid = uuid.uuid4().hex[:12]
+    start = time.perf_counter()
+    status, outcome = 500, "error"
+    try:
+        response = await call_next(request)
+        status = response.status_code
+        outcome = ("rate_limited" if status == 429
+                   else "error" if status >= 500
+                   else "client_error" if status >= 400
+                   else "ok")
+        response.headers["X-Request-ID"] = rid
+        return response
+    finally:
+        log.info(json.dumps({
+            "event": "request", "request_id": rid, "method": request.method,
+            "endpoint": request.url.path, "status": status,
+            "duration_ms": round((time.perf_counter() - start) * 1000, 1),
+            "outcome": outcome,
+            "ip": request.client.host if request.client else "unknown",
+        }))
+
+
+# Added last -> outermost: CORS headers/preflight apply to every response.
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[ALLOWED_ORIGIN],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# A download is rejected only when its reported size won't fit in the free disk
+# space where temp files are written, minus this reserve (keeps the disk from
+# filling to zero and leaves room for the video+audio merge intermediates).
+# ponytail: trusts yt-dlp's reported size; no mid-download byte accounting.
+DISK_HEADROOM_BYTES = int(os.getenv("DISK_HEADROOM_BYTES", str(256 * 1024 * 1024)))  # 256 MB
+
+# A download is rejected only when its reported size won't fit in the free disk
+# space where temp files are written, minus this reserve (keeps the disk from
+# filling to zero and leaves room for the video+audio merge intermediates).
+# ponytail: trusts yt-dlp's reported size; no mid-download byte accounting.
+DISK_HEADROOM_BYTES = int(os.getenv("DISK_HEADROOM_BYTES", str(256 * 1024 * 1024)))  # 256 MB
 
 # Deterministic content types for what we actually produce (Windows mimetypes
 # registry is unreliable), falling back to mimetypes for anything else.
@@ -165,6 +309,10 @@ def _estimated_size(info: dict, fmt: dict, mode: str) -> int | None:
     return size or None
 
 
+def _free_disk_bytes(path: str) -> int:
+    return shutil.disk_usage(path).free
+
+
 def _content_type(ext: str) -> str:
     ext = ext.lstrip(".").lower()
     return _CONTENT_TYPES.get(ext) or mimetypes.guess_type(f"x.{ext}")[0] or "application/octet-stream"
@@ -216,6 +364,12 @@ def ping():
     return {"status": "ok"}
 
 
+@app.get("/version")
+def version():
+    """yt-dlp and app version."""
+    return {"app": APP_VERSION, "yt_dlp": _ytdlp_version()}
+
+
 @app.post("/extract")
 def extract(req: ExtractRequest):
     if not _valid_url(req.url):
@@ -250,12 +404,14 @@ def download(req: DownloadRequest):
         return _error("UNKNOWN", f"format_id '{req.format_id}' not found for this URL.")
 
     est = _estimated_size(info, fmt, req.mode)
-    if est and est > MAX_DOWNLOAD_BYTES:
-        return _error(
-            "TOO_LARGE",
-            f"Download is ~{est} bytes, over the {MAX_DOWNLOAD_BYTES}-byte limit.",
-            status=413,
-        )
+    if est is not None:
+        free = _free_disk_bytes(tempfile.gettempdir())
+        if est > free - DISK_HEADROOM_BYTES:
+            return _error(
+                "TOO_LARGE",
+                f"Download is ~{est} bytes; only {free} bytes free where temp files are written.",
+                status=413,
+            )
 
     to_mp3 = req.mode == "audio"
     if to_mp3:

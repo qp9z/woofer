@@ -89,15 +89,21 @@ def test_download_muxed_not_merged(monkeypatch):
     assert captured["selector"] == "18"
 
 
-def test_download_too_large(monkeypatch):
-    big = {
-        "title": "Big", "id": "b",
-        "formats": [{"format_id": "999", "vcodec": "avc1", "acodec": "mp4a", "filesize": 10**12}],
-    }
-    monkeypatch.setattr(main, "_probe", lambda url: big)
-    r = client.post("/download", json={"url": "https://y.com/x", "format_id": "999", "mode": "video"})
+def test_download_rejected_when_it_wont_fit_on_disk(monkeypatch):
+    monkeypatch.setattr(main, "_probe", lambda url: PROBE_INFO)  # 137+140 ~= 6 MB
+    monkeypatch.setattr(main, "_free_disk_bytes", lambda path: 1_000_000)  # only ~1 MB free
+    r = client.post("/download", json={"url": "https://y.com/x", "format_id": "137", "mode": "video"})
     assert r.status_code == 413
     assert r.json()["error_code"] == "TOO_LARGE"
+
+
+def test_download_allowed_when_it_fits_on_disk(monkeypatch):
+    captured = {}
+    monkeypatch.setattr(main, "_probe", lambda url: PROBE_INFO)
+    monkeypatch.setattr(main, "_free_disk_bytes", lambda path: 50 * 1024 * 1024 * 1024)  # 50 GB free
+    monkeypatch.setattr(main, "_download_to_file", _fake_download("mp4", b"X", captured))
+    r = client.post("/download", json={"url": "https://y.com/x", "format_id": "137", "mode": "video"})
+    assert r.status_code == 200
 
 
 def test_download_private(monkeypatch):
