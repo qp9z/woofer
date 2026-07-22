@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/pubspec.yaml": {
-    "mtime": 1784719279.267614,
-    "ast_hash": "0c5b98928d426004019c8ce091defc11",
+    "mtime": 1784722338.90804,
+    "ast_hash": "53fde8c0c54ce3028c4cde9e99901b8a",
     "semantic_hash": ""
   },
   "app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
@@ -147,6 +147,16 @@
   "app/test/storage_service_test.dart": {
     "mtime": 1784721894.0904596,
     "ast_hash": "772ea00818769e94c35a986e06b86787",
+    "semantic_hash": ""
+  },
+  "app/lib/services/history_service.dart": {
+    "mtime": 1784722334.568856,
+    "ast_hash": "dae687ed03ae0509f3942c7e322c5169",
+    "semantic_hash": ""
+  },
+  "app/test/history_service_test.dart": {
+    "mtime": 1784722385.790248,
+    "ast_hash": "65f325f1c8f53666c5e1f765189c0826",
     "semantic_hash": ""
   }
 }

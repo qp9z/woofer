@@ -184,8 +184,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_config",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "config.dart"
     },
     {
@@ -195,8 +195,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_config_appconfig",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "appconfig"
     },
     {
@@ -206,8 +206,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_config_baseurl",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "baseurl"
     },
     {
@@ -217,8 +217,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "static_const_string",
-      "community": 22,
-      "community_name": "config.dart",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "static const string"
     },
     {
@@ -437,8 +437,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "media_format.dart"
     },
     {
@@ -448,8 +448,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_mediaformat",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "mediaformat"
     },
     {
@@ -459,8 +459,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_formatid",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "formatid"
     },
     {
@@ -470,8 +470,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_ext",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "ext"
     },
     {
@@ -492,8 +492,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_resolution",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "resolution"
     },
     {
@@ -503,8 +503,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_filesize",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "filesize"
     },
     {
@@ -514,8 +514,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "int",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "int?"
     },
     {
@@ -525,8 +525,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_hasaudio",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "hasaudio"
     },
     {
@@ -536,8 +536,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_hasvideo",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "hasvideo"
     },
     {
@@ -547,8 +547,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_note",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "note"
     },
     {
@@ -558,8 +558,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_media_format_fromjson",
-      "community": 20,
-      "community_name": "media_format.dart",
+      "community": 17,
+      "community_name": "video_info.dart",
       "norm_label": "fromjson"
     },
     {
@@ -844,8 +844,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_io",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "dart:io"
     },
     {
@@ -1056,6 +1056,281 @@
       "community": 14,
       "community_name": "_download_to_file",
       "norm_label": "tostring"
+    },
+    {
+      "label": "history_service.dart",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "history_service.dart"
+    },
+    {
+      "label": "HistoryEntry",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_historyentry",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "historyentry"
+    },
+    {
+      "label": "HistoryService",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_historyservice",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "historyservice"
+    },
+    {
+      "label": "id",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_id",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "id"
+    },
+    {
+      "label": "title",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_title",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "title"
+    },
+    {
+      "label": "thumbnail",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_thumbnail",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "thumbnail"
+    },
+    {
+      "label": "sourceUrl",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_sourceurl",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "sourceurl"
+    },
+    {
+      "label": "filePath",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_filepath",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "filepath"
+    },
+    {
+      "label": "format",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_format",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "format"
+    },
+    {
+      "label": "size",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_size",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "size"
+    },
+    {
+      "label": "createdAt",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_createdat",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "createdat"
+    },
+    {
+      "label": "DateTime",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "datetime",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "datetime"
+    },
+    {
+      "label": "table",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_table",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "table"
+    },
+    {
+      "label": "_db",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_db",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "_db"
+    },
+    {
+      "label": "Database",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "database",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "database"
+    },
+    {
+      "label": "_createTableSql",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_createtablesql",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "_createtablesql"
+    },
+    {
+      "label": "toMap",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_tomap",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "tomap"
+    },
+    {
+      "label": "fromMap",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_frommap",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "frommap"
+    },
+    {
+      "label": "open",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_open",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "open"
+    },
+    {
+      "label": "init",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_init",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "init"
+    },
+    {
+      "label": "add",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_add",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "add"
+    },
+    {
+      "label": "getAll",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_getall",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "getall"
+    },
+    {
+      "label": "delete",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_delete",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "delete"
+    },
+    {
+      "label": "clear",
+      "file_type": "code",
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_services_history_service_clear",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "clear"
+    },
+    {
+      "label": "package:sqflite/sqflite.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_sqflite_sqflite_dart",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "package:sqflite/sqflite.dart"
     },
     {
       "label": "storage_service.dart",
@@ -1317,8 +1592,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_services_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "package:flutter/services.dart"
     },
     {
@@ -1331,6 +1606,94 @@
       "community": 22,
       "community_name": "config.dart",
       "norm_label": "package:permission_handler/permission_handler.dart"
+    },
+    {
+      "label": "history_service_test.dart",
+      "file_type": "code",
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_history_service_test",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "history_service_test.dart"
+    },
+    {
+      "label": "db",
+      "file_type": "code",
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_history_service_test_db",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "db"
+    },
+    {
+      "label": "svc",
+      "file_type": "code",
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_history_service_test_svc",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "svc"
+    },
+    {
+      "label": "main",
+      "file_type": "code",
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_history_service_test_main",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "main"
+    },
+    {
+      "label": "entry",
+      "file_type": "code",
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_history_service_test_entry",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "entry"
+    },
+    {
+      "label": "package:flutter_test/flutter_test.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_flutter_test_flutter_test_dart",
+      "community": 19,
+      "community_name": "json_parsing_test.dart",
+      "norm_label": "package:flutter_test/flutter_test.dart"
+    },
+    {
+      "label": "package:sqflite_common_ffi/sqflite_ffi.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_sqflite_common_ffi_sqflite_ffi_dart",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "package:sqflite_common_ffi/sqflite_ffi.dart"
+    },
+    {
+      "label": "package:woofer/services/history_service.dart",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "package_woofer_services_history_service_dart",
+      "community": 18,
+      "community_name": "history_service.dart",
+      "norm_label": "package:woofer/services/history_service.dart"
     },
     {
       "label": "json_parsing_test.dart",
@@ -1353,17 +1716,6 @@
       "community": 19,
       "community_name": "json_parsing_test.dart",
       "norm_label": "main"
-    },
-    {
-      "label": "package:flutter_test/flutter_test.dart",
-      "file_type": "code",
-      "source_file": null,
-      "source_location": null,
-      "_origin": "ast",
-      "id": "package_flutter_test_flutter_test_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
-      "norm_label": "package:flutter_test/flutter_test.dart"
     },
     {
       "label": "package:woofer/models/api_error.dart",
@@ -1416,8 +1768,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "storage_service_test.dart"
     },
     {
@@ -1427,8 +1779,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_channel",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "channel"
     },
     {
@@ -1438,8 +1790,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_messenger",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "messenger"
     },
     {
@@ -1449,8 +1801,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_tmp",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "tmp"
     },
     {
@@ -1460,8 +1812,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "file",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "file"
     },
     {
@@ -1471,8 +1823,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_main",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "main"
     },
     {
@@ -1482,8 +1834,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_storage_service_dart",
-      "community": 19,
-      "community_name": "json_parsing_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "package:woofer/services/storage_service.dart"
     },
     {
@@ -2728,6 +3080,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "static_const_string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/services/storage_service.dart",
       "source_location": null,
       "weight": 1.0,
@@ -3096,6 +3460,18 @@
       "relation": "references",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "string"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/services/storage_service.dart",
       "source_location": null,
       "weight": 1.0,
@@ -3114,6 +3490,18 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "app_lib_services_api_exception",
+      "target": "int"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
       "target": "int"
     },
     {
@@ -3645,6 +4033,296 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_add"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_clear"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_createdat"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_createtablesql"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_db"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_delete"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_filepath"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_format"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_frommap"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_getall"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_historyentry"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_historyservice"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_id"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_init"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_open"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_size"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_sourceurl"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_table"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_thumbnail"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_title"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "app_lib_services_history_service_tomap"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "database"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "datetime"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/history_service.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_services_history_service",
+      "target": "package_sqflite_sqflite_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "app_lib_services_history_service_historyservice"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "database"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/lib/services/storage_service.dart",
       "source_location": null,
       "weight": 1.0,
@@ -3925,12 +4603,78 @@
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
-      "source_file": "app/test/json_parsing_test.dart",
+      "source_file": "app/test/history_service_test.dart",
       "source_location": null,
       "weight": 1.0,
       "_origin": "ast",
-      "source": "app_test_json_parsing_test",
-      "target": "app_test_json_parsing_test_main"
+      "source": "app_test_history_service_test",
+      "target": "app_test_history_service_test_db"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "app_test_history_service_test_entry"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "app_test_history_service_test_main"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "app_test_history_service_test_svc"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_sqflite_common_ffi_sqflite_ffi_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/history_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_history_service_test",
+      "target": "package_woofer_services_history_service_dart"
     },
     {
       "relation": "imports",
@@ -3942,6 +4686,39 @@
       "_origin": "ast",
       "source": "app_test_json_parsing_test",
       "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/storage_service_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_storage_service_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/widget_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_widget_test",
+      "target": "package_flutter_test_flutter_test_dart"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/json_parsing_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_json_parsing_test",
+      "target": "app_test_json_parsing_test_main"
     },
     {
       "relation": "imports",
@@ -3986,28 +4763,6 @@
       "_origin": "ast",
       "source": "app_test_json_parsing_test",
       "target": "package_woofer_services_api_exception_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/storage_service_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_storage_service_test",
-      "target": "package_flutter_test_flutter_test_dart"
-    },
-    {
-      "relation": "imports",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/test/widget_test.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "app_test_widget_test",
-      "target": "package_flutter_test_flutter_test_dart"
     },
     {
       "relation": "defines",
@@ -5553,5 +6308,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "d421cd38a85adfac63e7e6b01aaa8d967174de06"
+  "built_at_commit": "ddeeaad290162e3839bff58c8b203ebf91a6e7c6"
 }
