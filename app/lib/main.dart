@@ -12,7 +12,7 @@ class WooferApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CupertinoApp(
-      title: 'woofer',
+      title: 'WOOFER.',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.of(Brightness.dark),
       home: const HomeScreen(),

@@ -94,5 +94,6 @@ class YtdlpExtractor {
 ApiErrorCode ytdlpErrorCode(String? code) => switch (code) {
       'NETWORK' => ApiErrorCode.network,
       'GEO' => ApiErrorCode.unavailable,
+      'NO_VIDEO' => ApiErrorCode.noVideo,
       _ => ApiErrorCode.fromWire(code),
     };

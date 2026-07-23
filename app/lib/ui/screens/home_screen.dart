@@ -69,7 +69,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     final loading = state is Loading;
 
     return GlassScaffold(
-      title: 'Downloader',
+      title: 'WOOFER.',
       trailing: CupertinoButton(
         padding: EdgeInsets.zero,
         minimumSize: Size.zero,

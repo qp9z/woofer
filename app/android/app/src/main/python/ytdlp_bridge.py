@@ -113,6 +113,9 @@ def _classify(e):
     if isinstance(e, GeoRestrictedError):
         return "GEO"
     low = str(e).lower()
+    # A photo/carousel post (not a reel/video). yt-dlp phrases this several ways.
+    if any(p in low for p in ("no video in this post", "no video formats found", "there is no video")):
+        return "NO_VIDEO"
     if "private" in low or ("age" in low and "restrict" in low):
         return "PRIVATE"
     if any(k in low for k in ("unavailable", "removed", "deleted", "not available", "does not exist")):
@@ -126,6 +129,14 @@ def _classify(e):
     return "UNKNOWN"
 
 
+# Clean messages for cases where yt-dlp's own text is noisy or user-hostile.
+# Anything not listed falls back to yt-dlp's first line.
+_FRIENDLY = {
+    "NO_VIDEO": "This post doesn't have a video to download.",
+}
+
+
 def _error(e):
-    message = (str(e).splitlines() or ["yt-dlp error"])[0]
-    return json.dumps({"ok": False, "code": _classify(e), "message": message})
+    code = _classify(e)
+    message = _FRIENDLY.get(code) or (str(e).splitlines() or ["yt-dlp error"])[0]
+    return json.dumps({"ok": False, "code": code, "message": message})

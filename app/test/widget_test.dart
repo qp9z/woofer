@@ -5,7 +5,7 @@ import 'package:woofer/main.dart';
 void main() {
   testWidgets('app boots into the downloader home screen', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: WooferApp()));
-    expect(find.text('Downloader'), findsWidgets);
+    expect(find.text('WOOFER.'), findsWidgets);
     expect(find.text('Fetch'), findsOneWidget);
   });
 }

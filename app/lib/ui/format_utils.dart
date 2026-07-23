@@ -43,6 +43,7 @@ String describeError(ApiErrorCode code) => switch (code) {
       ApiErrorCode.private => 'This video is private',
       ApiErrorCode.unavailable => 'Video unavailable',
       ApiErrorCode.unsupported => 'Site not supported',
+      ApiErrorCode.noVideo => 'No video here',
       ApiErrorCode.invalidUrl => 'That link looks wrong',
       ApiErrorCode.tooLarge => 'Not enough space',
       ApiErrorCode.rateLimited => 'Slow down a moment',

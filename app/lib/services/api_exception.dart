@@ -6,6 +6,7 @@ enum ApiErrorCode {
   private,
   unavailable,
   unsupported,
+  noVideo,
   invalidUrl,
   tooLarge,
   rateLimited,

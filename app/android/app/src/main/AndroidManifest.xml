@@ -12,7 +12,7 @@
         android:maxSdkVersion="28" />
 
     <application
-        android:label="woofer"
+        android:label="WOOFER."
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

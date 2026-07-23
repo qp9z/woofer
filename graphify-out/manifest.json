@@ -25,13 +25,13 @@
     "semantic_hash": ""
   },
   "app/lib/main.dart": {
-    "mtime": 1784742235.395651,
-    "ast_hash": "ad99913f314cb9a18e02b4618f887b01",
+    "mtime": 1784820989.8944955,
+    "ast_hash": "3b1057b7399166c67c42858fc8c8d325",
     "semantic_hash": ""
   },
   "app/test/widget_test.dart": {
-    "mtime": 1784742247.5839908,
-    "ast_hash": "4beff83205f459782ef371e07925ba4f",
+    "mtime": 1784820995.0758839,
+    "ast_hash": "55d94c357066e071ebecbe7b203eb52b",
     "semantic_hash": ""
   },
   "app/analysis_options.yaml": {
@@ -85,8 +85,8 @@
     "semantic_hash": ""
   },
   "app/lib/services/api_exception.dart": {
-    "mtime": 1784721148.7066548,
-    "ast_hash": "abc0328dc6e1c5a5b8906bb2aefad01e",
+    "mtime": 1784820517.9760184,
+    "ast_hash": "92a8979704df7424be8c9f19d29cbad7",
     "semantic_hash": ""
   },
   "app/test/json_parsing_test.dart": {
@@ -175,8 +175,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/format_utils.dart": {
-    "mtime": 1784742087.82314,
-    "ast_hash": "f4509f591e02f33156d23f0b93bfd20e",
+    "mtime": 1784820523.7387078,
+    "ast_hash": "7b80f20a88a1857160c29608a8df6a53",
     "semantic_hash": ""
   },
   "app/lib/ui/screens/formats_screen.dart": {
@@ -190,8 +190,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/screens/home_screen.dart": {
-    "mtime": 1784742126.1788545,
-    "ast_hash": "632b92557e94c28cf91280d930fd6c0d",
+    "mtime": 1784820984.695438,
+    "ast_hash": "3c2e2dd0b39b952890323c993c4c20d0",
     "semantic_hash": ""
   },
   "app/lib/ui/screens/progress_screen.dart": {
@@ -210,18 +210,18 @@
     "semantic_hash": ""
   },
   "app/lib/services/ytdlp_extractor.dart": {
-    "mtime": 1784818561.891425,
-    "ast_hash": "a118764a4d8902fe0d6301cb7736fbf3",
+    "mtime": 1784820533.3295012,
+    "ast_hash": "4ed81dfc1b111b081da039bdc1df854d",
     "semantic_hash": ""
   },
   "app/test/ytdlp_extractor_test.dart": {
-    "mtime": 1784762005.5286057,
-    "ast_hash": "0c9e6aae6512fed577f6b83caeeb2164",
+    "mtime": 1784820543.5758555,
+    "ast_hash": "3b916dc561f600f3009026ef7ecf9f95",
     "semantic_hash": ""
   },
   "app/android/app/src/main/python/ytdlp_bridge.py": {
-    "mtime": 1784819590.470667,
-    "ast_hash": "3151039f1662cae08c74cc1d5f1d36bc",
+    "mtime": 1784820507.6789727,
+    "ast_hash": "ed4b936047c0e43b07ae2b17e02984e7",
     "semantic_hash": ""
   },
   "app/android/CHAQUOPY.md": {

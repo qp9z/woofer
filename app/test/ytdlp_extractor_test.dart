@@ -158,6 +158,7 @@ void main() {
     test('handles the on-device-only tokens', () {
       expect(ytdlpErrorCode('NETWORK'), ApiErrorCode.network);
       expect(ytdlpErrorCode('GEO'), ApiErrorCode.unavailable);
+      expect(ytdlpErrorCode('NO_VIDEO'), ApiErrorCode.noVideo);
     });
     test('anything unrecognized is unknown', () {
       expect(ytdlpErrorCode('WAT'), ApiErrorCode.unknown);
