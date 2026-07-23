@@ -40,8 +40,8 @@
     "semantic_hash": ""
   },
   "app/pubspec.yaml": {
-    "mtime": 1784818504.889484,
-    "ast_hash": "a43beba09bea2155b2c4c8982be5d93c",
+    "mtime": 1784833797.061286,
+    "ast_hash": "2701aaad344ccc1a93dae840317de48c",
     "semantic_hash": ""
   },
   "app/android/app/src/main/res/mipmap-hdpi/ic_launcher.png": {
@@ -120,8 +120,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/theme/app_theme.dart": {
-    "mtime": 1784722657.332262,
-    "ast_hash": "e10e240fd4b33f46ba909d1d267555f1",
+    "mtime": 1784833900.6115773,
+    "ast_hash": "73fdcc039651e6fb6ddf4858d143ed2b",
     "semantic_hash": ""
   },
   "app/lib/ui/widgets/glass_container.dart": {
@@ -140,8 +140,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/widgets/glass_button.dart": {
-    "mtime": 1784723061.4347181,
-    "ast_hash": "ddd09bba28587199c902ae29483b9ed1",
+    "mtime": 1784834137.6768804,
+    "ast_hash": "58e1605bbe6de85201fb53d20c3e8238",
     "semantic_hash": ""
   },
   "app/lib/ui/widgets/glass_list_tile.dart": {
@@ -242,6 +242,111 @@
   "app/test/download_controller_test.dart": {
     "mtime": 1784818542.8254256,
     "ast_hash": "2c2847e056b7e6e16182f88dd1ad899a",
+    "semantic_hash": ""
+  },
+  "design/brand identity/WOOFER Brand Guidelines.html": {
+    "mtime": 1784832853.3765175,
+    "ast_hash": "939a63163fdc38aa5a6e96fcd10d0e70",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/adaptive-background-432.png": {
+    "mtime": 1784832972.9683518,
+    "ast_hash": "14bb17a1a9494ae4562ed19e13d8b9b0",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/adaptive-foreground-432.png": {
+    "mtime": 1784832973.5742085,
+    "ast_hash": "6e218838d0109849e618e8d149140825",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/adaptive-monochrome-432.png": {
+    "mtime": 1784832973.9576457,
+    "ast_hash": "547950d91bb408dfaaa2bbda235c0df2",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/ic_launcher_144.png": {
+    "mtime": 1784832974.3322861,
+    "ast_hash": "466ccfa62079c5a25aebea82668bb310",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/ic_launcher_192.png": {
+    "mtime": 1784832974.689565,
+    "ast_hash": "c89e77ca56f25df0b7b6970945c728cc",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/ic_launcher_48.png": {
+    "mtime": 1784832975.0256517,
+    "ast_hash": "262afe917ce4db5b9cbc0beb1744e036",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/ic_launcher_72.png": {
+    "mtime": 1784832975.3214514,
+    "ast_hash": "3031187e67077663da94581dad132f33",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/ic_launcher_96.png": {
+    "mtime": 1784832975.6343615,
+    "ast_hash": "bd9b15e44483929a65ca54a79374e2e2",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/android/play-store-512.png": {
+    "mtime": 1784832975.9474883,
+    "ast_hash": "0d82c09baf8b2008428d65748c7fa4ae",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/favicon-16.png": {
+    "mtime": 1784832967.7115707,
+    "ast_hash": "514cbee67933c4aea3ff2e9eea100b1b",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/favicon-32.png": {
+    "mtime": 1784832968.8591847,
+    "ast_hash": "500feb8d2927fc59389adac648eb337b",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/favicon-48.png": {
+    "mtime": 1784832969.9512386,
+    "ast_hash": "262afe917ce4db5b9cbc0beb1744e036",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/woofer-icon-accent-512.png": {
+    "mtime": 1784832971.0331469,
+    "ast_hash": "0d82c09baf8b2008428d65748c7fa4ae",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/png/woofer-icon-dark-512.png": {
+    "mtime": 1784832972.1180165,
+    "ast_hash": "4a75769fa81a814c77933c61a49d9421",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/android/ic_launcher_background.svg": {
+    "mtime": 1784832976.3387537,
+    "ast_hash": "a8614210ba5d249fcff77d6de88c39b1",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/android/ic_launcher_foreground.svg": {
+    "mtime": 1784832976.364014,
+    "ast_hash": "e19f513f69c8b15056914b44f39a499b",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/android/ic_launcher_monochrome.svg": {
+    "mtime": 1784832976.3882422,
+    "ast_hash": "aa5733010b7bf9cb45fb6f744c8cdb67",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/woofer-icon-accent.svg": {
+    "mtime": 1784832976.2578983,
+    "ast_hash": "0a9156d417977d1faa5fdaadddd2d645",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/woofer-icon-dark.svg": {
+    "mtime": 1784832976.2831824,
+    "ast_hash": "d9db7aa2aafdf414083169a2a2ebedff",
+    "semantic_hash": ""
+  },
+  "design/brand identity/assets/svg/woofer-mark-mono.svg": {
+    "mtime": 1784832976.3094358,
+    "ast_hash": "3b4772fa0e3d721892add3d472d12d3b",
     "semantic_hash": ""
   }
 }

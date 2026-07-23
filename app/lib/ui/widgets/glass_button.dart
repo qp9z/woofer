@@ -66,7 +66,7 @@ class _GlassButtonState extends State<GlassButton> {
   Widget build(BuildContext context) {
     final isPrimary = widget.tint == GlassButton._primarySentinel;
     final tint = isPrimary
-        ? CupertinoColors.systemBlue.resolveFrom(context).withValues(alpha: 0.85)
+        ? AppColors.accent.resolveFrom(context).withValues(alpha: 0.9) // brand violet CTA
         : widget.tint;
 
     Widget label = DefaultTextStyle.merge(

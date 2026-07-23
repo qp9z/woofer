@@ -24,15 +24,23 @@ abstract final class AppRadius {
   static const double sheet = 28; // modal sheets, large panels
 }
 
-/// Brand + semantic colors. Text/background use CupertinoColors dynamic
-/// variants so they adapt to light/dark automatically.
+/// WOOFER brand + semantic colors (see design/brand identity). The mark is a
+/// violet equalizer on dark navy; the palette follows suit.
 abstract final class AppColors {
-  static const CupertinoDynamicColor accent = CupertinoColors.systemBlue;
+  /// Brand violet — the primary accent (buttons, active states, progress).
+  static const CupertinoDynamicColor accent = CupertinoDynamicColor.withBrightness(
+    color: Color(0xFF6D5DF6), // light bg: a touch deeper for contrast
+    darkColor: Color(0xFF9184D9), // brand violet
+  );
+
+  static const Color violetLight = Color(0xFFB5ABFC);
+  static const Color violetDeep = Color(0xFF796CBF);
+  static const Color coral = Color(0xFFFF9A8F); // warm secondary accent
 
   /// Decorative gradient blob colors that give the glass something to refract.
-  static const Color blobA = Color(0xFF6D5DF6); // indigo
-  static const Color blobB = Color(0xFF00C2FF); // cyan
-  static const Color blobC = Color(0xFFFF7AB6); // pink
+  static const Color blobA = Color(0xFF9184D9); // brand violet
+  static const Color blobB = Color(0xFFB5ABFC); // light violet
+  static const Color blobC = coral; // coral
 }
 
 /// Frosted-glass parameters and reusable decoration bits.
@@ -62,8 +70,8 @@ abstract final class AppGlass {
   /// so text stays legible over busy backgrounds. Cupertino nav bars blur this
   /// automatically when the alpha is < 1.
   static Color navFill(Brightness b) => b == Brightness.dark
-      ? const Color(0xFF1C1C1E).withValues(alpha: 0.62)
-      : const Color(0xFFF2F2F7).withValues(alpha: 0.62);
+      ? const Color(0xFF232532).withValues(alpha: 0.62) // brand navy
+      : const Color(0xFFF3F5FE).withValues(alpha: 0.62);
 }
 
 /// Soft gradient background per brightness. GlassBackground paints this and
@@ -73,46 +81,69 @@ abstract final class AppBackground {
       ? const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFF0B0B12), Color(0xFF141020), Color(0xFF0A0A0A)],
+          colors: [Color(0xFF161826), Color(0xFF1C1930), Color(0xFF0F111C)], // brand navy
         )
       : const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFEAF0FF), Color(0xFFF3ECFF), Color(0xFFFDF2F8)],
+          colors: [Color(0xFFF5F4FF), Color(0xFFE7E5FE), Color(0xFFF3F5FE)], // brand violet-whites
         );
 }
 
-/// The app-wide Cupertino theme. iOS type scale; leaves fontFamily on the
-/// system default (`.SF Pro` on iOS, platform default on Android).
-///
-// ponytail: to get true SF Pro on Android, drop the .otf into fonts/, declare
-// it in pubspec, and set `fontFamily` below. System default until you need it.
+/// The app-wide Cupertino theme. Type is set in Inter (the WOOFER brand face);
+/// page headers use a heavy ExtraBold weight for the bold, punchy brand look.
 abstract final class AppTheme {
-  static CupertinoThemeData of(Brightness brightness) => CupertinoThemeData(
-        brightness: brightness,
+  /// The brand typeface. Declared in pubspec; weights 400–900 available.
+  static const String fontFamily = 'Inter';
+
+  static CupertinoThemeData of(Brightness brightness) {
+    final label = CupertinoColors.label.resolveFrom0(brightness);
+    return CupertinoThemeData(
+      brightness: brightness,
+      primaryColor: AppColors.accent,
+      scaffoldBackgroundColor: const Color(0x00000000), // transparent: glass shows the gradient
+      textTheme: CupertinoTextThemeData(
         primaryColor: AppColors.accent,
-        scaffoldBackgroundColor: const Color(0x00000000), // transparent: glass shows the gradient
-        textTheme: CupertinoTextThemeData(
-          primaryColor: AppColors.accent,
-          navLargeTitleTextStyle: TextStyle(
-            fontSize: 34,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.6,
-            color: CupertinoColors.label.resolveFrom0(brightness),
-          ),
-          navTitleTextStyle: TextStyle(
-            fontSize: 17,
-            fontWeight: FontWeight.w600,
-            letterSpacing: -0.2,
-            color: CupertinoColors.label.resolveFrom0(brightness),
-          ),
-          textStyle: TextStyle(
-            fontSize: 17,
-            letterSpacing: -0.2,
-            color: CupertinoColors.label.resolveFrom0(brightness),
-          ),
+        // Large page titles ("WOOFER.", "Formats", "Downloading", "History") —
+        // ExtraBold Inter. [FINE-TUNE] bump to w900 (Black) for an even heavier mark.
+        navLargeTitleTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 34,
+          fontWeight: FontWeight.w800,
+          letterSpacing: -0.8,
+          color: label,
         ),
-      );
+        navTitleTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 17,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.2,
+          color: label,
+        ),
+        navActionTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: AppColors.accent.resolveFrom0(brightness),
+        ),
+        actionTextStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 17,
+          fontWeight: FontWeight.w600,
+          color: AppColors.accent.resolveFrom0(brightness),
+        ),
+        tabLabelTextStyle: const TextStyle(fontFamily: fontFamily, fontSize: 10, letterSpacing: -0.24),
+        pickerTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 21, color: label),
+        dateTimePickerTextStyle: TextStyle(fontFamily: fontFamily, fontSize: 21, color: label),
+        textStyle: TextStyle(
+          fontFamily: fontFamily,
+          fontSize: 17,
+          letterSpacing: -0.2,
+          color: label,
+        ),
+      ),
+    );
+  }
 }
 
 extension on CupertinoDynamicColor {
