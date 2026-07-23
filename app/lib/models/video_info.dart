@@ -1,7 +1,7 @@
 import 'media_format.dart';
 
-/// Source-agnostic description of an extracted video: the same shape whether it
-/// came from youtube_explode_dart or a yt-dlp JSON blob ([fromJson]).
+/// Source-agnostic description of an extracted video, built from a yt-dlp JSON
+/// blob ([fromJson]).
 class VideoInfo {
   final String? title;
   final String? thumbnail;

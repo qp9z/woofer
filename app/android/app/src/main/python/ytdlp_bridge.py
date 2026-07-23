@@ -13,7 +13,18 @@ import os
 import yt_dlp
 from yt_dlp.utils import GeoRestrictedError, UnsupportedError
 
-_COMMON = {"quiet": True, "no_warnings": True, "noplaylist": True}
+# YouTube's default web clients frequently hit "Sign in to confirm you're not a
+# bot" on mobile/residential IPs. These extra player clients need no cookies and
+# aren't gated that way; yt-dlp merges formats across all of them and downgrades a
+# bot-checked client to a warning instead of failing the whole extraction.
+# ponytail: YouTube's anti-bot is a moving target — if this list stops working,
+# check the yt-dlp wiki (Extractors#youtube) for the current bot-resistant clients.
+_COMMON = {
+    "quiet": True,
+    "no_warnings": True,
+    "noplaylist": True,
+    "extractor_args": {"youtube": {"player_client": ["default", "tv_embedded", "android_vr"]}},
+}
 
 
 def extract_info(url):

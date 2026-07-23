@@ -6,10 +6,8 @@ import '../models/video_info.dart';
 import 'api_exception.dart';
 
 /// Extraction/download via yt-dlp running on-device (Chaquopy), reached over the
-/// `ytdlp` [MethodChannel]. Returns the SAME [VideoInfo]/[MediaFormat] models as
-/// `YoutubeExtractor` — the native side emits our exact snake_case JSON shape, so
-/// [VideoInfo.fromJson] parses it unchanged and the two extractors are drop-in
-/// interchangeable at the model level.
+/// `ytdlp` [MethodChannel]. The single extractor for every site. The native side
+/// emits our exact snake_case JSON shape, so [VideoInfo.fromJson] parses it unchanged.
 ///
 /// The channel contract:
 ///  - `extract_info(url)`      → JSON `{"ok":true,"data":<VideoInfo>}` or `{"ok":false,"code","message"}`

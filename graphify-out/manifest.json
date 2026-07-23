@@ -80,8 +80,8 @@
     "semantic_hash": ""
   },
   "app/lib/models/video_info.dart": {
-    "mtime": 1784760986.2595167,
-    "ast_hash": "fc1ffc381d233201b00cdbf6c0e098e0",
+    "mtime": 1784818567.1726089,
+    "ast_hash": "e6060c3bbedfa7f9e90d2f7f7447926e",
     "semantic_hash": ""
   },
   "app/lib/services/api_exception.dart": {
@@ -210,8 +210,8 @@
     "semantic_hash": ""
   },
   "app/lib/services/ytdlp_extractor.dart": {
-    "mtime": 1784761910.0326233,
-    "ast_hash": "77e08ec8234b5d53571caab176e74c31",
+    "mtime": 1784818561.891425,
+    "ast_hash": "a118764a4d8902fe0d6301cb7736fbf3",
     "semantic_hash": ""
   },
   "app/test/ytdlp_extractor_test.dart": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "app/android/app/src/main/python/ytdlp_bridge.py": {
-    "mtime": 1784762076.2035625,
-    "ast_hash": "c33bd8a23c9f9d01090c44a15f6ae858",
+    "mtime": 1784819590.470667,
+    "ast_hash": "3151039f1662cae08c74cc1d5f1d36bc",
     "semantic_hash": ""
   },
   "app/android/CHAQUOPY.md": {
