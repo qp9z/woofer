@@ -47,6 +47,7 @@ String describeError(ApiErrorCode code) => switch (code) {
       ApiErrorCode.invalidUrl => 'That link looks wrong',
       ApiErrorCode.tooLarge => 'Not enough space',
       ApiErrorCode.rateLimited => 'Slow down a moment',
+      ApiErrorCode.botCheck => 'YouTube is blocking us',
       ApiErrorCode.network => 'Connection problem',
       ApiErrorCode.unknown => 'Something went wrong',
     };

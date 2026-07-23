@@ -159,6 +159,7 @@ void main() {
       expect(ytdlpErrorCode('NETWORK'), ApiErrorCode.network);
       expect(ytdlpErrorCode('GEO'), ApiErrorCode.unavailable);
       expect(ytdlpErrorCode('NO_VIDEO'), ApiErrorCode.noVideo);
+      expect(ytdlpErrorCode('BOT_CHECK'), ApiErrorCode.botCheck);
     });
     test('anything unrecognized is unknown', () {
       expect(ytdlpErrorCode('WAT'), ApiErrorCode.unknown);

@@ -113,6 +113,10 @@ def _classify(e):
     if isinstance(e, GeoRestrictedError):
         return "GEO"
     low = str(e).lower()
+    # YouTube's anti-bot gate (IP reputation). "not a bot" is specific — don't
+    # match bare "sign in to confirm", which also fronts age-restriction.
+    if "not a bot" in low:
+        return "BOT_CHECK"
     # A photo/carousel post (not a reel/video). yt-dlp phrases this several ways.
     if any(p in low for p in ("no video in this post", "no video formats found", "there is no video")):
         return "NO_VIDEO"
@@ -133,6 +137,8 @@ def _classify(e):
 # Anything not listed falls back to yt-dlp's first line.
 _FRIENDLY = {
     "NO_VIDEO": "This post doesn't have a video to download.",
+    "BOT_CHECK": "YouTube is temporarily blocking requests from this network. "
+    "Give it a few minutes and try again.",
 }
 
 

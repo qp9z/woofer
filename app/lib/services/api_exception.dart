@@ -10,6 +10,7 @@ enum ApiErrorCode {
   invalidUrl,
   tooLarge,
   rateLimited,
+  botCheck,
   unknown,
   network;
 

@@ -313,7 +313,7 @@
       "label": "_error()",
       "file_type": "code",
       "source_file": "app/android/app/src/main/python/ytdlp_bridge.py",
-      "source_location": "L139",
+      "source_location": "L145",
       "_origin": "ast",
       "id": "app_android_app_src_main_python_ytdlp_bridge_error",
       "community": 16,
@@ -437,8 +437,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_riverpod_flutter_riverpod_dart",
-      "community": 34,
-      "community_name": "package:flutter_riverpod/flutter_riverpod.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "package:flutter_riverpod/flutter_riverpod.dart"
     },
     {
@@ -822,8 +822,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_exception_apiexception",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 40,
+      "community_name": "ytdlp_extractor_test.dart",
       "norm_label": "apiexception"
     },
     {
@@ -833,8 +833,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "exception",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 40,
+      "community_name": "ytdlp_extractor_test.dart",
       "norm_label": "exception"
     },
     {
@@ -849,15 +849,15 @@
       "norm_label": "network"
     },
     {
-      "label": "invalidUrl,\n  tooLarge,\n  rateLimited,\n  unknown,",
+      "label": "tooLarge,\n  rateLimited,\n  botCheck,\n  unknown,",
       "file_type": "code",
       "source_file": null,
       "source_location": null,
       "_origin": "ast",
-      "id": "invalidurl_toolarge_ratelimited_unknown",
+      "id": "toolarge_ratelimited_botcheck_unknown",
       "community": 14,
       "community_name": "_download_to_file",
-      "norm_label": "invalidurl,\n  toolarge,\n  ratelimited,\n  unknown,"
+      "norm_label": "toolarge,\n  ratelimited,\n  botcheck,\n  unknown,"
     },
     {
       "label": "code",
@@ -1449,8 +1449,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_io",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "dart:io"
     },
     {
@@ -1735,8 +1735,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_services_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "package:flutter/services.dart"
     },
     {
@@ -1845,8 +1845,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_convert",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "dart:convert"
     },
     {
@@ -2582,8 +2582,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_sharedurlprovider",
-      "community": 27,
-      "community_name": "storage_service_test.dart",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "sharedurlprovider"
     },
     {
@@ -2648,8 +2648,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_async",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 36,
+      "community_name": "GlassGalleryScreen",
       "norm_label": "dart:async"
     },
     {
@@ -3242,8 +3242,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_formats_screen_build",
-      "community": 27,
-      "community_name": "storage_service_test.dart",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "build"
     },
     {
@@ -3253,8 +3253,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "cupertinopageroute",
-      "community": 27,
-      "community_name": "storage_service_test.dart",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "cupertinopageroute"
     },
     {
@@ -3352,8 +3352,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_history_screen_thumb",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 26,
+      "community_name": "progress_screen.dart",
       "norm_label": "_thumb"
     },
     {
@@ -3704,8 +3704,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_screen_build",
-      "community": 27,
-      "community_name": "storage_service_test.dart",
+      "community": 0,
+      "community_name": "Counter App UI",
       "norm_label": "build"
     },
     {
@@ -4848,8 +4848,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_glassbackground",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "glassbackground"
     },
     {
@@ -5376,8 +5376,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_media_format_dart",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "package:woofer/models/media_format.dart"
     },
     {
@@ -5387,8 +5387,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_video_info_dart",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "package:woofer/models/video_info.dart"
     },
     {
@@ -5398,8 +5398,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_api_exception_dart",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "package:woofer/services/api_exception.dart"
     },
     {
@@ -5651,8 +5651,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_json_parsing_test",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "json_parsing_test.dart"
     },
     {
@@ -5662,8 +5662,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_json_parsing_test_main",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "main"
     },
     {
@@ -5673,8 +5673,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_api_error_dart",
-      "community": 31,
-      "community_name": "glass_ui_test.dart",
+      "community": 30,
+      "community_name": "screens_test.dart",
       "norm_label": "package:woofer/models/api_error.dart"
     },
     {
@@ -5893,8 +5893,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_widget_test",
-      "community": 34,
-      "community_name": "package:flutter_riverpod/flutter_riverpod.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "widget_test.dart"
     },
     {
@@ -5904,8 +5904,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_widget_test_main",
-      "community": 34,
-      "community_name": "package:flutter_riverpod/flutter_riverpod.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "main"
     },
     {
@@ -5915,8 +5915,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_main_dart",
-      "community": 34,
-      "community_name": "package:flutter_riverpod/flutter_riverpod.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "package:woofer/main.dart"
     },
     {
@@ -6631,7 +6631,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "app/android/app/src/main/python/ytdlp_bridge.py",
-      "source_location": "L139",
+      "source_location": "L145",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_android_app_src_main_python_ytdlp_bridge",
@@ -6735,7 +6735,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "app/android/app/src/main/python/ytdlp_bridge.py",
-      "source_location": "L140",
+      "source_location": "L146",
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_android_app_src_main_python_ytdlp_bridge_error",
@@ -8053,18 +8053,6 @@
       "target": "app_lib_services_api_exception_tostring"
     },
     {
-      "relation": "references",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "app/lib/services/api_exception.dart",
-      "source_location": null,
-      "weight": 1.0,
-      "context": "variable_type",
-      "_origin": "ast",
-      "source": "app_lib_services_api_exception",
-      "target": "invalidurl_toolarge_ratelimited_unknown"
-    },
-    {
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -8074,6 +8062,18 @@
       "_origin": "ast",
       "source": "app_lib_services_api_exception",
       "target": "models_api_error_dart"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/services/api_exception.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_services_api_exception",
+      "target": "toolarge_ratelimited_botcheck_unknown"
     },
     {
       "relation": "references",
@@ -14955,5 +14955,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "76cf04afc9045aadea7b474859d86f7e33c90153"
+  "built_at_commit": "23556aca19145ab00c729dbe3e9b2bfa23c45bfe"
 }

@@ -1,16 +1,16 @@
 # Graph Report - woofer  (2026-07-23)
 
 ## Corpus Check
-- 42 files · ~16,959 words
+- 42 files · ~17,021 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 560 nodes · 776 edges · 44 communities (39 shown, 5 thin omitted)
+- 560 nodes · 776 edges · 42 communities (37 shown, 5 thin omitted)
 - Extraction: 99% EXTRACTED · 1% INFERRED · 0% AMBIGUOUS · INFERRED: 5 edges (avg confidence: 0.83)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `76cf04af`
+- Built from commit: `23556aca`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -43,10 +43,8 @@
 - glass_ui_test.dart
 - glass_button.dart
 - screens_test.dart
-- glass_ui_test.dart
 - screens_test.dart
 - glass_scaffold.dart
-- package:flutter_riverpod/flutter_riverpod.dart
 - package:flutter/cupertino.dart
 - GlassGalleryScreen
 - GlassGalleryScreen
@@ -88,11 +86,11 @@
 - **woofer Package Dependencies** — pubspec_cupertino_icons, pubspec_flutter_lints, pubspec_flutter_test [INFERRED 0.75]
 - **App Launcher Icon (resolution variants)** — android_app_src_main_res_mipmap_hdpi_ic_launcher, android_app_src_main_res_mipmap_mdpi_ic_launcher, android_app_src_main_res_mipmap_xhdpi_ic_launcher, android_app_src_main_res_mipmap_xxhdpi_ic_launcher, android_app_src_main_res_mipmap_xxxhdpi_ic_launcher [EXTRACTED 1.00]
 
-## Communities (44 total, 5 thin omitted)
+## Communities (42 total, 5 thin omitted)
 
 ### Community 0 - "Counter App UI"
-Cohesion: 0.39
-Nodes (8): downloadControllerProvider, FormatsScreen, _fetch, _DoneCard, _FailedCard, _ProgressCard, ProgressScreen, ConsumerWidget
+Cohesion: 0.24
+Nodes (12): downloadControllerProvider, sharedUrlProvider, build, FormatsScreen, build, _fetch, _DoneCard, _FailedCard (+4 more)
 
 ### Community 1 - "Flutter Project & Deps"
 Cohesion: 0.25
@@ -104,7 +102,7 @@ Nodes (15): build, frosted, GlassListSection, GlassListTile, leading, margin, on
 
 ### Community 3 - "Home Page State"
 Cohesion: 0.06
-Nodes (30): api_exception.dart, _deleteQuietly, detail, _dir, FfmpegRun, MediaProcessor, mergeArgs, mergeVideoAudio (+22 more)
+Nodes (31): api_exception.dart, _deleteQuietly, detail, _dir, FfmpegRun, MediaProcessor, mergeArgs, mergeVideoAudio (+23 more)
 
 ### Community 4 - "formats_screen.dart"
 Cohesion: 0.20
@@ -132,7 +130,7 @@ Nodes (7): _classify(), download(), _error(), extract_info(), yt-dlp bridge for 
 
 ### Community 17 - "video_info.dart"
 Cohesion: 0.07
-Nodes (33): HistoryEntry, historyListProvider, _brightness, build, createState, _gap, GlassGalleryScreen, _GlassGalleryScreenState (+25 more)
+Nodes (32): HistoryEntry, historyListProvider, _brightness, build, createState, _gap, GlassGalleryScreen, _GlassGalleryScreenState (+24 more)
 
 ### Community 18 - "history_service.dart"
 Cohesion: 0.06
@@ -168,11 +166,11 @@ Nodes (13): controller, createState, dispose, onPaste, onSubmit, _paste, state, 
 
 ### Community 26 - "progress_screen.dart"
 Cohesion: 0.18
-Nodes (11): _Badges, _Thumbnail, _EmptyState, _Caption, _ErrorCard, _Hint, _SharedBanner, _UrlField (+3 more)
+Nodes (11): _Badges, _Thumbnail, _EmptyState, _Thumb, _Caption, _ErrorCard, _Hint, _SharedBanner (+3 more)
 
 ### Community 27 - "storage_service_test.dart"
-Cohesion: 0.25
-Nodes (8): sharedUrlProvider, build, build, HomeScreen, _HomeScreenState, ConsumerState, ConsumerStatefulWidget, CupertinoPageRoute
+Cohesion: 0.50
+Nodes (4): HomeScreen, _HomeScreenState, ConsumerState, ConsumerStatefulWidget
 
 ### Community 28 - "glass_ui_test.dart"
 Cohesion: 0.33
@@ -183,32 +181,24 @@ Cohesion: 0.11
 Nodes (18): blur, build, child, createState, _down, enableBlur, _enabled, expand (+10 more)
 
 ### Community 30 - "screens_test.dart"
-Cohesion: 0.29
-Nodes (6): _app, _info, main, package:woofer/state/download_controller.dart, package:woofer/ui/screens/formats_screen.dart, package:woofer/ui/screens/history_screen.dart
-
-### Community 31 - "glass_ui_test.dart"
-Cohesion: 0.29
-Nodes (6): main, dart:convert, package:woofer/models/api_error.dart, package:woofer/models/media_format.dart, package:woofer/models/video_info.dart, package:woofer/services/api_exception.dart
+Cohesion: 0.17
+Nodes (11): main, _app, _info, main, package:woofer/models/api_error.dart, package:woofer/models/media_format.dart, package:woofer/models/video_info.dart, package:woofer/services/api_exception.dart (+3 more)
 
 ### Community 32 - "screens_test.dart"
-Cohesion: 0.29
-Nodes (5): main, main, package:flutter_test/flutter_test.dart, package:woofer/state/share_intent.dart, package:woofer/ui/format_utils.dart
+Cohesion: 0.18
+Nodes (8): main, main, main, package:flutter_riverpod/flutter_riverpod.dart, package:flutter_test/flutter_test.dart, package:woofer/main.dart, package:woofer/state/share_intent.dart, package:woofer/ui/format_utils.dart
 
 ### Community 33 - "glass_scaffold.dart"
-Cohesion: 0.12
-Nodes (16): _Blob, bottom, build, child, children, color, GlassScaffold, leading (+8 more)
-
-### Community 34 - "package:flutter_riverpod/flutter_riverpod.dart"
-Cohesion: 0.50
-Nodes (3): main, package:flutter_riverpod/flutter_riverpod.dart, package:woofer/main.dart
+Cohesion: 0.11
+Nodes (17): _Blob, bottom, build, child, children, color, GlassBackground, GlassScaffold (+9 more)
 
 ### Community 35 - "package:flutter/cupertino.dart"
 Cohesion: 0.29
 Nodes (6): build, main, WooferApp, package:flutter/cupertino.dart, ui/screens/home_screen.dart, ui/theme/app_theme.dart
 
 ### Community 36 - "GlassGalleryScreen"
-Cohesion: 0.20
-Nodes (9): controller, firstUrl, initial, initialUrl, null, _pickUrl, download_controller.dart, package:receive_sharing_intent/receive_sharing_intent.dart (+1 more)
+Cohesion: 0.18
+Nodes (10): controller, firstUrl, initial, initialUrl, null, _pickUrl, dart:async, download_controller.dart (+2 more)
 
 ### Community 37 - "GlassGalleryScreen"
 Cohesion: 0.10
@@ -216,7 +206,7 @@ Nodes (19): _audioOnly, download, downloaded, extractCalls, extractError, extrac
 
 ### Community 40 - "ytdlp_extractor_test.dart"
 Cohesion: 0.22
-Nodes (8): channel, extractor, main, messenger, mockChannel, dart:async, package:flutter/services.dart, package:woofer/services/ytdlp_extractor.dart
+Nodes (8): ApiException, channel, extractor, main, messenger, mockChannel, Exception, package:woofer/services/ytdlp_extractor.dart
 
 ### Community 41 - "glass_ui_test.dart"
 Cohesion: 0.25
@@ -228,11 +218,11 @@ Nodes (15): describeError, digits, formatBytes, formatDate, formatDuration, h, m
 
 ### Community 43 - "storage_service_test.dart"
 Cohesion: 0.25
-Nodes (7): channel, main, messenger, tmp, dart:io, File, package:woofer/services/storage_service.dart
+Nodes (7): channel, main, messenger, tmp, File, package:flutter/services.dart, package:woofer/services/storage_service.dart
 
 ### Community 46 - "media_processor_test.dart"
-Cohesion: 0.22
-Nodes (8): ApiException, dir, main, okRunner, touch, Directory, Exception, package:woofer/services/media_processor.dart
+Cohesion: 0.25
+Nodes (7): dir, main, okRunner, touch, dart:io, Directory, package:woofer/services/media_processor.dart
 
 ## Knowledge Gaps
 - **309 isolated node(s):** `main`, `build`, `ApiError`, `errorCode`, `message` (+304 more)
@@ -244,7 +234,7 @@ _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `HistoryService` connect `history_service.dart` to `history_screen.dart`, `GlassGalleryScreen`?**
   _High betweenness centrality (0.027) - this node is a cross-community bridge._
-- **Why does `ApiException` connect `media_processor_test.dart` to `ytdlp_extractor_test.dart`, `GlassGalleryScreen`, `_download_to_file`?**
+- **Why does `ApiException` connect `ytdlp_extractor_test.dart` to `media_processor_test.dart`, `GlassGalleryScreen`, `_download_to_file`?**
   _High betweenness centrality (0.015) - this node is a cross-community bridge._
 - **Why does `DownloadState` connect `download_state.dart` to `glass_scaffold.dart`, `history_screen.dart`, `formats_screen.dart`?**
   _High betweenness centrality (0.013) - this node is a cross-community bridge._
@@ -253,6 +243,6 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `_error` be split into smaller, more focused modules?**
   _Cohesion score 0.125 - nodes in this community are weakly interconnected._
 - **Should `Home Page State` be split into smaller, more focused modules?**
-  _Cohesion score 0.0625 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.06060606060606061 - nodes in this community are weakly interconnected._
 - **Should `_download_to_file` be split into smaller, more focused modules?**
   _Cohesion score 0.08 - nodes in this community are weakly interconnected._
