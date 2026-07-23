@@ -40,6 +40,15 @@ class Downloading extends DownloadState {
   double? get progress => total > 0 ? received / total : null;
 }
 
+/// Post-download work on-device: merging a video-only stream with audio, or
+/// transcoding to MP3. [label] describes which, for the UI. Indeterminate —
+/// ffmpeg gives no reliable percentage here, so show a spinner.
+class Processing extends DownloadState {
+  final MediaFormat format;
+  final String label;
+  const Processing(this.format, this.label);
+}
+
 /// Saved to public Downloads and recorded in history.
 class Done extends DownloadState {
   final String path; // public Downloads path

@@ -21,6 +21,10 @@ plugins {
     id("dev.flutter.flutter-plugin-loader") version "1.0.0"
     id("com.android.application") version "8.11.1" apply false
     id("org.jetbrains.kotlin.android") version "2.2.20" apply false
+    // Chaquopy: runs CPython on-device so we can pip-install yt-dlp. Resolved from
+    // mavenCentral (already in pluginManagement.repositories above). 17.0.0 detects
+    // AGP through the plugins DSL, so no buildscript-classpath hack is needed.
+    id("com.chaquo.python") version "17.0.0" apply false
 }
 
 include(":app")

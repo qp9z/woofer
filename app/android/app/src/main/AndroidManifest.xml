@@ -1,4 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- yt-dlp (Chaquopy) fetches video metadata and streams over the network. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Needed to read the active network so we can bind the process to it — without
+         that, Python's C sockets aren't bound to a network and DNS resolution fails. -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <!-- API 29+ writes to Downloads via MediaStore (no permission). Only legacy
          devices (<=28) need this runtime permission. -->
     <uses-permission

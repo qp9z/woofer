@@ -1,0 +1,120 @@
+"""yt-dlp bridge for the "ytdlp" MethodChannel.
+
+Both entry points return a JSON *envelope* string — never raise across the
+Chaquopy boundary for expected failures — so the Dart side gets a uniform
+`{"ok": true, ...}` / `{"ok": false, "code", "message"}` shape. The `data`
+object matches our Dart VideoInfo/MediaFormat JSON exactly (snake_case keys),
+so VideoInfo.fromJson parses it unchanged.
+"""
+
+import json
+import os
+
+import yt_dlp
+from yt_dlp.utils import GeoRestrictedError, UnsupportedError
+
+_COMMON = {"quiet": True, "no_warnings": True, "noplaylist": True}
+
+
+def extract_info(url):
+    try:
+        opts = {**_COMMON, "skip_download": True}
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(url, download=False)
+        if info.get("_type") == "playlist" and info.get("entries"):
+            info = info["entries"][0]
+        return json.dumps({"ok": True, "data": _video_info(info)})
+    except Exception as e:  # noqa: BLE001 - deliberately funnel everything to an envelope
+        return _error(e)
+
+
+def download(url, format_id, out_dir, callback=None):
+    """Download a single format to out_dir. `callback.onProgress(recv, total)` is
+    invoked during the transfer (a Java object passed from Kotlin)."""
+    try:
+        state = {"path": None}
+
+        def hook(d):
+            status = d.get("status")
+            if status == "downloading" and callback is not None:
+                total = d.get("total_bytes") or d.get("total_bytes_estimate") or 0
+                callback.onProgress(int(d.get("downloaded_bytes") or 0), int(total))
+            elif status == "finished":
+                state["path"] = d.get("filename")
+
+        opts = {
+            **_COMMON,
+            "format": format_id,
+            "outtmpl": os.path.join(out_dir, "%(title).200B.%(ext)s"),
+            "restrictfilenames": True,
+            "progress_hooks": [hook],
+        }
+        with yt_dlp.YoutubeDL(opts) as ydl:
+            info = ydl.extract_info(url, download=True)
+            path = state["path"] or ydl.prepare_filename(info)
+        return json.dumps({"ok": True, "path": path})
+    except Exception as e:  # noqa: BLE001
+        return _error(e)
+
+
+def _video_info(info):
+    formats = []
+    for f in info.get("formats", []):
+        if f.get("format_id") is None:
+            continue
+        # Skip storyboards (image tiles) and other non-media entries.
+        if f.get("ext") == "mhtml" or (f.get("protocol") or "") == "mhtml":
+            continue
+        vcodec, acodec = f.get("vcodec"), f.get("acodec")
+        has_video = bool(vcodec) and vcodec != "none"
+        has_audio = bool(acodec) and acodec != "none"
+        if not has_video and not has_audio:
+            continue
+        height = f.get("height")
+        formats.append(
+            {
+                "format_id": str(f["format_id"]),
+                "ext": f.get("ext"),
+                "resolution": (f.get("resolution") or (f"{height}p" if height else None))
+                if has_video
+                else None,
+                "filesize": f.get("filesize") or f.get("filesize_approx"),
+                "has_audio": has_audio,
+                "has_video": has_video,
+                "note": f.get("format_note"),
+            }
+        )
+    return {
+        "title": info.get("title"),
+        "thumbnail": info.get("thumbnail"),
+        "duration": info.get("duration"),
+        "uploader": info.get("uploader") or info.get("channel"),
+        "formats": formats,
+    }
+
+
+# ponytail: heuristic classification — yt-dlp doesn't expose clean typed errors
+# for private/removed/rate-limit, so we sniff the message. Tokens mirror the
+# Dart ApiErrorCode wire vocabulary (see ytdlp_extractor.ytdlpErrorCode).
+def _classify(e):
+    if isinstance(e, UnsupportedError):
+        return "UNSUPPORTED"
+    if isinstance(e, GeoRestrictedError):
+        return "GEO"
+    low = str(e).lower()
+    if "private" in low or ("age" in low and "restrict" in low):
+        return "PRIVATE"
+    if any(k in low for k in ("unavailable", "removed", "deleted", "not available", "does not exist")):
+        return "UNAVAILABLE"
+    if "429" in low or "too many requests" in low or ("rate" in low and "limit" in low):
+        return "RATE_LIMITED"
+    if "unsupported url" in low or "is not a valid url" in low or "invalid url" in low:
+        return "INVALID_URL"
+    if any(k in low for k in ("urlopen error", "timed out", "timeout", "connection", "getaddrinfo", "network")):
+        return "NETWORK"
+    return "UNKNOWN"
+
+
+def _error(e):
+    message = (str(e).splitlines() or ["yt-dlp error"])[0]
+    return json.dumps({"ok": False, "code": _classify(e), "message": message})

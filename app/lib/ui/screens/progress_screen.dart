@@ -28,6 +28,8 @@ class ProgressScreen extends ConsumerWidget {
           switchOutCurve: Curves.easeIn,
           child: switch (state) {
             Downloading() => _ProgressCard(key: const ValueKey('busy'), state: state),
+            // Merging / transcoding after the bytes are down.
+            Processing() => _ProcessingCard(key: const ValueKey('processing'), state: state),
             Done() => _DoneCard(key: const ValueKey('done'), state: state),
             Failed() => _FailedCard(key: const ValueKey('failed'), state: state),
             // Cancelled: the controller has fallen back to format selection.
@@ -111,6 +113,43 @@ class _ProgressCard extends ConsumerWidget {
       ),
     );
   }
+}
+
+/// Merge / transcode phase: no percentage from ffmpeg, so a spinner + label.
+class _ProcessingCard extends StatelessWidget {
+  final Processing state;
+  const _ProcessingCard({super.key, required this.state});
+
+  @override
+  Widget build(BuildContext context) => GlassContainer(
+        padding: const EdgeInsets.all(AppSpacing.lg),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const CupertinoActivityIndicator(radius: 15),
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              state.label,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.w600,
+                letterSpacing: -0.3,
+                color: CupertinoColors.label.resolveFrom(context),
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs + 2),
+            Text(
+              'Almost done — finishing on your device',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: CupertinoColors.secondaryLabel.resolveFrom(context),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 /// Capsule progress bar. Indeterminate (null) renders as a dim track — the
