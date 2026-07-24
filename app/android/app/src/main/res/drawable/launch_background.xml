@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Modify this file to customize your launch splash screen -->
+<!-- Native launch screen: brand ground, nothing else. Deliberately artwork-free —
+     this static window background can't animate, and showing a still mark here
+     made it visibly jump when the animated one took over. The equalizer intro
+     lives entirely in Dart (SplashScreen). -->
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@android:color/white" />
-
-    <!-- You can insert your own image assets here -->
-    <!-- <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@mipmap/launch_image" />
-    </item> -->
+    <item android:drawable="@color/brand_ground" />
 </layer-list>

@@ -4,6 +4,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_sheet.dart';
 import '../widgets/woofer_mark.dart';
+import '../widgets/wordmark.dart';
 
 /// App & developer info — identity, Koulei Labs, contact links, legal. Static
 /// brand content from the design handoff (THEME.md → App identity).
@@ -39,7 +40,7 @@ class _AboutSheet extends StatelessWidget {
                 children: [
                   WooferMark(size: 84, tile: WooferTile.accent, bars: WooferBars.light),
                   SizedBox(height: AppSpacing.sm + 4),
-                  _Wordmark(fontSize: 30),
+                  Wordmark(fontSize: 30),
                   SizedBox(height: 4),
                   Text('Version 1.0 (build 118) · made quiet',
                       style: TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
@@ -99,29 +100,6 @@ class _AboutSheet extends StatelessWidget {
       ),
     );
   }
-}
-
-/// "WOOFER." with the accent-colored period.
-class _Wordmark extends StatelessWidget {
-  final double fontSize;
-  const _Wordmark({required this.fontSize});
-
-  @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          style: TextStyle(
-            fontFamily: AppTheme.fontFamily,
-            fontSize: fontSize,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.02 * fontSize,
-            color: AppColors.text,
-          ),
-          children: const [
-            TextSpan(text: 'WOOFER'),
-            TextSpan(text: '.', style: TextStyle(color: AppColors.a300)),
-          ],
-        ),
-      );
 }
 
 class _SectionLabel extends StatelessWidget {

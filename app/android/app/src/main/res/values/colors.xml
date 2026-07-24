@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AppColors.ground — matches the Flutter canvas so the native launch screen
+         hands off to the Dart UI with no flash of a different colour. -->
+    <color name="brand_ground">#0F1120</color>
+</resources>

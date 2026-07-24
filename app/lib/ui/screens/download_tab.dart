@@ -11,6 +11,7 @@ import '../sheets/about_sheet.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
+import '../widgets/wordmark.dart';
 
 /// The Download (home) tab: paste/share a link, Fetch, then pick a format in the
 /// sheet. Shows the detected-media card, live download progress, and errors.
@@ -70,7 +71,7 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(child: _Wordmark(fontSize: AppType.display)),
+            const Expanded(child: Wordmark(fontSize: AppType.display, height: 0.95)),
             _InfoCircle(onTap: () => showAboutSheet(context)),
           ],
         ),
@@ -129,30 +130,6 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
       ],
     );
   }
-}
-
-/// "WOOFER." with the accent-colored period, uppercase display weight.
-class _Wordmark extends StatelessWidget {
-  final double fontSize;
-  const _Wordmark({required this.fontSize});
-
-  @override
-  Widget build(BuildContext context) => Text.rich(
-        TextSpan(
-          style: TextStyle(
-            fontFamily: AppTheme.fontFamily,
-            fontSize: fontSize,
-            fontWeight: FontWeight.w700,
-            letterSpacing: -0.02 * fontSize,
-            height: 0.95,
-            color: AppColors.text,
-          ),
-          children: const [
-            TextSpan(text: 'WOOFER'),
-            TextSpan(text: '.', style: TextStyle(color: AppColors.a300)),
-          ],
-        ),
-      );
 }
 
 class _InfoCircle extends StatelessWidget {
