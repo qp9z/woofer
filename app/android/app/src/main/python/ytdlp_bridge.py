@@ -59,6 +59,11 @@ def download(url, format_id, out_dir, callback=None):
             "outtmpl": os.path.join(out_dir, "%(title).200B.%(ext)s"),
             "restrictfilenames": True,
             "progress_hooks": [hook],
+            # Never resume a leftover .part (a range past EOF => HTTP 416) and always
+            # overwrite a stale file rather than reuse it. The Dart side also hands us
+            # a fresh dir per download, so this is belt-and-suspenders.
+            "continuedl": False,
+            "overwrites": True,
         }
         with yt_dlp.YoutubeDL(opts) as ydl:
             info = ydl.extract_info(url, download=True)

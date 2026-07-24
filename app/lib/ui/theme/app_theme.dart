@@ -1,13 +1,11 @@
 import 'package:flutter/cupertino.dart';
 
-/// Design tokens for the woofer app: an iOS Human Interface aesthetic
-/// (Cupertino widgets, large-title nav, SF-like type) with a frosted-glass
-/// treatment layered over a soft gradient background.
-///
-/// Everything here is a plain constant or pure helper so it can be reused
-/// anywhere without pulling in widgets. Screen widgets live under lib/widgets.
+/// Design tokens for WOOFER — dark, calm, liquid-glass. One blurple accent over
+/// a near-neutral deep ground; motion (drifting aurora) is the signature.
+/// Ported from the brand handoff (design_handoff_woofer/THEME.md) — reference
+/// these tokens, never hard-code hex in a widget.
 
-/// 8pt spacing scale (iOS uses multiples of 4/8).
+/// 8pt spacing scale.
 abstract final class AppSpacing {
   static const double xs = 4;
   static const double sm = 8;
@@ -17,81 +15,140 @@ abstract final class AppSpacing {
   static const double xxl = 48;
 }
 
-/// Corner radii. Glass surfaces sit in the 20–28 range per the design spec.
-abstract final class AppRadius {
-  static const double control = 14; // buttons, small chips
-  static const double card = 22; // cards, list sections, format rows
-  static const double sheet = 28; // modal sheets, large panels
+/// Type scale. The design prototype was drawn on a 340px-wide phone mock; these
+/// are scaled ~1.2x for real handsets (~410dp) so copy is comfortably readable
+/// at arm's length. Reference these — don't inline font sizes in widgets.
+abstract final class AppType {
+  static const double display = 36; // WOOFER.
+  static const double header = 22; // LIBRARY / SETTINGS
+  static const double button = 18; // Fetch / Download
+  static const double title = 17; // sheet media title
+  static const double bodyStrong = 16; // row titles
+  static const double body = 15; // input text, settings labels, chips
+  static const double meta = 14; // row subtitles, tips, footers
+  static const double label = 13; // uppercase section labels
 }
 
-/// WOOFER brand + semantic colors (see design/brand identity). The mark is a
-/// violet equalizer on dark navy; the palette follows suit.
+/// Touch ergonomics. The design handoff requires hit targets >= 44px.
+abstract final class AppTouch {
+  static const double min = 44;
+}
+
+/// Corner radii, per THEME.md.
+abstract final class AppRadius {
+  static const double chip = 13; // quality rows, chips, nav items
+  static const double control = 17; // Fetch / primary buttons
+  static const double input = 18; // URL pill
+  static const double card = 18; // cards, media preview
+  static const double navPill = 24; // floating nav bar
+  static const double sheet = 28; // bottom sheets (top corners)
+}
+
+/// WOOFER color tokens (THEME.md). Dark-first: the app runs in Brightness.dark.
 abstract final class AppColors {
-  /// Brand violet — the primary accent (buttons, active states, progress).
+  // --- Ground / surface ---
+  static const Color ground = Color(0xFF0F1120);
+  static const Color ground2 = Color(0xFF141626);
+  static const Color auroraA = Color(0xFF22243E);
+  static const Color auroraB = Color(0xFF191B30);
+  static const Color auroraC = Color(0xFF131426);
+  static const Color text = Color(0xFFE9E9ED);
+  static const Color textDim = Color(0xFFB8BAD0);
+
+  // --- Accent (blurple) ramp ---
+  static const Color a100 = Color(0xFFF5F4FF);
+  static const Color a200 = Color(0xFFE7E5FE);
+  static const Color a300 = Color(0xFFD2CEFD);
+  static const Color a400 = Color(0xFFB5ABFC);
+  static const Color a500 = Color(0xFF9184D9);
+  static const Color a600 = Color(0xFF796CBF);
+  static const Color a700 = Color(0xFF5D5294);
+  static const Color a800 = Color(0xFF423A6A);
+  static const Color a900 = Color(0xFF2B2741);
+  static const Color accentInk = Color(0xFF1A1730); // text/icon on accent fill
+
+  // --- Neutral ramp (100 → 900) ---
+  static const Color n100 = Color(0xFFF3F5FE);
+  static const Color n200 = Color(0xFFE4E7F5);
+  static const Color n300 = Color(0xFFCFD3E5);
+  static const Color n400 = Color(0xFFB2B6CA);
+  static const Color n500 = Color(0xFF9397AB);
+  static const Color n600 = Color(0xFF75798C);
+  static const Color n700 = Color(0xFF595D6C);
+  static const Color n800 = Color(0xFF3F424D); // hairlines
+  static const Color n900 = Color(0xFF292B31);
+
+  /// Primary accent as a Cupertino dynamic color (used by nav/theme + existing
+  /// glass widgets). Both brightnesses land on the brand violet.
   static const CupertinoDynamicColor accent = CupertinoDynamicColor.withBrightness(
-    color: Color(0xFF6D5DF6), // light bg: a touch deeper for contrast
-    darkColor: Color(0xFF9184D9), // brand violet
+    color: Color(0xFF6D5DF6), // light ground: a touch deeper for contrast
+    darkColor: a500,
   );
 
-  static const Color violetLight = Color(0xFFB5ABFC);
-  static const Color violetDeep = Color(0xFF796CBF);
-  static const Color coral = Color(0xFFFF9A8F); // warm secondary accent
+  /// Fetch / primary CTA gradient (135°).
+  static const List<Color> fetchGradient = [
+    Color(0xFFC3BAFF),
+    Color(0xFF9D90EE),
+    Color(0xFF8577D6),
+  ];
 
-  /// Decorative gradient blob colors that give the glass something to refract.
-  static const Color blobA = Color(0xFF9184D9); // brand violet
-  static const Color blobB = Color(0xFFB5ABFC); // light violet
-  static const Color blobC = coral; // coral
+  /// Aurora glow blobs (color + alpha), drifting behind the glass.
+  static const Color blobA = a400; // top-left  rgba(181,171,252,.50)
+  static const Color blobB = a600; // mid-right rgba(120,108,191,.42)
+  static const Color blobC = Color(0xFFD68AAB); // lower-left rose rgba(214,138,171,.32)
+  static const Color blobD = a500; // bottom-right rgba(145,132,217,.30)
 }
 
 /// Frosted-glass parameters and reusable decoration bits.
 abstract final class AppGlass {
-  /// Default blur strength for a single frosted layer. Keep one blur per
-  /// surface; nesting BackdropFilters tanks performance.
-  static const double blurSigma = 18;
+  /// Default blur strength for a primary `.glass` layer.
+  static const double blurSigma = 22;
 
-  /// White overlay opacity for the frosted tint (dark vs light background).
-  static double tintOpacity(Brightness b) => b == Brightness.dark ? 0.12 : 0.20;
+  /// Softer blur for `.glass-soft` (secondary surfaces).
+  static const double blurSoft = 16;
 
-  /// 1px hairline border at ~20% white per the spec.
-  static Border hairline([double opacity = 0.20]) =>
+  /// White overlay opacity for the frosted tint. `.glass` = 0.07 on dark.
+  static double tintOpacity(Brightness b) => b == Brightness.dark ? 0.07 : 0.20;
+
+  /// Hairline border at ~16% white (`.glass`). Use 0.10 for `.glass-soft`.
+  static Border hairline([double opacity = 0.16]) =>
       Border.all(color: CupertinoColors.white.withValues(alpha: opacity), width: 1);
 
-  /// Soft, diffuse shadow — no hard drop shadow. Negative spread keeps it airy.
+  /// Soft, diffuse shadow — no hard drop shadow.
   static List<BoxShadow> softShadow(Brightness b) => [
         BoxShadow(
-          color: CupertinoColors.black.withValues(alpha: b == Brightness.dark ? 0.45 : 0.14),
-          blurRadius: 30,
+          color: CupertinoColors.black.withValues(alpha: b == Brightness.dark ? 0.35 : 0.14),
+          blurRadius: 34,
           spreadRadius: -10,
-          offset: const Offset(0, 14),
+          offset: const Offset(0, 12),
         ),
       ];
 
-  /// Translucent fill for nav bars / sheets — a touch more opaque than cards
-  /// so text stays legible over busy backgrounds. Cupertino nav bars blur this
-  /// automatically when the alpha is < 1.
+  /// Translucent fill for nav bars / sheets.
   static Color navFill(Brightness b) => b == Brightness.dark
-      ? const Color(0xFF232532).withValues(alpha: 0.62) // brand navy
+      ? const Color(0xFF1C1E34).withValues(alpha: 0.5) // nav pill (THEME.md)
       : const Color(0xFFF3F5FE).withValues(alpha: 0.62);
 }
 
-/// Soft gradient background per brightness. GlassBackground paints this and
-/// floats a couple of blurred color blobs on top for depth.
+/// Soft gradient background per brightness. GlassBackground (glass_scaffold)
+/// still paints this; the new shell uses AuroraBackground.
 abstract final class AppBackground {
   static LinearGradient gradient(Brightness b) => b == Brightness.dark
       ? const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [Color(0xFF161826), Color(0xFF1C1930), Color(0xFF0F111C)], // brand navy
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [AppColors.auroraA, AppColors.auroraB, AppColors.auroraC],
+          stops: [0.0, 0.42, 1.0],
         )
       : const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [Color(0xFFF5F4FF), Color(0xFFE7E5FE), Color(0xFFF3F5FE)], // brand violet-whites
+          colors: [Color(0xFFF5F4FF), Color(0xFFE7E5FE), Color(0xFFF3F5FE)],
         );
 }
 
-/// The app-wide Cupertino theme. Type is set in Inter (the WOOFER brand face);
-/// page headers use a heavy ExtraBold weight for the bold, punchy brand look.
+/// The app-wide Cupertino theme. Type is Inter; page/display titles use a heavy
+/// weight with tight tracking for the bold WOOFER look.
 abstract final class AppTheme {
   /// The brand typeface. Declared in pubspec; weights 400–900 available.
   static const String fontFamily = 'Inter';
@@ -101,21 +158,19 @@ abstract final class AppTheme {
     return CupertinoThemeData(
       brightness: brightness,
       primaryColor: AppColors.accent,
-      scaffoldBackgroundColor: const Color(0x00000000), // transparent: glass shows the gradient
+      scaffoldBackgroundColor: AppColors.ground,
       textTheme: CupertinoTextThemeData(
         primaryColor: AppColors.accent,
-        // Large page titles ("WOOFER.", "Formats", "Downloading", "History") —
-        // ExtraBold Inter. [FINE-TUNE] bump to w900 (Black) for an even heavier mark.
         navLargeTitleTextStyle: TextStyle(
           fontFamily: fontFamily,
-          fontSize: 34,
-          fontWeight: FontWeight.w800,
-          letterSpacing: -0.8,
+          fontSize: AppType.display,
+          fontWeight: FontWeight.w700,
+          letterSpacing: -0.7,
           color: label,
         ),
         navTitleTextStyle: TextStyle(
           fontFamily: fontFamily,
-          fontSize: 17,
+          fontSize: AppType.title,
           fontWeight: FontWeight.w700,
           letterSpacing: -0.2,
           color: label,
@@ -146,8 +201,7 @@ abstract final class AppTheme {
   }
 }
 
-extension on CupertinoDynamicColor {
+extension CupertinoDynamicColorResolve0 on CupertinoDynamicColor {
   /// Resolve a dynamic color against a bare [Brightness] (no context needed).
-  Color resolveFrom0(Brightness b) =>
-      b == Brightness.dark ? darkColor : color;
+  Color resolveFrom0(Brightness b) => b == Brightness.dark ? darkColor : color;
 }

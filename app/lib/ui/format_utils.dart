@@ -1,6 +1,29 @@
+import '../models/media_format.dart';
 import '../services/api_exception.dart';
 
 /// Display helpers shared by the screens. Pure functions — no widgets.
+
+/// Row title for a format: "1080p · MP4", "Audio · M4A".
+String formatLabel(MediaFormat f) {
+  final res = f.resolution ?? (f.hasVideo ? 'Video' : 'Audio');
+  return f.ext == null ? res : '$res · ${f.ext!.toUpperCase()}';
+}
+
+/// Row subtitle for a format: size, plus the source's note when present.
+String formatSubtitle(MediaFormat f) {
+  final parts = <String>[formatBytes(f.filesize)];
+  if (f.note != null && f.note!.isNotEmpty) parts.add(f.note!);
+  return parts.join(' · ');
+}
+
+/// Whether a completed download's stored [format] string reads as video.
+/// Best-effort: history rows don't record kind, so infer from the label.
+// ponytail: string sniff — a resolution like "1080p" or "mp4" ⇒ video, else
+// audio. Add a kind column if this ever needs to be exact.
+bool formatIsVideo(String? format) {
+  if (format == null) return false;
+  return RegExp(r'\d{3,4}p|\bmp4\b|\bvideo\b|\bhd\b', caseSensitive: false).hasMatch(format);
+}
 
 /// "1.4 GB", "720 KB", "—" when unknown.
 String formatBytes(int? bytes) {

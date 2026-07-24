@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'ui/screens/home_screen.dart';
+import 'ui/screens/home_shell.dart';
 import 'ui/theme/app_theme.dart';
 
 void main() => runApp(const ProviderScope(child: WooferApp()));
@@ -15,7 +15,7 @@ class WooferApp extends StatelessWidget {
       title: 'WOOFER.',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.of(Brightness.dark),
-      home: const HomeScreen(),
+      home: const HomeShell(),
     );
   }
 }

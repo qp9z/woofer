@@ -41,6 +41,8 @@ dependencies:
   # Receives links shared into the app from other apps (Android share sheet).
   receive_sharing_intent: ^1.8.1
   ffmpeg_kit_flutter_new: ^4.5.2
+  # Opens the About sheet's contact links (mailto / website / X).
+  url_launcher: ^6.3.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

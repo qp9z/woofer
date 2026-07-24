@@ -60,6 +60,18 @@ class DownloadController extends Notifier<DownloadState> {
     if (s is FormatsReady) state = s.select(format);
   }
 
+  /// After a failure: reopen format selection if we already resolved the video
+  /// (so the sheet comes back), otherwise re-resolve the last URL from scratch.
+  void retry() {
+    final info = _info;
+    final url = _url;
+    if (info != null) {
+      state = FormatsReady(info, selected: _selected);
+    } else if (url != null) {
+      extract(url);
+    }
+  }
+
   /// Back to a clean slate.
   void reset() {
     _url = null;
@@ -96,10 +108,18 @@ class DownloadController extends Notifier<DownloadState> {
     _cancelled = false;
     final temps = <String>[];
 
+    // Set Downloading synchronously (before any await) so a cancel() racing the
+    // first await still wins the final state.
     state = Downloading(format: fmt, received: 0, total: fmt.filesize ?? -1);
+
+    // A fresh, empty scratch dir per download. yt-dlp names files by title only,
+    // so sharing systemTemp let a leftover .part from a prior/cancelled attempt
+    // get *resumed* — a byte-range past EOF returns HTTP 416 — or a stale file of
+    // the wrong resolution get silently reused. A private dir has neither.
+    final tmpDir = await Directory.systemTemp.createTemp('woofer_dl_');
     try {
       // 1. Download the selected stream.
-      final primary = await _downloadFormat(fmt, onProgress: (received, total) {
+      final primary = await _downloadFormat(fmt, tmpDir.path, onProgress: (received, total) {
         if (!_cancelled) state = Downloading(format: fmt, received: received, total: total);
       });
       temps.add(primary);
@@ -114,14 +134,16 @@ class DownloadController extends Notifier<DownloadState> {
         if (audioFmt == null) {
           throw const ApiException(code: ApiErrorCode.unknown, message: 'No audio track available to merge.');
         }
-        final audioPath = await _downloadFormat(audioFmt);
+        final audioPath = await _downloadFormat(audioFmt, tmpDir.path);
         temps.add(audioPath);
         if (_cancelled) return;
         state = Processing(fmt, 'Merging video and audio');
         finalPath = await _processor.mergeVideoAudio(primary, audioPath);
         temps.add(finalPath);
-        ext = 'mp4';
-        mime = 'video/mp4';
+        // The processor picks the container that fits the streams (mp4/webm/mkv);
+        // save + record with the matching extension and MIME, not a hardcoded mp4.
+        ext = _extOf(finalPath);
+        mime = _videoMime(ext);
       } else if (!fmt.hasVideo) {
         state = Processing(fmt, 'Converting to MP3');
         finalPath = await _processor.toMp3(primary, 192);
@@ -157,15 +179,17 @@ class DownloadController extends Notifier<DownloadState> {
       for (final p in temps) {
         await _deleteQuietly(p);
       }
+      await _deleteDirQuietly(tmpDir); // nuke any yt-dlp leftovers (.part, fragments)
     }
   }
 
-  /// Download one [format] to a temp file via yt-dlp.
+  /// Download one [format] into [dir] (a private scratch dir) via yt-dlp.
   Future<String> _downloadFormat(
-    MediaFormat format, {
+    MediaFormat format,
+    String dir, {
     void Function(int received, int total)? onProgress,
   }) =>
-      _ytdlp.download(_url!, format.formatId, onProgress: onProgress, dir: Directory.systemTemp.path);
+      _ytdlp.download(_url!, format.formatId, onProgress: onProgress, dir: dir);
 
   /// Best audio-only format to pair with a video-only stream (largest = best).
   MediaFormat? _bestAudio(VideoInfo info) {
@@ -186,7 +210,7 @@ class DownloadController extends Notifier<DownloadState> {
         format: format.resolution ?? format.note ?? format.formatId,
         size: format.filesize,
       ));
-      ref.invalidate(historyListProvider); // HistoryScreen picks it up
+      ref.invalidate(historyListProvider); // the Library tab picks it up
     } catch (_) {
       // ponytail: history is best-effort — logging failure must not fail a saved download.
     }
@@ -206,4 +230,21 @@ class DownloadController extends Notifier<DownloadState> {
       if (await f.exists()) await f.delete();
     } catch (_) {}
   }
+
+  Future<void> _deleteDirQuietly(Directory dir) async {
+    try {
+      if (await dir.exists()) await dir.delete(recursive: true);
+    } catch (_) {}
+  }
+
+  String _extOf(String path) {
+    final i = path.lastIndexOf('.');
+    return i < 0 ? 'mp4' : path.substring(i + 1).toLowerCase();
+  }
+
+  String _videoMime(String ext) => switch (ext) {
+        'webm' => 'video/webm',
+        'mkv' => 'video/x-matroska',
+        _ => 'video/mp4',
+      };
 }

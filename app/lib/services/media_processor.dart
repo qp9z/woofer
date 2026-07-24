@@ -24,13 +24,12 @@ class MediaProcessor {
   final FfmpegRun _run;
   final Directory _dir;
 
-  /// Mux [video] (video-only) and [audio] into a single MP4, returning its path.
-  ///
-  // ponytail: stream-copy (`-c copy`), no re-encode — correct and fast for the
-  // common H.264 + AAC(m4a) case our extractors pick. A VP9/Opus pair won't fit
-  // an MP4 by copy; add a re-encode fallback if you start offering those formats.
+  /// Mux [video] (video-only) and [audio] into one file, returning its path. The
+  /// container is chosen to fit the streams by *stream-copy* (no re-encode): MP4
+  /// for the H.264+AAC case, WebM for YouTube's 4K VP9/AV1+Opus, MKV for anything
+  /// else. A 4K on-device re-encode would be minutes of heat — copy is instant.
   Future<String> mergeVideoAudio(String video, String audio, {bool deleteInputs = true}) async {
-    final out = _outPath('woofer_merged', 'mp4');
+    final out = _outPath('woofer_merged', mergeContainer(video, audio));
     await _process(
       args: mergeArgs(video, audio, out),
       output: out,
@@ -38,6 +37,23 @@ class MediaProcessor {
       deleteInputs: deleteInputs,
     );
     return out;
+  }
+
+  /// A container that accepts both input streams by copy, picked from their
+  /// extensions (which reflect codecs): mp4 only when both are MP4-family, webm
+  /// for the VP9/AV1 + Opus pair, else mkv (holds any combination).
+  static String mergeContainer(String video, String audio) {
+    final v = _ext(video), a = _ext(audio);
+    const mp4V = {'mp4', 'm4v', 'mov'};
+    const mp4A = {'m4a', 'mp4', 'aac'};
+    if (mp4V.contains(v) && mp4A.contains(a)) return 'mp4';
+    if (v == 'webm' && {'webm', 'opus', 'ogg'}.contains(a)) return 'webm';
+    return 'mkv';
+  }
+
+  static String _ext(String path) {
+    final i = path.lastIndexOf('.');
+    return i < 0 ? '' : path.substring(i + 1).toLowerCase();
   }
 
   /// Transcode [input]'s audio to a [bitrateKbps]kbps MP3 (dropping any video
@@ -98,7 +114,9 @@ class MediaProcessor {
     } catch (_) {}
   }
 
-  /// Args to mux one video track and one audio track into MP4 by stream copy.
+  /// Args to mux one video track and one audio track into [out] by stream copy.
+  /// `+faststart` is MP4-only (moov atom up front → plays before fully written);
+  /// it's invalid for webm/mkv, so it's applied only when the output is MP4.
   static List<String> mergeArgs(String video, String audio, String out) => [
         '-y', // overwrite output if present
         '-i', video,
@@ -106,7 +124,7 @@ class MediaProcessor {
         '-map', '0:v:0',
         '-map', '1:a:0',
         '-c', 'copy',
-        '-movflags', '+faststart', // moov atom up front → plays before fully written
+        if (_ext(out) == 'mp4') ...['-movflags', '+faststart'],
         out,
       ];
 

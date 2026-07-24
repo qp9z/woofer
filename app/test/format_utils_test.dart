@@ -25,4 +25,12 @@ void main() {
   test('formatDate is day-month-year', () {
     expect(formatDate(DateTime(2026, 7, 22)), '22 Jul 2026');
   });
+
+  test('formatIsVideo sniffs a resolution or mp4 as video', () {
+    expect(formatIsVideo('1080p'), isTrue);
+    expect(formatIsVideo('720p · MP4'), isTrue);
+    expect(formatIsVideo('MP3 · 192 kbps'), isFalse);
+    expect(formatIsVideo('audio only'), isFalse);
+    expect(formatIsVideo(null), isFalse);
+  });
 }

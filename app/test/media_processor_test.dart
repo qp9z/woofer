@@ -35,6 +35,17 @@ void main() {
       expect(args.last, '/out.mp4');
     });
 
+    test('mergeContainer fits the streams by copy: mp4 / webm / mkv', () {
+      expect(MediaProcessor.mergeContainer('/v.mp4', '/a.m4a'), 'mp4');
+      expect(MediaProcessor.mergeContainer('/v.webm', '/a.webm'), 'webm'); // VP9/AV1 + Opus (4K)
+      expect(MediaProcessor.mergeContainer('/v.mp4', '/a.webm'), 'mkv'); // mixed → universal
+    });
+
+    test('mergeArgs adds +faststart only for mp4 output', () {
+      expect(MediaProcessor.mergeArgs('/v.mp4', '/a.m4a', '/o.mp4'), contains('-movflags'));
+      expect(MediaProcessor.mergeArgs('/v.webm', '/a.webm', '/o.webm'), isNot(contains('-movflags')));
+    });
+
     test('mp3Args sets the bitrate, forces libmp3lame, and drops video', () {
       final args = MediaProcessor.mp3Args('/in.m4a', '/out.mp3', 192);
       expect(args, contains('-vn'));

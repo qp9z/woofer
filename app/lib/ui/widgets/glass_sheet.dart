@@ -24,6 +24,66 @@ abstract final class GlassSheet {
       builder: (ctx) => _GlassSheetPanel(title: title, child: builder(ctx)),
     );
   }
+
+  /// Full-control WOOFER sheet: dark frosted glass, top-rounded, grabber, slide
+  /// up over a blurred scrim. The [builder] fills the whole body (no title row);
+  /// use for the format and About sheets. Content scrolls if it overflows.
+  static Future<T?> present<T>(
+    BuildContext context, {
+    required WidgetBuilder builder,
+    bool isDismissible = true,
+  }) {
+    return showCupertinoModalPopup<T>(
+      context: context,
+      barrierDismissible: isDismissible,
+      barrierColor: CupertinoColors.black.withValues(alpha: 0.55),
+      builder: (ctx) => _DesignSheetPanel(child: builder(ctx)),
+    );
+  }
+}
+
+/// A grabber pill for sheet headers.
+class SheetGrabber extends StatelessWidget {
+  const SheetGrabber({super.key});
+
+  @override
+  Widget build(BuildContext context) => Container(
+        width: 38,
+        height: 5,
+        decoration: BoxDecoration(
+          color: CupertinoColors.white.withValues(alpha: 0.25),
+          borderRadius: BorderRadius.circular(3),
+        ),
+      );
+}
+
+class _DesignSheetPanel extends StatelessWidget {
+  final Widget child;
+  const _DesignSheetPanel({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.viewInsetsOf(context).bottom; // keyboard
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: EdgeInsets.only(bottom: bottomInset),
+        child: GlassContainer(
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(AppRadius.sheet)),
+          padding: EdgeInsets.zero,
+          margin: EdgeInsets.zero,
+          tint: const Color(0xFF1E2036).withValues(alpha: 0.72), // rgba(30,32,54,.72)
+          child: SafeArea(
+            top: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(18, 12, 18, 24),
+              child: child,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }
 
 class _GlassSheetPanel extends StatelessWidget {
