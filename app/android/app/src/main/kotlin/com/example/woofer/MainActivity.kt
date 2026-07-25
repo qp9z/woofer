@@ -2,6 +2,7 @@ package com.example.woofer
 
 import android.content.ActivityNotFoundException
 import android.content.ContentValues
+import android.content.Context
 import android.content.Intent
 import android.media.MediaScannerConnection
 import android.net.ConnectivityManager
@@ -9,12 +10,15 @@ import android.net.Uri
 import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import com.chaquo.python.PyObject
 import com.chaquo.python.Python
 import com.chaquo.python.android.AndroidPlatform
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.embedding.engine.FlutterEngineCache
+import io.flutter.embedding.engine.dart.DartExecutor
 import io.flutter.plugin.common.MethodChannel
 import java.io.File
 import java.io.FileInputStream
@@ -30,6 +34,28 @@ class MainActivity : FlutterActivity() {
     // yt-dlp calls block; run them off the platform thread to avoid ANRs.
     private val ioExecutor = Executors.newSingleThreadExecutor()
     private var ytdlpChannel: MethodChannel? = null
+
+    /**
+     * Use one process-scoped engine instead of the per-Activity default, so a
+     * download (which runs in Dart) isn't killed when the Activity is.
+     *
+     * Deliberately created here on first attach rather than pre-warmed in an
+     * Application: that keeps the cold-start ordering identical to before, so
+     * `getInitialMedia()` still sees the share intent that launched the app.
+     * Caching only changes what happens on the way *out* — the engine outlives
+     * the Activity, and DownloadService keeps the process alive around it.
+     */
+    override fun provideFlutterEngine(context: Context): FlutterEngine {
+        val cache = FlutterEngineCache.getInstance()
+        cache.get(ENGINE_ID)?.let { return it }
+        val engine = FlutterEngine(applicationContext)
+        engine.dartExecutor.executeDartEntrypoint(DartExecutor.DartEntrypoint.createDefault())
+        cache.put(ENGINE_ID, engine)
+        return engine
+    }
+
+    /** The cache owns the engine now, not this Activity. */
+    override fun shouldDestroyEngineWithHost(): Boolean = false
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -59,6 +85,13 @@ class MainActivity : FlutterActivity() {
                                 call.argument<String>("mimeType") ?: "*/*",
                             )
                         )
+                        "showDownloadNotification" -> result.success(
+                            showDownloadNotification(
+                                call.argument<String>("title") ?: "Downloading",
+                                call.argument<Int>("percent") ?: -1,
+                            )
+                        )
+                        "hideDownloadNotification" -> result.success(hideDownloadNotification())
                         else -> result.notImplemented()
                     }
                 } catch (e: Exception) {
@@ -75,7 +108,8 @@ class MainActivity : FlutterActivity() {
      */
     private fun configureYtdlpChannel(flutterEngine: FlutterEngine) {
         if (!Python.isStarted()) {
-            Python.start(AndroidPlatform(this))
+            // applicationContext, not the Activity: Python outlives it now.
+            Python.start(AndroidPlatform(applicationContext))
         }
         val channel = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, ytdlpChannelName)
         ytdlpChannel = channel
@@ -93,7 +127,7 @@ class MainActivity : FlutterActivity() {
                 "download" -> {
                     val url = call.argument<String>("url")!!
                     val formatId = call.argument<String>("format_id")!!
-                    val dir = call.argument<String>("dir") ?: cacheDir.absolutePath
+                    val dir = call.argument<String>("dir") ?: applicationContext.cacheDir.absolutePath
                     runOnIo(result) {
                         bridge().callAttr("download", url, formatId, dir, ProgressBridge()).toString()
                     }
@@ -109,7 +143,7 @@ class MainActivity : FlutterActivity() {
      *  current active network, so Python DNS resolution works. Re-run per call so
      *  a network switch (Wi-Fi ↔ cellular) is picked up. */
     private fun bindProcessToActiveNetwork() {
-        val cm = getSystemService(ConnectivityManager::class.java) ?: return
+        val cm = applicationContext.getSystemService(ConnectivityManager::class.java) ?: return
         cm.activeNetwork?.let { cm.bindProcessToNetwork(it) }
     }
 
@@ -138,8 +172,25 @@ class MainActivity : FlutterActivity() {
     }
 
     override fun onDestroy() {
-        ioExecutor.shutdown()
+        // Deliberately NOT shutting down ioExecutor: a download in flight is running
+        // on it, and the whole point of the cached engine + DownloadService is that
+        // it keeps going after this Activity is gone. The process dies with the
+        // service, which takes the executor with it.
         super.onDestroy()
+    }
+
+    /** Start — or refresh — the foreground service that keeps a download alive. */
+    private fun showDownloadNotification(title: String, percent: Int): Boolean {
+        val intent = Intent(applicationContext, DownloadService::class.java)
+            .putExtra(DownloadService.EXTRA_TITLE, title)
+            .putExtra(DownloadService.EXTRA_PERCENT, percent)
+        ContextCompat.startForegroundService(applicationContext, intent)
+        return true
+    }
+
+    private fun hideDownloadNotification(): Boolean {
+        applicationContext.stopService(Intent(applicationContext, DownloadService::class.java))
+        return true
     }
 
     /** Copy [sourcePath] into public Downloads/[subDir], returning its uri + path. */
@@ -152,7 +203,7 @@ class MainActivity : FlutterActivity() {
         val src = File(sourcePath)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             // API 29+ : scoped storage via MediaStore, no runtime permission needed.
-            val resolver = contentResolver
+            val resolver = applicationContext.contentResolver
             val values = ContentValues().apply {
                 put(MediaStore.Downloads.DISPLAY_NAME, fileName)
                 put(MediaStore.Downloads.MIME_TYPE, mimeType)
@@ -178,7 +229,9 @@ class MainActivity : FlutterActivity() {
             val dir = File(downloads, subDir).apply { mkdirs() }
             val dest = File(dir, fileName)
             FileInputStream(src).use { input -> FileOutputStream(dest).use { input.copyTo(it) } }
-            MediaScannerConnection.scanFile(this, arrayOf(dest.absolutePath), arrayOf(mimeType), null)
+            MediaScannerConnection.scanFile(
+                applicationContext, arrayOf(dest.absolutePath), arrayOf(mimeType), null
+            )
             return mapOf("uri" to Uri.fromFile(dest).toString(), "path" to dest.absolutePath)
         }
     }
@@ -225,12 +278,16 @@ class MainActivity : FlutterActivity() {
     /** The concrete MIME type behind [uri], or null if it can't be determined
      *  (unknown extension, or a MediaStore row whose file no longer exists). */
     private fun resolveType(uri: Uri): String? =
-        try { contentResolver.getType(uri) } catch (e: Exception) { null }
+        try { applicationContext.contentResolver.getType(uri) } catch (e: Exception) { null }
 
     /** content:// stays as-is; a file path/uri is wrapped by FileProvider for sharing. */
     private fun shareableUri(pathOrUri: String): Uri {
         if (pathOrUri.startsWith("content://")) return Uri.parse(pathOrUri)
         val path = if (pathOrUri.startsWith("file://")) Uri.parse(pathOrUri).path ?: pathOrUri else pathOrUri
-        return FileProvider.getUriForFile(this, "$packageName.fileprovider", File(path))
+        return FileProvider.getUriForFile(applicationContext, "$packageName.fileprovider", File(path))
+    }
+
+    companion object {
+        private const val ENGINE_ID = "woofer_engine"
     }
 }

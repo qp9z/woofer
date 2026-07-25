@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/media_format.dart';
 import '../models/video_info.dart';
 import '../services/api_exception.dart';
+import '../services/foreground_service.dart';
 import '../services/history_service.dart';
 import '../services/media_processor.dart';
 import '../services/storage_service.dart';
@@ -16,6 +17,7 @@ import 'download_state.dart';
 final ytdlpExtractorProvider = Provider<YtdlpExtractor>((ref) => YtdlpExtractor());
 final mediaProcessorProvider = Provider<MediaProcessor>((ref) => MediaProcessor());
 final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
+final foregroundServiceProvider = Provider<ForegroundService>((ref) => ForegroundService());
 final historyServiceProvider = FutureProvider<HistoryService>((ref) => HistoryService.open());
 
 /// Past downloads, newest first. Invalidated whenever a download is recorded.
@@ -41,6 +43,7 @@ class DownloadController extends Notifier<DownloadState> {
   YtdlpExtractor get _ytdlp => ref.read(ytdlpExtractorProvider);
   MediaProcessor get _processor => ref.read(mediaProcessorProvider);
   StorageService get _storage => ref.read(storageServiceProvider);
+  ForegroundService get _foreground => ref.read(foregroundServiceProvider);
 
   /// Resolve [url] to formats via yt-dlp. Moves to [FormatsReady] or [Failed].
   Future<void> extract(String url) async {
@@ -112,6 +115,13 @@ class DownloadController extends Notifier<DownloadState> {
     // first await still wins the final state.
     state = Downloading(format: fmt, received: 0, total: fmt.filesize ?? -1);
 
+    // Pin the process for the whole pipeline. Everything below runs in this
+    // isolate, so without this Android is free to reclaim us the moment the user
+    // leaves the app — mid-transfer, mid-merge, or mid-save.
+    final label = info.title ?? 'Downloading';
+    await _foreground.show(label);
+    var shownPercent = -1;
+
     // A fresh, empty scratch dir per download. yt-dlp names files by title only,
     // so sharing systemTemp let a leftover .part from a prior/cancelled attempt
     // get *resumed* — a byte-range past EOF returns HTTP 416 — or a stale file of
@@ -120,7 +130,15 @@ class DownloadController extends Notifier<DownloadState> {
     try {
       // 1. Download the selected stream.
       final primary = await _downloadFormat(fmt, tmpDir.path, onProgress: (received, total) {
-        if (!_cancelled) state = Downloading(format: fmt, received: received, total: total);
+        if (_cancelled) return;
+        state = Downloading(format: fmt, received: received, total: total);
+        // Only touch the notification when the whole percent changes — progress
+        // hooks fire far too often to cross the platform channel every time.
+        final percent = total > 0 ? (received * 100) ~/ total : -1;
+        if (percent != shownPercent) {
+          shownPercent = percent;
+          _foreground.show(label, percent: percent);
+        }
       });
       temps.add(primary);
       if (_cancelled) return;
@@ -138,6 +156,7 @@ class DownloadController extends Notifier<DownloadState> {
         temps.add(audioPath);
         if (_cancelled) return;
         state = Processing(fmt, 'Merging video and audio');
+        await _foreground.show(label); // indeterminate — a 4K merge isn't instant
         finalPath = await _processor.mergeVideoAudio(primary, audioPath);
         temps.add(finalPath);
         // The processor picks the container that fits the streams (mp4/webm/mkv);
@@ -146,6 +165,7 @@ class DownloadController extends Notifier<DownloadState> {
         mime = _videoMime(ext);
       } else if (!fmt.hasVideo) {
         state = Processing(fmt, 'Converting to MP3');
+        await _foreground.show(label);
         finalPath = await _processor.toMp3(primary, 192);
         temps.add(finalPath);
         ext = 'mp3';
@@ -187,6 +207,8 @@ class DownloadController extends Notifier<DownloadState> {
         await _deleteQuietly(p);
       }
       await _deleteDirQuietly(tmpDir); // nuke any yt-dlp leftovers (.part, fragments)
+      // Release the process last: cleanup is part of the download too.
+      await _foreground.hide();
     }
   }
 
