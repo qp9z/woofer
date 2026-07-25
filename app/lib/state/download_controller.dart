@@ -169,10 +169,17 @@ class DownloadController extends Notifier<DownloadState> {
         return;
       }
 
-      // 4. Record history.
-      final path = saved.path ?? saved.uri ?? finalPath;
-      await _recordHistory(info, url, path, fmt);
-      state = Done(path: path, uri: saved.uri);
+      // 4. Record history. Store the *uri*, not `saved.path`: on API 29+ the path is
+      // MediaStore's display path ("Download/woofer/x.mp4"), which nothing can
+      // resolve — and the Library tab hands this string straight back to
+      // openFile/shareFile, so a display path there means tapping a row does nothing.
+      final out = File(finalPath);
+      // Real bytes on disk; fmt.filesize is yt-dlp's per-stream estimate, which is
+      // wrong for a merge (video only) and for an MP3 transcode.
+      final bytes = await out.exists() ? await out.length() : fmt.filesize;
+      final stored = saved.uri ?? saved.path ?? finalPath;
+      await _recordHistory(info, url, stored, fmt, bytes);
+      state = Done(path: saved.path ?? stored, uri: saved.uri);
     } on ApiException catch (e) {
       if (!_cancelled) state = Failed(e.code, e.message);
     } finally {
@@ -199,7 +206,8 @@ class DownloadController extends Notifier<DownloadState> {
     return audios.first;
   }
 
-  Future<void> _recordHistory(VideoInfo info, String url, String path, MediaFormat format) async {
+  Future<void> _recordHistory(
+      VideoInfo info, String url, String path, MediaFormat format, int? size) async {
     try {
       final history = await ref.read(historyServiceProvider.future);
       await history.add(HistoryEntry(
@@ -208,7 +216,7 @@ class DownloadController extends Notifier<DownloadState> {
         sourceUrl: url,
         filePath: path,
         format: format.resolution ?? format.note ?? format.formatId,
-        size: format.filesize,
+        size: size,
       ));
       ref.invalidate(historyListProvider); // the Library tab picks it up
     } catch (_) {

@@ -18,11 +18,18 @@ String formatSubtitle(MediaFormat f) {
 
 /// Whether a completed download's stored [format] string reads as video.
 /// Best-effort: history rows don't record kind, so infer from the label.
-// ponytail: string sniff — a resolution like "1080p" or "mp4" ⇒ video, else
-// audio. Add a kind column if this ever needs to be exact.
+///
+/// The controller stores `resolution ?? note ?? formatId`, and yt-dlp's
+/// `resolution` is `WxH` ("1920x1080") — a bare "1080p" only shows up when the
+/// site gave a height and no resolution. It is null for audio-only formats, so
+/// audio rows fall through to a note ("medium", "128k") and match nothing here.
+// ponytail: string sniff — a resolution ⇒ video, else audio. Add a kind column
+// if this ever needs to be exact.
 bool formatIsVideo(String? format) {
   if (format == null) return false;
-  return RegExp(r'\d{3,4}p|\bmp4\b|\bvideo\b|\bhd\b', caseSensitive: false).hasMatch(format);
+  return RegExp(r'\d{2,4}\s*[x×]\s*\d{2,4}|\d{3,4}p\b|\bmp4\b|\bvideo\b|\bhd\b',
+          caseSensitive: false)
+      .hasMatch(format);
 }
 
 /// "1.4 GB", "720 KB", "—" when unknown.

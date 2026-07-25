@@ -62,7 +62,11 @@ class _FakeProcessor extends MediaProcessor {
 }
 
 class _FakeStorage extends StorageService {
-  _FakeStorage({this.result = const StorageResult(StorageStatus.success, path: '/Download/woofer/Clip.mp4')});
+  // Mirrors the real API 29+ result: `path` is MediaStore's *display* path, only
+  // `uri` can actually be opened.
+  _FakeStorage(
+      {this.result = const StorageResult(StorageStatus.success,
+          path: 'Download/woofer/Clip.mp4', uri: 'content://media/external/downloads/42')});
   final StorageResult result;
   File? saved;
 
@@ -154,8 +158,22 @@ void main() {
       expect(seen.whereType<Processing>(), isEmpty); // muxed needs no ffmpeg
       expect(proc.ops, isEmpty);
       expect(ytdlp.downloaded, ['18']);
+      // The Library tab feeds filePath straight back to openFile/shareFile, so it
+      // has to be the openable uri — MediaStore's display path resolves to nothing.
       final rows = await history.getAll();
-      expect(rows.single.filePath, '/Download/woofer/Clip.mp4');
+      expect(rows.single.filePath, 'content://media/external/downloads/42');
+    });
+
+    test('falls back to the saved path when there is no uri (legacy API <=28)', () async {
+      final c = makeContainer(
+          storage: _FakeStorage(
+              result: const StorageResult(StorageStatus.success,
+                  path: '/storage/emulated/0/Download/woofer/Clip.mp4')));
+
+      await run(c, _muxed);
+
+      final rows = await history.getAll();
+      expect(rows.single.filePath, '/storage/emulated/0/Download/woofer/Clip.mp4');
     });
 
     test('video-only format: downloads video + audio, merges, then done', () async {

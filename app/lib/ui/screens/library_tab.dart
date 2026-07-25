@@ -68,7 +68,7 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
                 for (final entry in filtered)
                   _LibraryRow(
                     entry: entry,
-                    onTap: () => ref.read(storageServiceProvider).openFile(entry.filePath),
+                    onTap: () => _open(context, ref, entry),
                     onActions: () => _openActions(context, ref, entry),
                   ),
               ],
@@ -76,6 +76,29 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
           },
         ),
       ],
+    );
+  }
+
+  /// Hand the saved uri to the system viewer, and say so when nothing can open
+  /// it — a row whose file the user deleted from Downloads lands here, and a
+  /// tap that does nothing at all reads as a broken app.
+  static Future<void> _open(BuildContext context, WidgetRef ref, HistoryEntry entry) => _guard(
+        context,
+        ref.read(storageServiceProvider).openFile(entry.filePath),
+        "Couldn't open this file. It may have been moved or deleted.",
+      );
+
+  static Future<void> _guard(BuildContext context, Future<bool> action, String failure) async {
+    if (await action) return;
+    if (!context.mounted) return;
+    await showCupertinoDialog<void>(
+      context: context,
+      builder: (c) => CupertinoAlertDialog(
+        title: Text(failure),
+        actions: [
+          CupertinoDialogAction(onPressed: () => Navigator.pop(c), child: const Text('OK')),
+        ],
+      ),
     );
   }
 
@@ -93,7 +116,7 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             icon: CupertinoIcons.folder_open,
             onPressed: () {
               Navigator.pop(sheetContext);
-              storage.openFile(entry.filePath);
+              _open(context, ref, entry);
             },
             child: const Text('Open'),
           ),
@@ -104,7 +127,7 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             icon: CupertinoIcons.share,
             onPressed: () {
               Navigator.pop(sheetContext);
-              storage.shareFile(entry.filePath);
+              _guard(context, storage.shareFile(entry.filePath), "Couldn't share this file.");
             },
             child: const Text('Share'),
           ),
@@ -194,7 +217,9 @@ class _LibraryRow extends StatelessWidget {
               onTap: onActions,
               child: const Padding(
                 padding: EdgeInsets.all(6),
-                child: Icon(CupertinoIcons.play_circle, size: 28, color: AppColors.n400),
+                // Not a play button: it opens the Open/Share/Remove sheet. A play
+                // glyph here promised playback and delivered a menu.
+                child: Icon(CupertinoIcons.ellipsis_circle, size: 28, color: AppColors.n400),
               ),
             ),
           ],

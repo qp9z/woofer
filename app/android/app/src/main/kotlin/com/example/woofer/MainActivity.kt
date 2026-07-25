@@ -184,8 +184,16 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun openFile(pathOrUri: String, mimeType: String): Boolean {
+        val uri = shareableUri(pathOrUri)
+        // Players declare video/* or audio/* filters, so ACTION_VIEW with the caller's
+        // "*/*" resolves to nothing. MediaStore (content://) and FileProvider (by
+        // extension) both know the real type. A null type on a content:// uri means
+        // the row is gone — the user deleted the file — so fail instead of launching
+        // a player onto a dead uri.
+        val type = resolveType(uri)
+        if (type == null && pathOrUri.startsWith("content://")) return false
         val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(shareableUri(pathOrUri), mimeType)
+            setDataAndType(uri, type ?: mimeType)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         return try {
@@ -197,9 +205,10 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun shareFile(pathOrUri: String, mimeType: String): Boolean {
+        val uri = shareableUri(pathOrUri)
         val intent = Intent(Intent.ACTION_SEND).apply {
-            type = mimeType
-            putExtra(Intent.EXTRA_STREAM, shareableUri(pathOrUri))
+            type = resolveType(uri) ?: mimeType
+            putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
         val chooser = Intent.createChooser(intent, "Share").apply {
@@ -212,6 +221,11 @@ class MainActivity : FlutterActivity() {
             false
         }
     }
+
+    /** The concrete MIME type behind [uri], or null if it can't be determined
+     *  (unknown extension, or a MediaStore row whose file no longer exists). */
+    private fun resolveType(uri: Uri): String? =
+        try { contentResolver.getType(uri) } catch (e: Exception) { null }
 
     /** content:// stays as-is; a file path/uri is wrapped by FileProvider for sharing. */
     private fun shareableUri(pathOrUri: String): Uri {
