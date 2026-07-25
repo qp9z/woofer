@@ -73,12 +73,15 @@ class MediaProcessor {
     int bitrateKbps = 192,
     bool deleteInputs = true,
     String? coverPath,
+    String? title,
+    String? artist,
   }) async {
     final out = _outPath('woofer', 'mp3');
     if (coverPath != null) {
       try {
         await _process(
-          args: mp3Args(input, out, bitrateKbps, coverPath),
+          args: mp3Args(input, out, bitrateKbps,
+              cover: coverPath, title: title, artist: artist),
           output: out,
           inputs: [input],
           deleteInputs: deleteInputs,
@@ -86,11 +89,12 @@ class MediaProcessor {
         return out;
       } on ApiException {
         // _process already deleted the partial output and kept the input, so the
-        // plain run below starts clean.
+        // plain run below starts clean. The text tags survive the retry — only
+        // the artwork is dropped.
       }
     }
     await _process(
-      args: mp3Args(input, out, bitrateKbps),
+      args: mp3Args(input, out, bitrateKbps, title: title, artist: artist),
       output: out,
       inputs: [input],
       deleteInputs: deleteInputs,
@@ -156,29 +160,54 @@ class MediaProcessor {
   ///
   /// With [cover], the image becomes an ID3 attached picture instead: it is
   /// re-encoded to MJPEG because an APIC frame must be JPEG or PNG and YouTube
-  /// commonly serves thumbnails as WebP. ID3v2.3 is the version players are
-  /// most consistent about reading artwork from.
-  static List<String> mp3Args(String input, String out, int kbps, [String? cover]) => [
-        '-y',
-        '-i', input,
-        if (cover != null) ...['-i', cover],
-        if (cover == null)
-          '-vn' // no video
-        else ...[
-          '-map', '0:a:0',
-          '-map', '1:v:0',
-        ],
-        '-c:a', 'libmp3lame',
-        '-b:a', '${kbps}k',
-        if (cover != null) ...[
-          '-c:v', 'mjpeg',
-          '-disposition:v', 'attached_pic',
-          '-metadata:s:v', 'title=Album cover',
-          '-metadata:s:v', 'comment=Cover (front)',
-          '-id3v2_version', '3',
-        ],
-        out,
-      ];
+  /// commonly serves thumbnails as WebP, and centre-cropped to a square because
+  /// a 16:9 thumbnail gets letterboxed by players that expect album art.
+  /// [title] and [artist] become the ID3 text frames, so the file reads as a
+  /// track rather than as its filename. ID3v2.3 is the version players are most
+  /// consistent about.
+  static List<String> mp3Args(
+    String input,
+    String out,
+    int kbps, {
+    String? cover,
+    String? title,
+    String? artist,
+  }) {
+    final name = _tag(title);
+    final by = _tag(artist);
+    return [
+      '-y',
+      '-i', input,
+      if (cover != null) ...['-i', cover],
+      if (cover == null)
+        '-vn' // no video
+      else ...[
+        '-map', '0:a:0',
+        '-map', '1:v:0',
+      ],
+      '-c:a', 'libmp3lame',
+      '-b:a', '${kbps}k',
+      if (name != null) ...['-metadata', 'title=$name'],
+      if (by != null) ...['-metadata', 'artist=$by'],
+      if (cover != null) ...[
+        '-c:v', 'mjpeg',
+        // Centre square crop. The quotes are ffmpeg's, not the shell's: a bare
+        // min(iw,ih) would have its comma read as a filter separator.
+        '-vf', "crop='min(iw,ih)':'min(iw,ih)'",
+        '-disposition:v', 'attached_pic',
+        '-metadata:s:v', 'title=Album cover',
+        '-metadata:s:v', 'comment=Cover (front)',
+      ],
+      if (cover != null || name != null || by != null) ...['-id3v2_version', '3'],
+      out,
+    ];
+  }
+
+  /// Trimmed, or null when there's nothing worth writing.
+  static String? _tag(String? value) {
+    final trimmed = value?.trim();
+    return (trimmed == null || trimmed.isEmpty) ? null : trimmed;
+  }
 }
 
 /// Default runner: execute via ffmpeg_kit and reduce the session to null (ok) or

@@ -21,7 +21,8 @@ const _muxed =
 const _videoOnly =
     MediaFormat(formatId: '137', ext: 'mp4', resolution: '1080p', filesize: 5000, hasAudio: false, hasVideo: true);
 const _audioOnly = MediaFormat(formatId: '140', ext: 'm4a', filesize: 500, hasAudio: true, hasVideo: false);
-const _info = VideoInfo(title: 'Clip', thumbnail: 't', formats: [_videoOnly, _muxed, _audioOnly]);
+const _info = VideoInfo(
+    title: 'Clip', thumbnail: 't', uploader: 'Chan', formats: [_videoOnly, _muxed, _audioOnly]);
 
 /// Fake yt-dlp extractor. Records calls; `download` pings progress and returns a
 /// per-format temp path without touching disk.
@@ -66,8 +67,13 @@ class _FakeProcessor extends MediaProcessor {
     int bitrateKbps = 192,
     bool deleteInputs = true,
     String? coverPath,
+    String? title,
+    String? artist,
   }) async {
-    ops.add('mp3:$input@$bitrateKbps${coverPath == null ? '' : ' +cover:$coverPath'}');
+    ops.add('mp3:$input@$bitrateKbps'
+        '${coverPath == null ? '' : ' +cover:$coverPath'}'
+        '${title == null ? '' : ' +title:$title'}'
+        '${artist == null ? '' : ' +artist:$artist'}');
     return '/tmp/out.mp3';
   }
 }
@@ -253,9 +259,12 @@ void main() {
 
       expect(c.read(downloadControllerProvider), isA<Done>());
       expect(proc.ops.single, contains('@192'));
-      // The artwork comes from the video's own thumbnail and reaches ffmpeg.
+      // The artwork comes from the video's own thumbnail and reaches ffmpeg,
+      // along with the tags that make it read as a track rather than a filename.
       expect(cover.requestedUrl, 't'); // _info.thumbnail
       expect(proc.ops.single, contains('+cover:/tmp/cover.jpg'));
+      expect(proc.ops.single, contains('+title:Clip'));
+      expect(proc.ops.single, contains('+artist:Chan'));
       expect(seen.whereType<Processing>().single.label, contains('MP3'));
     });
 

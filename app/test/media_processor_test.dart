@@ -55,7 +55,7 @@ void main() {
     });
 
     test('mp3Args attaches a cover as ID3 artwork instead of dropping video', () {
-      final args = MediaProcessor.mp3Args('/in.m4a', '/out.mp3', 192, '/cover.webp');
+      final args = MediaProcessor.mp3Args('/in.m4a', '/out.mp3', 192, cover: '/cover.webp');
       expect(args, isNot(contains('-vn'))); // the picture *is* the video stream
       expect(args, containsAllInOrder(['-i', '/in.m4a', '-i', '/cover.webp']));
       expect(args, containsAllInOrder(['-map', '0:a:0']));
@@ -65,6 +65,25 @@ void main() {
       expect(args, containsAllInOrder(['-disposition:v', 'attached_pic']));
       expect(args, containsAllInOrder(['-id3v2_version', '3']));
       expect(args.last, '/out.mp3');
+    });
+
+    test('mp3Args centre-crops the cover to a square', () {
+      final args = MediaProcessor.mp3Args('/in.m4a', '/out.mp3', 192, cover: '/c.jpg');
+      // Quoted so ffmpeg's filter parser doesn't read min()'s comma as a separator.
+      expect(args, containsAllInOrder(['-vf', "crop='min(iw,ih)':'min(iw,ih)'"]));
+    });
+
+    test('mp3Args writes title/artist tags, and omits them when blank', () {
+      final tagged = MediaProcessor.mp3Args('/in.m4a', '/o.mp3', 192,
+          title: 'Me at the zoo', artist: 'jawed');
+      expect(tagged, containsAllInOrder(['-metadata', 'title=Me at the zoo']));
+      expect(tagged, containsAllInOrder(['-metadata', 'artist=jawed']));
+      expect(tagged, containsAllInOrder(['-id3v2_version', '3']));
+
+      // Whitespace-only is nothing to write; a bare transcode stays as it was.
+      final bare = MediaProcessor.mp3Args('/in.m4a', '/o.mp3', 192, title: '  ');
+      expect(bare, isNot(contains('-metadata')));
+      expect(bare, isNot(contains('-id3v2_version')));
     });
   });
 
@@ -137,11 +156,13 @@ void main() {
         },
       );
 
-      final out = await proc.toMp3(input.path, coverPath: cover.path);
+      final out = await proc.toMp3(input.path, coverPath: cover.path, title: 'Song');
 
       expect(File(out).existsSync(), isTrue); // the music still arrives
       expect(calls, hasLength(2)); // tried with artwork, then without
       expect(calls.last, isNot(contains(cover.path)));
+      // Losing the artwork must not cost the track its name.
+      expect(calls.last, containsAllInOrder(['-metadata', 'title=Song']));
     });
   });
 

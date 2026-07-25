@@ -195,7 +195,12 @@ class DownloadController extends Notifier<DownloadState> {
         // thumbnail or the fetch fails; toMp3 then just skips the embed.
         final cover = await _cover.fetch(info.thumbnail, tmpDir.path);
         if (cover != null) temps.add(cover);
-        finalPath = await _processor.toMp3(primary, coverPath: cover);
+        finalPath = await _processor.toMp3(
+          primary,
+          coverPath: cover,
+          title: info.title,
+          artist: info.uploader,
+        );
         temps.add(finalPath);
         ext = 'mp3';
         mime = 'audio/mpeg';
