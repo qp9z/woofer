@@ -56,7 +56,13 @@ def download(url, format_id, out_dir, callback=None):
         opts = {
             **_COMMON,
             "format": format_id,
-            "outtmpl": os.path.join(out_dir, "%(title).200B.%(ext)s"),
+            # The format id has to be in the name. A merge downloads the video and
+            # the audio track into the same dir, and YouTube's VP9/AV1 tiers pair a
+            # .webm video with a .webm (Opus) audio — title+ext alone collides, and
+            # `overwrites` then clobbers the video with the audio. ffmpeg gets one
+            # audio-only file, `-map 0:v:0` matches nothing, exit 1. This is what
+            # broke every 4K (and most 1080p+) download.
+            "outtmpl": os.path.join(out_dir, "%(title).150B.f%(format_id)s.%(ext)s"),
             "restrictfilenames": True,
             "progress_hooks": [hook],
             # Never resume a leftover .part (a range past EOF => HTTP 416) and always
