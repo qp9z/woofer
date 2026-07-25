@@ -9,9 +9,22 @@ so VideoInfo.fromJson parses it unchanged.
 
 import json
 import os
+import threading
 
 import yt_dlp
-from yt_dlp.utils import GeoRestrictedError, UnsupportedError
+from yt_dlp.utils import DownloadCancelled, GeoRestrictedError, UnsupportedError
+
+# Set from another thread to abort an in-flight transfer. The progress hook is the
+# only place yt-dlp gives us to interrupt one, so cancelling means raising out of
+# it — without this a cancel just marks intent and the socket keeps reading until
+# the whole file has arrived (minutes, on a 4K download).
+_cancel = threading.Event()
+
+
+def request_cancel():
+    """Abort the running download. Safe to call when nothing is running."""
+    _cancel.set()
+    return True
 
 # YouTube's default web clients frequently hit "Sign in to confirm you're not a
 # bot" on mobile/residential IPs. These extra player clients need no cookies and
@@ -44,8 +57,11 @@ def download(url, format_id, out_dir, callback=None):
     invoked during the transfer (a Java object passed from Kotlin)."""
     try:
         state = {"path": None}
+        _cancel.clear()  # a stale flag from a previous attempt must not kill this one
 
         def hook(d):
+            if _cancel.is_set():
+                raise DownloadCancelled()
             status = d.get("status")
             if status == "downloading" and callback is not None:
                 total = d.get("total_bytes") or d.get("total_bytes_estimate") or 0
@@ -75,6 +91,10 @@ def download(url, format_id, out_dir, callback=None):
             info = ydl.extract_info(url, download=True)
             path = state["path"] or ydl.prepare_filename(info)
         return json.dumps({"ok": True, "path": path})
+    except DownloadCancelled:
+        # The user asked for this; the Dart side swallows it rather than showing
+        # a failure.
+        return json.dumps({"ok": False, "code": "CANCELLED", "message": "Download cancelled."})
     except Exception as e:  # noqa: BLE001
         return _error(e)
 

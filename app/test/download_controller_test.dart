@@ -7,6 +7,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
 import 'package:woofer/services/api_exception.dart';
+import 'package:woofer/services/cover_fetcher.dart';
 import 'package:woofer/services/foreground_service.dart';
 import 'package:woofer/services/history_service.dart';
 import 'package:woofer/services/media_processor.dart';
@@ -29,6 +30,10 @@ class _FakeYtdlp extends YtdlpExtractor {
   final ApiException? extractError;
   final List<String> downloaded = [];
   int extractCalls = 0;
+  int cancels = 0;
+
+  @override
+  Future<void> cancel() async => cancels++;
 
   @override
   Future<VideoInfo> extractInfo(String url) async {
@@ -56,9 +61,26 @@ class _FakeProcessor extends MediaProcessor {
   }
 
   @override
-  Future<String> toMp3(String input, [int bitrateKbps = 192, bool deleteInputs = true]) async {
-    ops.add('mp3:$input@$bitrateKbps');
+  Future<String> toMp3(
+    String input, {
+    int bitrateKbps = 192,
+    bool deleteInputs = true,
+    String? coverPath,
+  }) async {
+    ops.add('mp3:$input@$bitrateKbps${coverPath == null ? '' : ' +cover:$coverPath'}');
     return '/tmp/out.mp3';
+  }
+}
+
+class _FakeCover implements CoverFetcher {
+  _FakeCover({this.result = '/tmp/cover.jpg'});
+  final String? result;
+  String? requestedUrl;
+
+  @override
+  Future<String?> fetch(String? url, String dir) async {
+    requestedUrl = url;
+    return result;
   }
 }
 
@@ -124,12 +146,14 @@ void main() {
     _FakeProcessor? processor,
     _FakeStorage? storage,
     _FakeForeground? foreground,
+    _FakeCover? cover,
   }) {
     final c = ProviderContainer(overrides: [
       ytdlpExtractorProvider.overrideWithValue(ytdlp ?? _FakeYtdlp()),
       mediaProcessorProvider.overrideWithValue(processor ?? _FakeProcessor()),
       storageServiceProvider.overrideWithValue(storage ?? _FakeStorage()),
       foregroundServiceProvider.overrideWithValue(foreground ?? _FakeForeground()),
+      coverFetcherProvider.overrideWithValue(cover ?? _FakeCover()),
       historyServiceProvider.overrideWith((ref) async => history),
     ]);
     addTearDown(c.dispose);
@@ -219,16 +243,30 @@ void main() {
       expect(processing.label, contains('Merging'));
     });
 
-    test('audio-only format: transcodes to MP3 at 192k', () async {
+    test('audio-only format: transcodes to MP3 at 192k with the cover attached', () async {
       final ytdlp = _FakeYtdlp();
       final proc = _FakeProcessor();
-      final c = makeContainer(ytdlp: ytdlp, processor: proc);
+      final cover = _FakeCover();
+      final c = makeContainer(ytdlp: ytdlp, processor: proc, cover: cover);
 
       final seen = await run(c, _audioOnly);
 
       expect(c.read(downloadControllerProvider), isA<Done>());
       expect(proc.ops.single, contains('@192'));
+      // The artwork comes from the video's own thumbnail and reaches ffmpeg.
+      expect(cover.requestedUrl, 't'); // _info.thumbnail
+      expect(proc.ops.single, contains('+cover:/tmp/cover.jpg'));
       expect(seen.whereType<Processing>().single.label, contains('MP3'));
+    });
+
+    test('no thumbnail: still produces the MP3, just without artwork', () async {
+      final proc = _FakeProcessor();
+      final c = makeContainer(processor: proc, cover: _FakeCover(result: null));
+
+      await run(c, _audioOnly);
+
+      expect(c.read(downloadControllerProvider), isA<Done>());
+      expect(proc.ops.single, isNot(contains('+cover')));
     });
 
     test('notifications walk the phases and end on a tappable result', () async {
@@ -270,7 +308,8 @@ void main() {
 
     test('cancelling from the notification stops the download silently', () async {
       final fg = _FakeForeground();
-      final c = makeContainer(foreground: fg);
+      final ytdlp = _FakeYtdlp();
+      final c = makeContainer(foreground: fg, ytdlp: ytdlp);
       final ctrl = c.read(downloadControllerProvider.notifier);
 
       await ctrl.extract('https://youtu.be/abc');
@@ -281,6 +320,9 @@ void main() {
 
       expect(c.read(downloadControllerProvider), isA<FormatsReady>());
       expect(await history.getAll(), isEmpty);
+      // The transfer itself is aborted, not just flagged — otherwise a 4K cancel
+      // sits there downloading for another few minutes.
+      expect(ytdlp.cancels, 1);
       expect(fg.hides, 1); // notification cleared
       expect(fg.results, isEmpty); // ...but no "it failed" — the user did this
     });

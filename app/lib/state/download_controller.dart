@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/media_format.dart';
 import '../models/video_info.dart';
 import '../services/api_exception.dart';
+import '../services/cover_fetcher.dart';
 import '../services/foreground_service.dart';
 import '../services/history_service.dart';
 import '../services/media_processor.dart';
@@ -21,6 +23,7 @@ final ytdlpExtractorProvider = Provider<YtdlpExtractor>((ref) => YtdlpExtractor(
 final mediaProcessorProvider = Provider<MediaProcessor>((ref) => MediaProcessor());
 final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
 final foregroundServiceProvider = Provider<ForegroundService>((ref) => ForegroundService());
+final coverFetcherProvider = Provider<CoverFetcher>((ref) => const CoverFetcher());
 final historyServiceProvider = FutureProvider<HistoryService>((ref) => HistoryService.open());
 
 /// Past downloads, newest first. Invalidated whenever a download is recorded.
@@ -52,6 +55,7 @@ class DownloadController extends Notifier<DownloadState> {
   MediaProcessor get _processor => ref.read(mediaProcessorProvider);
   StorageService get _storage => ref.read(storageServiceProvider);
   ForegroundService get _foreground => ref.read(foregroundServiceProvider);
+  CoverFetcher get _cover => ref.read(coverFetcherProvider);
 
   /// Resolve [url] to formats via yt-dlp. Moves to [FormatsReady] or [Failed].
   Future<void> extract(String url) async {
@@ -91,15 +95,17 @@ class DownloadController extends Notifier<DownloadState> {
     state = const Idle();
   }
 
-  /// Abort the flow and return to format selection. A real mid-stream abort
-  /// isn't available for the on-device extractor, so this is a soft cancel:
-  /// the pipeline checks [_cancelled] at each step, stops before saving, and
-  /// discards its temp files.
-  // ponytail: soft cancel — an in-flight network read finishes into a temp that
-  // then gets deleted, rather than being killed instantly. Wire a real abort
-  // (a native yt-dlp cancel / FFmpegKit.cancel) if that matters.
+  /// Abort the flow and return to format selection.
+  ///
+  /// [_cancelled] stops the pipeline at the next step boundary, and the extractor
+  /// is told to abort the transfer itself — otherwise cancelling a 4K download
+  /// only registered once its last byte had arrived, minutes later, which made
+  /// the notification's Cancel button look broken.
+  // ponytail: an ffmpeg merge already under way still runs to completion (its
+  // output is then discarded). FFmpegKit.cancel() if that ever matters.
   void cancel() {
     _cancelled = true;
+    unawaited(_ytdlp.cancel());
     final info = _info;
     if (info != null) state = FormatsReady(info, selected: _selected);
   }
@@ -185,7 +191,11 @@ class DownloadController extends Notifier<DownloadState> {
       } else if (!fmt.hasVideo) {
         state = Processing(fmt, 'Converting to MP3');
         await _foreground.show(label, text: 'Converting to MP3');
-        finalPath = await _processor.toMp3(primary, 192);
+        // Artwork, so the file looks like music in a player. Null when there's no
+        // thumbnail or the fetch fails; toMp3 then just skips the embed.
+        final cover = await _cover.fetch(info.thumbnail, tmpDir.path);
+        if (cover != null) temps.add(cover);
+        finalPath = await _processor.toMp3(primary, coverPath: cover);
         temps.add(finalPath);
         ext = 'mp3';
         mime = 'audio/mpeg';

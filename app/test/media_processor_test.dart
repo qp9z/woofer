@@ -53,6 +53,19 @@ void main() {
       expect(args, containsAllInOrder(['-b:a', '192k']));
       expect(args.last, '/out.mp3');
     });
+
+    test('mp3Args attaches a cover as ID3 artwork instead of dropping video', () {
+      final args = MediaProcessor.mp3Args('/in.m4a', '/out.mp3', 192, '/cover.webp');
+      expect(args, isNot(contains('-vn'))); // the picture *is* the video stream
+      expect(args, containsAllInOrder(['-i', '/in.m4a', '-i', '/cover.webp']));
+      expect(args, containsAllInOrder(['-map', '0:a:0']));
+      expect(args, containsAllInOrder(['-map', '1:v:0']));
+      // APIC has to be JPEG/PNG — YouTube serves WebP, so it gets re-encoded.
+      expect(args, containsAllInOrder(['-c:v', 'mjpeg']));
+      expect(args, containsAllInOrder(['-disposition:v', 'attached_pic']));
+      expect(args, containsAllInOrder(['-id3v2_version', '3']));
+      expect(args.last, '/out.mp3');
+    });
   });
 
   group('mergeVideoAudio', () {
@@ -90,11 +103,45 @@ void main() {
       final input = touch('song.m4a');
       final proc = MediaProcessor(runner: r.run, workDir: dir);
 
-      final out = await proc.toMp3(input.path, 192);
+      final out = await proc.toMp3(input.path);
 
       expect(out, endsWith('.mp3'));
       expect(File(out).existsSync(), isTrue);
       expect(input.existsSync(), isFalse);
+    });
+
+    test('embeds the cover when one is given', () async {
+      final r = okRunner();
+      final input = touch('song.m4a');
+      final cover = touch('cover.webp');
+      final proc = MediaProcessor(runner: r.run, workDir: dir);
+
+      await proc.toMp3(input.path, coverPath: cover.path);
+
+      expect(r.calls.single, containsAllInOrder(['-i', input.path, '-i', cover.path]));
+    });
+
+    test('an unusable cover falls back to a plain transcode, not a failed download',
+        () async {
+      final calls = <List<String>>[];
+      final input = touch('song.m4a');
+      final cover = touch('cover.webp');
+      final proc = MediaProcessor(
+        workDir: dir,
+        // Fails only while a second input (the cover) is present.
+        runner: (args) async {
+          calls.add(args);
+          if (args.contains(cover.path)) return 'Invalid data found when processing input';
+          File(args.last).writeAsStringSync('output');
+          return null;
+        },
+      );
+
+      final out = await proc.toMp3(input.path, coverPath: cover.path);
+
+      expect(File(out).existsSync(), isTrue); // the music still arrives
+      expect(calls, hasLength(2)); // tried with artwork, then without
+      expect(calls.last, isNot(contains(cover.path)));
     });
   });
 

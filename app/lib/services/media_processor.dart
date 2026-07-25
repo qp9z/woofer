@@ -57,14 +57,38 @@ class MediaProcessor {
   }
 
   /// Transcode [input]'s audio to a [bitrateKbps]kbps MP3 (dropping any video
-  /// track), returning its path.
+  /// track), returning its path. With [coverPath] the image is embedded as ID3
+  /// cover art, so the file shows artwork in a music player.
+  ///
+  /// The cover is strictly a bonus: if embedding fails — an undecodable
+  /// thumbnail, say — this retries as a plain transcode rather than failing the
+  /// download over artwork.
   ///
   // MP3 needs libmp3lame — present in ffmpeg_kit_flutter_new (full-gpl). The
   // full-gpl binary also pulls in GPL codecs (x264 etc.) we don't invoke; the
   // LGPL `ffmpeg_kit_flutter_new_audio` variant also carries lame if licensing
   // matters. ponytail: only libmp3lame + built-in muxers are actually used here.
-  Future<String> toMp3(String input, [int bitrateKbps = 192, bool deleteInputs = true]) async {
+  Future<String> toMp3(
+    String input, {
+    int bitrateKbps = 192,
+    bool deleteInputs = true,
+    String? coverPath,
+  }) async {
     final out = _outPath('woofer', 'mp3');
+    if (coverPath != null) {
+      try {
+        await _process(
+          args: mp3Args(input, out, bitrateKbps, coverPath),
+          output: out,
+          inputs: [input],
+          deleteInputs: deleteInputs,
+        );
+        return out;
+      } on ApiException {
+        // _process already deleted the partial output and kept the input, so the
+        // plain run below starts clean.
+      }
+    }
     await _process(
       args: mp3Args(input, out, bitrateKbps),
       output: out,
@@ -129,12 +153,30 @@ class MediaProcessor {
       ];
 
   /// Args to transcode [input] to a [kbps]kbps MP3, discarding video.
-  static List<String> mp3Args(String input, String out, int kbps) => [
+  ///
+  /// With [cover], the image becomes an ID3 attached picture instead: it is
+  /// re-encoded to MJPEG because an APIC frame must be JPEG or PNG and YouTube
+  /// commonly serves thumbnails as WebP. ID3v2.3 is the version players are
+  /// most consistent about reading artwork from.
+  static List<String> mp3Args(String input, String out, int kbps, [String? cover]) => [
         '-y',
         '-i', input,
-        '-vn', // no video
+        if (cover != null) ...['-i', cover],
+        if (cover == null)
+          '-vn' // no video
+        else ...[
+          '-map', '0:a:0',
+          '-map', '1:v:0',
+        ],
         '-c:a', 'libmp3lame',
         '-b:a', '${kbps}k',
+        if (cover != null) ...[
+          '-c:v', 'mjpeg',
+          '-disposition:v', 'attached_pic',
+          '-metadata:s:v', 'title=Album cover',
+          '-metadata:s:v', 'comment=Cover (front)',
+          '-id3v2_version', '3',
+        ],
         out,
       ];
 }

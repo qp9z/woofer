@@ -54,6 +54,20 @@ class YtdlpExtractor {
     }
   }
 
+  /// Abort the transfer in flight. yt-dlp only lets us interrupt from its progress
+  /// hook, so this sets a flag the hook raises on — the pending [download] then
+  /// completes with a `CANCELLED` envelope instead of running to the last byte.
+  /// A no-op when nothing is downloading.
+  Future<void> cancel() async {
+    try {
+      await _channel.invokeMethod<bool>('cancel_download');
+    } on PlatformException {
+      // nothing to cancel
+    } on MissingPluginException {
+      // off-device (tests)
+    }
+  }
+
   /// Invoke [method], decode the JSON envelope, and translate every failure mode
   /// (error envelope, PlatformException, missing plugin) into an [ApiException].
   Future<Map<String, dynamic>> _invoke(String method, Map<String, dynamic> args) async {

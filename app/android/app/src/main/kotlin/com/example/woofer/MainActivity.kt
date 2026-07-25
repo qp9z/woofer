@@ -146,6 +146,20 @@ class MainActivity : FlutterActivity() {
                         bridge().callAttr("download", url, formatId, dir, ProgressBridge()).toString()
                     }
                 }
+                "cancel_download" -> {
+                    // Deliberately NOT on ioExecutor: that thread is blocked inside the
+                    // very download we're trying to stop, so anything queued behind it
+                    // would only run once the download had already finished.
+                    Thread {
+                        try {
+                            bridge().callAttr("request_cancel")
+                        } catch (e: Throwable) {
+                            // Nothing running, or Python not up yet — either way there is
+                            // nothing to cancel.
+                        }
+                    }.start()
+                    result.success(true)
+                }
                 else -> result.notImplemented()
             }
         }
