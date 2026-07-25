@@ -60,6 +60,11 @@
             android:foregroundServiceType="dataSync"
             android:stopWithTask="false" />
 
+        <!-- The progress notification's Cancel button. -->
+        <receiver
+            android:name=".DownloadActionReceiver"
+            android:exported="false" />
+
         <!-- Wraps saved file paths as content:// URIs for open/share intents. -->
         <provider
             android:name="androidx.core.content.FileProvider"

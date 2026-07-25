@@ -60,8 +60,11 @@ class MainActivity : FlutterActivity() {
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
         configureYtdlpChannel(flutterEngine)
-        MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
-            .setMethodCallHandler { call, result ->
+        val storage = MethodChannel(flutterEngine.dartExecutor.binaryMessenger, channelName)
+        // Kept statically so the notification's Cancel button can reach Dart with no
+        // Activity alive. It rides the cached engine's messenger, not this Activity.
+        storageChannel = storage
+        storage.setMethodCallHandler { call, result ->
                 try {
                     when (call.method) {
                         "getSdkInt" -> result.success(Build.VERSION.SDK_INT)
@@ -88,10 +91,21 @@ class MainActivity : FlutterActivity() {
                         "showDownloadNotification" -> result.success(
                             showDownloadNotification(
                                 call.argument<String>("title") ?: "Downloading",
+                                call.argument<String>("text") ?: "",
                                 call.argument<Int>("percent") ?: -1,
                             )
                         )
                         "hideDownloadNotification" -> result.success(hideDownloadNotification())
+                        "showDownloadResult" -> {
+                            DownloadService.showResult(
+                                applicationContext,
+                                call.argument<String>("title") ?: "Download",
+                                call.argument<String>("text") ?: "",
+                                call.argument<String>("uri"),
+                                call.argument<String>("mimeType"),
+                            )
+                            result.success(true)
+                        }
                         else -> result.notImplemented()
                     }
                 } catch (e: Exception) {
@@ -180,9 +194,10 @@ class MainActivity : FlutterActivity() {
     }
 
     /** Start — or refresh — the foreground service that keeps a download alive. */
-    private fun showDownloadNotification(title: String, percent: Int): Boolean {
+    private fun showDownloadNotification(title: String, text: String, percent: Int): Boolean {
         val intent = Intent(applicationContext, DownloadService::class.java)
             .putExtra(DownloadService.EXTRA_TITLE, title)
+            .putExtra(DownloadService.EXTRA_TEXT, text)
             .putExtra(DownloadService.EXTRA_PERCENT, percent)
         ContextCompat.startForegroundService(applicationContext, intent)
         return true
@@ -289,5 +304,8 @@ class MainActivity : FlutterActivity() {
 
     companion object {
         private const val ENGINE_ID = "woofer_engine"
+
+        /** See configureFlutterEngine — lets DownloadActionReceiver call into Dart. */
+        var storageChannel: MethodChannel? = null
     }
 }

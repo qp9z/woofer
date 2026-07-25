@@ -10,6 +10,9 @@ import '../services/history_service.dart';
 import '../services/media_processor.dart';
 import '../services/storage_service.dart';
 import '../services/ytdlp_extractor.dart';
+// Pure display helpers (no widgets) — reused so the notification is worded
+// exactly like the screens.
+import '../ui/format_utils.dart';
 import 'download_state.dart';
 
 /// Injectable services — override these in tests. Everything runs on-device;
@@ -38,7 +41,12 @@ class DownloadController extends Notifier<DownloadState> {
   bool _cancelled = false;
 
   @override
-  DownloadState build() => const Idle();
+  DownloadState build() {
+    // The notification's Cancel button lands here — it's the only way to stop a
+    // download once the app has been closed.
+    ref.read(foregroundServiceProvider).onCancelRequested(cancel);
+    return const Idle();
+  }
 
   YtdlpExtractor get _ytdlp => ref.read(ytdlpExtractorProvider);
   MediaProcessor get _processor => ref.read(mediaProcessorProvider);
@@ -119,8 +127,13 @@ class DownloadController extends Notifier<DownloadState> {
     // isolate, so without this Android is free to reclaim us the moment the user
     // leaves the app — mid-transfer, mid-merge, or mid-save.
     final label = info.title ?? 'Downloading';
-    await _foreground.show(label);
+    await _foreground.show(label, text: 'Starting…');
     var shownPercent = -1;
+
+    // Captured where the outcome actually happens, never re-read from `state` in
+    // the finally: HomeShell listens for Done and calls reset(), which lands
+    // before the finally does, so by then the state is Idle again.
+    ({String title, String text, String? uri, String? mime})? outcome;
 
     // A fresh, empty scratch dir per download. yt-dlp names files by title only,
     // so sharing systemTemp let a leftover .part from a prior/cancelled attempt
@@ -137,7 +150,12 @@ class DownloadController extends Notifier<DownloadState> {
         final percent = total > 0 ? (received * 100) ~/ total : -1;
         if (percent != shownPercent) {
           shownPercent = percent;
-          _foreground.show(label, percent: percent);
+          final of = total > 0 ? ' of ${formatBytes(total)}' : '';
+          _foreground.show(
+            label,
+            text: 'Downloading · ${formatBytes(received)}$of',
+            percent: percent,
+          );
         }
       });
       temps.add(primary);
@@ -156,7 +174,8 @@ class DownloadController extends Notifier<DownloadState> {
         temps.add(audioPath);
         if (_cancelled) return;
         state = Processing(fmt, 'Merging video and audio');
-        await _foreground.show(label); // indeterminate — a 4K merge isn't instant
+        // Indeterminate — a 4K merge isn't instant and ffmpeg gives no percentage.
+        await _foreground.show(label, text: 'Merging video and audio');
         finalPath = await _processor.mergeVideoAudio(primary, audioPath);
         temps.add(finalPath);
         // The processor picks the container that fits the streams (mp4/webm/mkv);
@@ -165,7 +184,7 @@ class DownloadController extends Notifier<DownloadState> {
         mime = _videoMime(ext);
       } else if (!fmt.hasVideo) {
         state = Processing(fmt, 'Converting to MP3');
-        await _foreground.show(label);
+        await _foreground.show(label, text: 'Converting to MP3');
         finalPath = await _processor.toMp3(primary, 192);
         temps.add(finalPath);
         ext = 'mp3';
@@ -177,7 +196,9 @@ class DownloadController extends Notifier<DownloadState> {
       }
       if (_cancelled) return;
 
-      // 3. Save to public Downloads.
+      // 3. Save to public Downloads. Its own phase: copying 1.3 GB into MediaStore
+      // is slow enough that a stalled "Merging" would read as a hang.
+      await _foreground.show(label, text: 'Saving to Downloads');
       final saved = await _storage.saveToDownloads(
         File(finalPath),
         fileName: _fileName(info.title, ext),
@@ -185,7 +206,9 @@ class DownloadController extends Notifier<DownloadState> {
       );
       if (_cancelled) return;
       if (!saved.isSuccess) {
-        state = Failed(ApiErrorCode.unknown, saved.message ?? 'Could not save the file.');
+        final message = saved.message ?? 'Could not save the file.';
+        state = Failed(ApiErrorCode.unknown, message);
+        outcome = (title: describeError(ApiErrorCode.unknown), text: message, uri: null, mime: null);
         return;
       }
 
@@ -199,16 +222,36 @@ class DownloadController extends Notifier<DownloadState> {
       final bytes = await out.exists() ? await out.length() : fmt.filesize;
       final stored = saved.uri ?? saved.path ?? finalPath;
       await _recordHistory(info, url, stored, fmt, bytes);
+      outcome = (
+        title: label,
+        text: 'Saved to Downloads · tap to open',
+        uri: saved.uri,
+        mime: mime,
+      );
       state = Done(path: saved.path ?? stored, uri: saved.uri);
     } on ApiException catch (e) {
-      if (!_cancelled) state = Failed(e.code, e.message);
+      if (!_cancelled) {
+        state = Failed(e.code, e.message);
+        outcome = (title: describeError(e.code), text: e.message, uri: null, mime: null);
+      }
     } finally {
       for (final p in temps) {
         await _deleteQuietly(p);
       }
       await _deleteDirQuietly(tmpDir); // nuke any yt-dlp leftovers (.part, fragments)
-      // Release the process last: cleanup is part of the download too.
+      // Release the process last: cleanup is part of the download too. The result
+      // has to be posted *after*, because stopping the service takes its own
+      // notification down with it.
       await _foreground.hide();
+      // Nothing to say after a cancel — the user did that themselves.
+      if (outcome != null) {
+        await _foreground.showResult(
+          outcome.title,
+          outcome.text,
+          uri: outcome.uri,
+          mimeType: outcome.mime,
+        );
+      }
     }
   }
 

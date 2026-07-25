@@ -7,6 +7,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
 import 'package:woofer/services/api_exception.dart';
+import 'package:woofer/services/foreground_service.dart';
 import 'package:woofer/services/history_service.dart';
 import 'package:woofer/services/media_processor.dart';
 import 'package:woofer/services/storage_service.dart';
@@ -77,6 +78,30 @@ class _FakeStorage extends StorageService {
   }
 }
 
+/// Records what the download would put on screen outside the app.
+class _FakeForeground extends ForegroundService {
+  final List<String> shown = []; // progress texts, in order
+  final List<String> results = []; // "title|text|uri"
+  int hides = 0;
+  void Function()? cancelHandler;
+
+  @override
+  Future<void> show(String title, {required String text, int percent = -1}) async {
+    shown.add(percent >= 0 ? '$text @$percent%' : text);
+  }
+
+  @override
+  Future<void> hide() async => hides++;
+
+  @override
+  Future<void> showResult(String title, String text, {String? uri, String? mimeType}) async {
+    results.add('$title|$text|$uri');
+  }
+
+  @override
+  void onCancelRequested(void Function() onCancel) => cancelHandler = onCancel;
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -98,11 +123,13 @@ void main() {
     _FakeYtdlp? ytdlp,
     _FakeProcessor? processor,
     _FakeStorage? storage,
+    _FakeForeground? foreground,
   }) {
     final c = ProviderContainer(overrides: [
       ytdlpExtractorProvider.overrideWithValue(ytdlp ?? _FakeYtdlp()),
       mediaProcessorProvider.overrideWithValue(processor ?? _FakeProcessor()),
       storageServiceProvider.overrideWithValue(storage ?? _FakeStorage()),
+      foregroundServiceProvider.overrideWithValue(foreground ?? _FakeForeground()),
       historyServiceProvider.overrideWith((ref) async => history),
     ]);
     addTearDown(c.dispose);
@@ -202,6 +229,60 @@ void main() {
       expect(c.read(downloadControllerProvider), isA<Done>());
       expect(proc.ops.single, contains('@192'));
       expect(seen.whereType<Processing>().single.label, contains('MP3'));
+    });
+
+    test('notifications walk the phases and end on a tappable result', () async {
+      final fg = _FakeForeground();
+      final c = makeContainer(foreground: fg, ytdlp: _FakeYtdlp());
+      // HomeShell resets the controller the moment it sees Done, and that lands
+      // before the pipeline's finally does. The outcome has to survive it.
+      c.listen(downloadControllerProvider, (_, next) {
+        if (next is Done) c.read(downloadControllerProvider.notifier).reset();
+      });
+
+      await run(c, _videoOnly); // video-only => downloads, merges, saves
+
+      expect(fg.shown.first, 'Starting…');
+      // Progress carries real byte counts, not a bare percentage.
+      expect(fg.shown, contains('Downloading · 512 B of 1.0 KB @50%'));
+      expect(fg.shown, contains('Merging video and audio'));
+      expect(fg.shown, contains('Saving to Downloads'));
+      // The ongoing notification is torn down before the result is posted —
+      // stopping the service would otherwise take the result down with it.
+      expect(fg.hides, 1);
+      expect(fg.results.single,
+          'Clip|Saved to Downloads · tap to open|content://media/external/downloads/42');
+    });
+
+    test('a failure notifies the honest headline and no file to open', () async {
+      final fg = _FakeForeground();
+      final c = makeContainer(
+        foreground: fg,
+        storage: _FakeStorage(
+            result: const StorageResult(StorageStatus.permissionDenied, message: 'denied')),
+      );
+
+      await run(c, _muxed);
+
+      expect(fg.hides, 1);
+      expect(fg.results.single, 'Something went wrong|denied|null');
+    });
+
+    test('cancelling from the notification stops the download silently', () async {
+      final fg = _FakeForeground();
+      final c = makeContainer(foreground: fg);
+      final ctrl = c.read(downloadControllerProvider.notifier);
+
+      await ctrl.extract('https://youtu.be/abc');
+      ctrl.selectFormat(_muxed);
+      final pending = ctrl.download();
+      fg.cancelHandler!(); // the notification's Cancel button
+      await pending;
+
+      expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+      expect(await history.getAll(), isEmpty);
+      expect(fg.hides, 1); // notification cleared
+      expect(fg.results, isEmpty); // ...but no "it failed" — the user did this
     });
 
     test('a save failure becomes Failed(unknown) and records no history', () async {

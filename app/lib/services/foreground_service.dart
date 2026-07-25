@@ -1,12 +1,16 @@
 import 'package:flutter/services.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-/// Keeps a download alive while the app isn't in front.
+/// The download's presence outside the app: the ongoing progress notification
+/// that keeps it alive, and the one that reports how it ended.
 ///
-/// The download pipeline runs in the Dart isolate, so it only lives as long as
-/// the process does. [show] starts a native foreground service that pins the
-/// process at foreground priority (and survives the task being swiped away);
-/// [hide] stops it. Every call is best-effort — a notification that failed to
+/// The pipeline runs in the Dart isolate, so it only lives as long as the process
+/// does. [show] starts a native foreground service that pins the process at
+/// foreground priority (and survives the task being swiped away); [hide] stops it;
+/// [showResult] posts the outcome on a separate channel that outlives the service.
+///
+/// Copy is written here rather than natively so the notification and the screens
+/// say the same thing. Every call is best-effort — a notification that failed to
 /// appear must never fail a download, so nothing here throws.
 ///
 /// Shares the `woofer/storage` channel rather than adding a second one; the
@@ -20,8 +24,8 @@ class ForegroundService {
   bool _askedForNotifications = false;
 
   /// Start or refresh the ongoing notification. [percent] < 0 shows an
-  /// indeterminate bar (post-download processing has no reliable percentage).
-  Future<void> show(String title, {int percent = -1}) async {
+  /// indeterminate bar — merging and transcoding have no reliable percentage.
+  Future<void> show(String title, {required String text, int percent = -1}) async {
     // Android 13+ needs the grant to *display* it. The service runs either way,
     // so ask once and never block on the answer.
     if (!_askedForNotifications) {
@@ -30,10 +34,39 @@ class ForegroundService {
         await Permission.notification.request();
       } catch (_) {}
     }
-    await _invoke('showDownloadNotification', {'title': title, 'percent': percent});
+    await _invoke('showDownloadNotification', {
+      'title': title,
+      'text': text,
+      'percent': percent,
+    });
   }
 
   Future<void> hide() => _invoke('hideDownloadNotification', const <String, dynamic>{});
+
+  /// Report the outcome. Passing [uri] makes tapping it open the saved file;
+  /// leaving it null (a failure) makes the tap reopen WOOFER.
+  Future<void> showResult(
+    String title,
+    String text, {
+    String? uri,
+    String? mimeType,
+  }) =>
+      _invoke('showDownloadResult', {
+        'title': title,
+        'text': text,
+        'uri': uri,
+        'mimeType': mimeType,
+      });
+
+  /// Run [onCancel] when the notification's Cancel button is tapped.
+  void onCancelRequested(void Function() onCancel) {
+    try {
+      _channel.setMethodCallHandler((call) async {
+        if (call.method == 'cancelDownload') onCancel();
+        return null;
+      });
+    } catch (_) {}
+  }
 
   Future<void> _invoke(String method, Map<String, dynamic> args) async {
     try {

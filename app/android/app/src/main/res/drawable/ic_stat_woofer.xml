@@ -1,0 +1,25 @@
+<!-- Status-bar mark: the five WOOFER equalizer bars, same 100x100 geometry as
+     WooferMark (_MarkPainter._bars — x, y, height; width 9, fully rounded ends).
+     No tile and pure white on purpose: Android masks a notification small icon to
+     its alpha and tints it, so anything but a white silhouette is thrown away. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M11.5,41.05 A4.5,4.5 0 0 1 20.5,41.05 L20.5,58.95 A4.5,4.5 0 0 1 11.5,58.95 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M28.5,31.5 A4.5,4.5 0 0 1 37.5,31.5 L37.5,68.5 A4.5,4.5 0 0 1 28.5,68.5 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M45.5,22.5 A4.5,4.5 0 0 1 54.5,22.5 L54.5,77.5 A4.5,4.5 0 0 1 45.5,77.5 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M62.5,31.5 A4.5,4.5 0 0 1 71.5,31.5 L71.5,68.5 A4.5,4.5 0 0 1 62.5,68.5 Z" />
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M79.5,41.05 A4.5,4.5 0 0 1 88.5,41.05 L88.5,58.95 A4.5,4.5 0 0 1 79.5,58.95 Z" />
+</vector>

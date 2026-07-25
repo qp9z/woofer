@@ -3,4 +3,9 @@
     <!-- AppColors.ground — matches the Flutter canvas so the native launch screen
          hands off to the Dart UI with no flash of a different colour. -->
     <color name="brand_ground">#0F1120</color>
+
+    <!-- AppColors.accent — the deeper of the two accent variants. Notifications
+         tint the small icon and app name with a single colour on a shade that may
+         be light or dark, and this is the one that holds contrast on both. -->
+    <color name="brand_accent">#6D5DF6</color>
 </resources>
