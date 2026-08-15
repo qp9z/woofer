@@ -9,6 +9,21 @@ List<MediaFormat> orderVideoFormats(Iterable<MediaFormat> formats) =>
 List<MediaFormat> orderAudioFormats(Iterable<MediaFormat> formats) =>
     formats.toList()..sort(_compareAudio);
 
+/// The fixed default advertised by Settings: the best available format for the
+/// selected media kind. This is deliberately separate from list position so a
+/// future display-order change cannot silently change download behaviour.
+MediaFormat? chooseDefaultFormat(
+  Iterable<MediaFormat> formats, {
+  required bool video,
+}) {
+  final ranked = video
+      ? orderVideoFormats(formats.where((format) => format.hasVideo))
+      : orderAudioFormats(
+          formats.where((format) => format.hasAudio && !format.hasVideo),
+        );
+  return ranked.isEmpty ? null : ranked.first;
+}
+
 int _compareVideo(MediaFormat a, MediaFormat b) => _firstNonZero([
   _compareOptionalNum(_videoHeight(a), _videoHeight(b)),
   _compareOptionalNum(a.width, b.width),

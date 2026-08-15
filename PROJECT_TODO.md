@@ -46,7 +46,8 @@ Check an item only after its acceptance criteria are satisfied.
   - Decide whether highest quality or a balanced option should appear first.
   - Add tests for missing filesize, resolution, bitrate, and note fields.
 
-- [ ] Choose a sensible default format.
+- [x] Choose a sensible default format. Completed 2026-08-15.
+  - Resolution: the default is explicitly the highest-ranked video (or audio after switching kinds), matching Settings' “Best available” promise; it is selected independently of yt-dlp's raw order and confirmed by an untouched-Download widget test.
   - Do not blindly select the first raw yt-dlp format.
   - Make the default agree with the behavior advertised in Settings.
   - Confirm that selecting Download without touching the list produces the intended quality.
@@ -288,7 +289,7 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 90 Flutter tests pass (2026-08-15).
+- [x] All 93 Flutter tests pass (2026-08-15).
 - [x] Android `:app:testDebugUnitTest` passes, including all 3 MediaStore cleanup-helper tests (2026-08-15).
 - [ ] Native end-to-end verification is current; the configured Samsung is now authorized, but the full device matrix remains outstanding.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.

@@ -46,16 +46,19 @@ class _FormatSheetState extends State<_FormatSheet> {
     _video = orderVideoFormats(formats.where((f) => f.hasVideo));
     _audio = orderAudioFormats(formats.where((f) => f.hasAudio && !f.hasVideo));
     _isVideo = _video.isNotEmpty;
-    _selected = _list.isEmpty ? null : _list.first;
+    _selected = _defaultForCurrentKind();
   }
 
   List<MediaFormat> get _list => _isVideo ? _video : _audio;
+
+  MediaFormat? _defaultForCurrentKind() =>
+      chooseDefaultFormat(_list, video: _isVideo);
 
   void _setKind(bool video) {
     if (_isVideo == video) return;
     setState(() {
       _isVideo = video;
-      _selected = _list.isEmpty ? null : _list.first;
+      _selected = _defaultForCurrentKind();
     });
   }
 

@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "app/test/screens_test.dart": {
-    "mtime": 1784855338.7988703,
-    "ast_hash": "34d9067ac8658f1b2ab706a5f441be07",
+    "mtime": 1786783916.8067005,
+    "ast_hash": "94891feba55ee89ee5db1f82b600a651",
     "semantic_hash": ""
   },
   "app/lib/services/ytdlp_extractor.dart": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/sheets/format_sheet.dart": {
-    "mtime": 1786783692.331395,
-    "ast_hash": "7917d44df602bcdf09f6a522b34a9053",
+    "mtime": 1786783916.7986717,
+    "ast_hash": "e7845a7b09f4204f0f85d54caa466b6b",
     "semantic_hash": ""
   },
   "app/lib/ui/screens/download_tab.dart": {
@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "PROJECT_TODO.md": {
-    "mtime": 1786783702.7086349,
-    "ast_hash": "bc5e2c834f25577ab0edd5bcca9afdaa",
+    "mtime": 1786783929.0563161,
+    "ast_hash": "691142791885e9368a4bc3c0a3a684f6",
     "semantic_hash": ""
   },
   "app/android/app/src/main/kotlin/com/example/woofer/FailureCleanup.kt": {
@@ -500,13 +500,13 @@
     "semantic_hash": ""
   },
   "app/lib/models/media_format_order.dart": {
-    "mtime": 1786783692.3216276,
-    "ast_hash": "bc9eea9232df4b39d94904dc74594ca4",
+    "mtime": 1786783886.4852667,
+    "ast_hash": "466cbe60af6826ffa7e3fb0568e6c934",
     "semantic_hash": ""
   },
   "app/test/media_format_order_test.dart": {
-    "mtime": 1786783692.3414006,
-    "ast_hash": "765740a45166e5e34fedbf2142a40e3d",
+    "mtime": 1786783916.8037002,
+    "ast_hash": "98cbb597e90b72e4ab2501dded15d24b",
     "semantic_hash": ""
   }
 }

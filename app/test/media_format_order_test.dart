@@ -118,4 +118,22 @@ void main() {
     expect(forward.map((format) => format.formatId), ['2', '10']);
     expect(reverse.map((format) => format.formatId), ['2', '10']);
   });
+
+  test('default video is explicitly the best available candidate', () {
+    final selected = chooseDefaultFormat([
+      video('low', height: 360),
+      video('best', height: 2160),
+    ], video: true);
+
+    expect(selected?.formatId, 'best');
+  });
+
+  test('default audio is explicitly the highest-quality candidate', () {
+    final selected = chooseDefaultFormat([
+      audio('low', bitrate: 96),
+      audio('best', bitrate: 256),
+    ], video: false);
+
+    expect(selected?.formatId, 'best');
+  });
 }
