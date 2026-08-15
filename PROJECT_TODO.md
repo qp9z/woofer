@@ -19,7 +19,8 @@ Check an item only after its acceptance criteria are satisfied.
   - Add tests for a new extraction arriving during download/processing.
   - Add a test for cancelling and immediately starting another download.
 
-- [ ] Make the download pipeline safe for unexpected exceptions.
+- [x] Make the download pipeline safe for unexpected exceptions. Completed 2026-08-15.
+  - Resolution: the full foreground/temp/download lifecycle is guarded; unexpected details are logged locally while users receive sanitized failures, and malformed channel payloads become typed `ApiException`s.
   - Move foreground-service startup and temporary-directory creation inside a guarded lifecycle.
   - Catch and map unexpected filesystem, JSON/channel, and platform failures to `Failed`.
   - Always hide the progress notification and clean temporary files after any terminal outcome.
@@ -284,6 +285,6 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 79 Flutter tests pass (2026-08-15).
+- [x] All 84 Flutter tests pass (2026-08-15).
 - [ ] Native end-to-end verification is current; the configured Samsung was `unauthorized` during this review.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.

@@ -10,11 +10,16 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   const channel = MethodChannel('ytdlp_test');
-  final messenger = TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
+  final messenger =
+      TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger;
 
   /// Make the mocked native side answer [method] with [reply] (a JSON string),
   /// or throw [error] if given.
-  void mockChannel({String? reply, PlatformException? error, void Function(MethodCall)? spy}) {
+  void mockChannel({
+    String? reply,
+    PlatformException? error,
+    void Function(MethodCall)? spy,
+  }) {
     messenger.setMockMethodCallHandler(channel, (call) async {
       spy?.call(call);
       if (error != null) throw error;
@@ -70,40 +75,108 @@ void main() {
     });
 
     test('an error envelope becomes a mapped ApiException', () async {
-      mockChannel(reply: jsonEncode({'ok': false, 'code': 'PRIVATE', 'message': 'This video is private'}));
+      mockChannel(
+        reply: jsonEncode({
+          'ok': false,
+          'code': 'PRIVATE',
+          'message': 'This video is private',
+        }),
+      );
 
       expect(
         () => extractor().extractInfo('http://y/x'),
-        throwsA(isA<ApiException>()
-            .having((e) => e.code, 'code', ApiErrorCode.private)
-            .having((e) => e.message, 'message', 'This video is private')),
+        throwsA(
+          isA<ApiException>()
+              .having((e) => e.code, 'code', ApiErrorCode.private)
+              .having((e) => e.message, 'message', 'This video is private'),
+        ),
       );
     });
 
     test('a PlatformException is mapped by its code', () async {
-      mockChannel(error: PlatformException(code: 'RATE_LIMITED', message: 'slow down'));
+      mockChannel(
+        error: PlatformException(code: 'RATE_LIMITED', message: 'slow down'),
+      );
 
       expect(
         () => extractor().extractInfo('http://y/x'),
-        throwsA(isA<ApiException>().having((e) => e.code, 'code', ApiErrorCode.rateLimited)),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.code,
+            'code',
+            ApiErrorCode.rateLimited,
+          ),
+        ),
       );
     });
 
     test('a missing native plugin surfaces as unknown, not a crash', () async {
-      messenger.setMockMethodCallHandler(channel, null); // no handler → MissingPluginException
+      messenger.setMockMethodCallHandler(
+        channel,
+        null,
+      ); // no handler → MissingPluginException
       expect(
         () => extractor().extractInfo('http://y/x'),
-        throwsA(isA<ApiException>().having((e) => e.code, 'code', ApiErrorCode.unknown)),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.code,
+            'code',
+            ApiErrorCode.unknown,
+          ),
+        ),
       );
     });
+
+    test('malformed channel JSON becomes a sanitized ApiException', () async {
+      mockChannel(reply: r'{not valid JSON: C:\private\token}');
+
+      expect(
+        () => extractor().extractInfo('http://y/x'),
+        throwsA(
+          isA<ApiException>()
+              .having((e) => e.code, 'code', ApiErrorCode.unknown)
+              .having((e) => e.rawCode, 'rawCode', 'MALFORMED_RESPONSE')
+              .having(
+                (e) => e.message,
+                'message',
+                'The media extractor returned an invalid response. Please try again.',
+              ),
+        ),
+      );
+    });
+
+    test(
+      'a malformed success payload becomes a sanitized ApiException',
+      () async {
+        mockChannel(reply: jsonEncode({'ok': true, 'data': 'not-a-video-map'}));
+
+        expect(
+          () => extractor().extractInfo('http://y/x'),
+          throwsA(
+            isA<ApiException>().having(
+              (e) => e.rawCode,
+              'rawCode',
+              'MALFORMED_RESPONSE',
+            ),
+          ),
+        );
+      },
+    );
   });
 
   group('download', () {
     test('returns the saved path from a success envelope', () async {
       MethodCall? seen;
-      mockChannel(reply: jsonEncode({'ok': true, 'path': '/tmp/woofer/Clip.mp4'}), spy: (c) => seen = c);
+      mockChannel(
+        reply: jsonEncode({'ok': true, 'path': '/tmp/woofer/Clip.mp4'}),
+        spy: (c) => seen = c,
+      );
 
-      final path = await extractor().download('http://y/x', '137', dir: '/tmp/woofer');
+      final path = await extractor().download(
+        'http://y/x',
+        '137',
+        dir: '/tmp/woofer',
+      );
 
       expect(path, '/tmp/woofer/Clip.mp4');
       expect(seen?.method, 'download');
@@ -112,40 +185,79 @@ void main() {
     });
 
     test('a download error envelope maps to its code', () async {
-      mockChannel(reply: jsonEncode({'ok': false, 'code': 'GEO', 'message': 'blocked in your country'}));
+      mockChannel(
+        reply: jsonEncode({
+          'ok': false,
+          'code': 'GEO',
+          'message': 'blocked in your country',
+        }),
+      );
       expect(
         () => extractor().download('http://y/x', '137'),
-        throwsA(isA<ApiException>().having((e) => e.code, 'code', ApiErrorCode.unavailable)),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.code,
+            'code',
+            ApiErrorCode.unavailable,
+          ),
+        ),
       );
     });
 
-    test('native onProgress pings reach the callback during the download', () async {
-      // Keep the download pending so the active callback is still wired up while
-      // the native side pushes progress (as it does mid-transfer in reality).
-      final reply = Completer<String>();
-      messenger.setMockMethodCallHandler(
-          channel, (call) async => call.method == 'download' ? reply.future : null);
+    test('a success envelope without a usable path is rejected', () async {
+      mockChannel(reply: jsonEncode({'ok': true, 'path': null}));
 
-      // Deliver an incoming onProgress call from the "native" side.
-      Future<void> pushProgress(int r, int t) => messenger.handlePlatformMessage(
-            channel.name,
-            channel.codec.encodeMethodCall(MethodCall('onProgress', {'received': r, 'total': t})),
-            (_) {},
-          );
-
-      final seen = <List<int>>[];
-      final done = extractor().download('http://y/x', '137', onProgress: (r, t) => seen.add([r, t]));
-
-      await pushProgress(512, 1024);
-      await pushProgress(1024, 1024);
-      reply.complete(jsonEncode({'ok': true, 'path': '/x.mp4'}));
-
-      expect(await done, '/x.mp4');
-      expect(seen, [
-        [512, 1024],
-        [1024, 1024],
-      ]);
+      expect(
+        () => extractor().download('http://y/x', '137'),
+        throwsA(
+          isA<ApiException>().having(
+            (e) => e.rawCode,
+            'rawCode',
+            'MALFORMED_RESPONSE',
+          ),
+        ),
+      );
     });
+
+    test(
+      'native onProgress pings reach the callback during the download',
+      () async {
+        // Keep the download pending so the active callback is still wired up while
+        // the native side pushes progress (as it does mid-transfer in reality).
+        final reply = Completer<String>();
+        messenger.setMockMethodCallHandler(
+          channel,
+          (call) async => call.method == 'download' ? reply.future : null,
+        );
+
+        // Deliver an incoming onProgress call from the "native" side.
+        Future<void> pushProgress(int r, int t) =>
+            messenger.handlePlatformMessage(
+              channel.name,
+              channel.codec.encodeMethodCall(
+                MethodCall('onProgress', {'received': r, 'total': t}),
+              ),
+              (_) {},
+            );
+
+        final seen = <List<int>>[];
+        final done = extractor().download(
+          'http://y/x',
+          '137',
+          onProgress: (r, t) => seen.add([r, t]),
+        );
+
+        await pushProgress(512, 1024);
+        await pushProgress(1024, 1024);
+        reply.complete(jsonEncode({'ok': true, 'path': '/x.mp4'}));
+
+        expect(await done, '/x.mp4');
+        expect(seen, [
+          [512, 1024],
+          [1024, 1024],
+        ]);
+      },
+    );
   });
 
   group('ytdlpErrorCode', () {

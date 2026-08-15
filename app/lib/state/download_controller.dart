@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as developer;
 import 'dart:io';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -38,6 +39,15 @@ final historyServiceProvider = FutureProvider<HistoryService>(
   (ref) => HistoryService.open(),
 );
 
+typedef DownloadTempDirectoryFactory = Future<Directory> Function();
+
+/// Injectable because running out of temporary storage is a real download
+/// failure which must still release the foreground service and controller.
+final downloadTempDirectoryProvider = Provider<DownloadTempDirectoryFactory>(
+  (ref) =>
+      () => Directory.systemTemp.createTemp('woofer_dl_'),
+);
+
 /// Past downloads, newest first. Invalidated whenever a download is recorded.
 final historyListProvider = FutureProvider<List<HistoryEntry>>((ref) async {
   final history = await ref.watch(historyServiceProvider.future);
@@ -69,6 +79,8 @@ class DownloadController extends Notifier<DownloadState> {
   StorageService get _storage => ref.read(storageServiceProvider);
   ForegroundService get _foreground => ref.read(foregroundServiceProvider);
   CoverFetcher get _cover => ref.read(coverFetcherProvider);
+  DownloadTempDirectoryFactory get _createTempDirectory =>
+      ref.read(downloadTempDirectoryProvider);
 
   /// Whether a URL can be resolved right now. Concurrent extractions are safe
   /// (the newest one wins), but a running download owns the native yt-dlp
@@ -97,6 +109,10 @@ class DownloadController extends Notifier<DownloadState> {
     } on ApiException catch (e) {
       if (generation != _extractGeneration || !canExtract) return;
       state = Failed(e.code, e.message);
+    } catch (error, stackTrace) {
+      if (generation != _extractGeneration || !canExtract) return;
+      _logUnexpected('extract', error, stackTrace);
+      state = Failed(ApiErrorCode.unknown, _unexpectedExtractMessage(error));
     }
   }
 
@@ -174,25 +190,28 @@ class DownloadController extends Notifier<DownloadState> {
     // isolate, so without this Android is free to reclaim us the moment the user
     // leaves the app — mid-transfer, mid-merge, or mid-save.
     final label = info.title ?? 'Downloading';
-    await _foreground.show(label, text: 'Starting…');
     var shownPercent = -1;
 
     // Captured where the outcome actually happens, never re-read from `state` in
     // the finally: HomeShell listens for Done and calls reset(), which lands
     // before the finally does, so by then the state is Idle again.
     ({String title, String text, String? uri, String? mime})? outcome;
+    Directory? tmpDir;
 
     // A fresh, empty scratch dir per download. yt-dlp names files by title only,
     // so sharing systemTemp let a leftover .part from a prior/cancelled attempt
     // get *resumed* — a byte-range past EOF returns HTTP 416 — or a stale file of
     // the wrong resolution get silently reused. A private dir has neither.
-    final tmpDir = await Directory.systemTemp.createTemp('woofer_dl_');
     try {
+      await _foreground.show(label, text: 'Starting…');
+      final workDir = await _createTempDirectory();
+      tmpDir = workDir;
+
       // 1. Download the selected stream.
       final primary = await _downloadFormat(
         operation.url,
         fmt,
-        tmpDir.path,
+        workDir.path,
         onProgress: (received, total) {
           if (_shouldStop(operation)) return;
           state = Downloading(format: fmt, received: received, total: total);
@@ -228,7 +247,7 @@ class DownloadController extends Notifier<DownloadState> {
         final audioPath = await _downloadFormat(
           operation.url,
           audioFmt,
-          tmpDir.path,
+          workDir.path,
         );
         temps.add(audioPath);
         if (_shouldStop(operation)) return;
@@ -246,7 +265,7 @@ class DownloadController extends Notifier<DownloadState> {
         await _foreground.show(label, text: 'Converting to MP3');
         // Artwork, so the file looks like music in a player. Null when there's no
         // thumbnail or the fetch fails; toMp3 then just skips the embed.
-        final cover = await _cover.fetch(info.thumbnail, tmpDir.path);
+        final cover = await _cover.fetch(info.thumbnail, workDir.path);
         if (cover != null) temps.add(cover);
         finalPath = await _processor.toMp3(
           primary,
@@ -312,24 +331,40 @@ class DownloadController extends Notifier<DownloadState> {
           mime: null,
         );
       }
+    } catch (error, stackTrace) {
+      if (!_shouldStop(operation)) {
+        _logUnexpected('download', error, stackTrace);
+        final message = _unexpectedDownloadMessage(error);
+        state = Failed(ApiErrorCode.unknown, message);
+        outcome = (
+          title: describeError(ApiErrorCode.unknown),
+          text: message,
+          uri: null,
+          mime: null,
+        );
+      }
     } finally {
       for (final p in temps) {
         await _deleteQuietly(p);
       }
-      await _deleteDirQuietly(
-        tmpDir,
-      ); // nuke any yt-dlp leftovers (.part, fragments)
+      if (tmpDir != null) {
+        await _deleteDirQuietly(tmpDir); // nuke .part files and fragments
+      }
       // Release the process last: cleanup is part of the download too. The result
       // has to be posted *after*, because stopping the service takes its own
       // notification down with it.
-      await _foreground.hide();
+      await _runCleanupStep('hide foreground notification', _foreground.hide);
       // Nothing to say after a cancel — the user did that themselves.
       if (outcome != null) {
-        await _foreground.showResult(
-          outcome.title,
-          outcome.text,
-          uri: outcome.uri,
-          mimeType: outcome.mime,
+        final result = outcome;
+        await _runCleanupStep(
+          'show download result',
+          () => _foreground.showResult(
+            result.title,
+            result.text,
+            uri: result.uri,
+            mimeType: result.mime,
+          ),
         );
       }
       if (identical(_activeDownload, operation)) {
@@ -351,6 +386,35 @@ class DownloadController extends Notifier<DownloadState> {
 
   bool _shouldStop(_DownloadOperation operation) =>
       operation.cancelled || !identical(_activeDownload, operation);
+
+  Future<void> _runCleanupStep(
+    String step,
+    Future<void> Function() action,
+  ) async {
+    try {
+      await action();
+    } catch (error, stackTrace) {
+      _logUnexpected(step, error, stackTrace);
+    }
+  }
+
+  String _unexpectedExtractMessage(Object error) => error is FormatException
+      ? 'The media extractor returned an invalid response. Please try again.'
+      : 'Could not inspect this link. Please try again.';
+
+  String _unexpectedDownloadMessage(Object error) =>
+      error is FileSystemException
+      ? 'Could not access temporary storage. Check free space and try again.'
+      : 'The download could not be completed. Please try again.';
+
+  void _logUnexpected(String phase, Object error, StackTrace stackTrace) {
+    developer.log(
+      'Unexpected $phase failure',
+      name: 'woofer.download',
+      error: error,
+      stackTrace: stackTrace,
+    );
+  }
 
   /// Best audio-only format to pair with a video-only stream (largest = best).
   MediaFormat? _bestAudio(VideoInfo info) {

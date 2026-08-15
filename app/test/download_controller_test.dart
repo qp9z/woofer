@@ -96,6 +96,13 @@ class _ControlledExtractYtdlp extends _FakeYtdlp {
   }
 }
 
+class _UnexpectedExtractYtdlp extends _FakeYtdlp {
+  @override
+  Future<VideoInfo> extractInfo(String url) async {
+    throw StateError('internal extractor detail');
+  }
+}
+
 /// Holds the first transfer open so callers can attempt conflicting work.
 class _BlockingDownloadYtdlp extends _FakeYtdlp {
   final Completer<void> firstStarted = Completer<void>();
@@ -273,6 +280,7 @@ void main() {
     _FakeStorage? storage,
     _FakeForeground? foreground,
     _FakeCover? cover,
+    DownloadTempDirectoryFactory? tempDirectoryFactory,
   }) {
     final c = ProviderContainer(
       overrides: [
@@ -284,6 +292,8 @@ void main() {
         ),
         coverFetcherProvider.overrideWithValue(cover ?? _FakeCover()),
         historyServiceProvider.overrideWith((ref) async => history),
+        if (tempDirectoryFactory != null)
+          downloadTempDirectoryProvider.overrideWithValue(tempDirectoryFactory),
       ],
     );
     addTearDown(c.dispose);
@@ -352,6 +362,25 @@ void main() {
           'https://example.com/first',
           'https://example.com/second',
         ]);
+      },
+    );
+
+    test(
+      'an unexpected extraction failure is sanitized and leaves the controller usable',
+      () async {
+        final c = makeContainer(ytdlp: _UnexpectedExtractYtdlp());
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/video');
+
+        final failed = c.read(downloadControllerProvider) as Failed;
+        expect(failed.code, ApiErrorCode.unknown);
+        expect(
+          failed.message,
+          'Could not inspect this link. Please try again.',
+        );
+        expect(failed.message, isNot(contains('internal extractor detail')));
+        expect(ctrl.canExtract, isTrue);
       },
     );
   });
@@ -562,6 +591,41 @@ void main() {
 
         expect(ytdlp.downloadUrls, ['https://example.com/original']);
         expect(c.read(downloadControllerProvider), isA<Done>());
+      },
+    );
+
+    test(
+      'temporary-directory failure becomes Failed and releases the lifecycle',
+      () async {
+        final foreground = _FakeForeground();
+        final c = makeContainer(
+          foreground: foreground,
+          tempDirectoryFactory: () async => throw FileSystemException(
+            'disk full at private path',
+            r'C:\private\woofer',
+          ),
+        );
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/original');
+        ctrl.selectFormat(_muxed);
+        await ctrl.download();
+
+        final failed = c.read(downloadControllerProvider) as Failed;
+        expect(failed.code, ApiErrorCode.unknown);
+        expect(
+          failed.message,
+          'Could not access temporary storage. Check free space and try again.',
+        );
+        expect(failed.message, isNot(contains('private path')));
+        expect(foreground.shown, ['Starting…']);
+        expect(foreground.hides, 1);
+        expect(
+          foreground.results.single,
+          'Something went wrong|${failed.message}|null',
+        );
+        expect(ctrl.canExtract, isTrue);
+        expect(await history.getAll(), isEmpty);
       },
     );
 

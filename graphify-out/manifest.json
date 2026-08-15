@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "app/lib/state/download_controller.dart": {
-    "mtime": 1786781118.0591786,
-    "ast_hash": "21691b539637d649b298faf695eefa7c",
+    "mtime": 1786782586.0206137,
+    "ast_hash": "5ead22b3e4a7ec9a4192544e8c5c7b4b",
     "semantic_hash": ""
   },
   "app/lib/state/download_state.dart": {
@@ -190,13 +190,13 @@
     "semantic_hash": ""
   },
   "app/lib/services/ytdlp_extractor.dart": {
-    "mtime": 1784947728.0081978,
-    "ast_hash": "55c15144df23467d066ce65a867a2a78",
+    "mtime": 1786782586.0261288,
+    "ast_hash": "02427d970374172a9e2d6bc965ca6578",
     "semantic_hash": ""
   },
   "app/test/ytdlp_extractor_test.dart": {
-    "mtime": 1784822129.601395,
-    "ast_hash": "0569a151cb6a1c28d16197c90c0aca7f",
+    "mtime": 1786782586.0416346,
+    "ast_hash": "0523c893060c8494a88320bee2d9ecc3",
     "semantic_hash": ""
   },
   "app/android/app/src/main/python/ytdlp_bridge.py": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "app/test/download_controller_test.dart": {
-    "mtime": 1786781250.0512743,
-    "ast_hash": "369005ba87648f5f5a4bc43a09fa6bae",
+    "mtime": 1786782586.0356343,
+    "ast_hash": "058f7beb218c490aaee828a671e837e4",
     "semantic_hash": ""
   },
   "design/brand identity/WOOFER Brand Guidelines.html": {
@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "PROJECT_TODO.md": {
-    "mtime": 1786781250.055687,
-    "ast_hash": "6c69b4b9a4d73f02d157f695235d0847",
+    "mtime": 1786781297.9200618,
+    "ast_hash": "5a95102cdae6880421df3fbf9a199793",
     "semantic_hash": ""
   }
 }
