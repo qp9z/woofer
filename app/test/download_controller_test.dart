@@ -25,6 +25,20 @@ const _muxed = MediaFormat(
   hasAudio: true,
   hasVideo: true,
 );
+const _muxedWebm = MediaFormat(
+  formatId: 'webm',
+  ext: 'webm',
+  resolution: '720p',
+  hasAudio: true,
+  hasVideo: true,
+);
+const _muxedMkv = MediaFormat(
+  formatId: 'mkv',
+  ext: 'mkv',
+  resolution: '720p',
+  hasAudio: true,
+  hasVideo: true,
+);
 const _videoOnly = MediaFormat(
   formatId: '137',
   ext: 'mp4',
@@ -210,6 +224,8 @@ class _FakeStorage extends StorageService {
   });
   final StorageResult result;
   File? saved;
+  String? savedFileName;
+  String? savedMimeType;
 
   @override
   Future<StorageResult> saveToDownloads(
@@ -218,6 +234,8 @@ class _FakeStorage extends StorageService {
     String mimeType = 'application/octet-stream',
   }) async {
     saved = source;
+    savedFileName = fileName;
+    savedMimeType = mimeType;
     return result;
   }
 }
@@ -416,6 +434,24 @@ void main() {
       // has to be the openable uri — MediaStore's display path resolves to nothing.
       final rows = await history.getAll();
       expect(rows.single.filePath, 'content://media/external/downloads/42');
+    });
+
+    test('muxed MP4, WebM, and Matroska files use matching MIME types', () async {
+      const cases = [
+        (_muxed, 'video/mp4', 'Clip.mp4'),
+        (_muxedWebm, 'video/webm', 'Clip.webm'),
+        (_muxedMkv, 'video/x-matroska', 'Clip.mkv'),
+      ];
+
+      for (final (format, expectedMime, expectedName) in cases) {
+        final storage = _FakeStorage();
+        final c = makeContainer(storage: storage);
+
+        await run(c, format);
+
+        expect(storage.savedMimeType, expectedMime);
+        expect(storage.savedFileName, expectedName);
+      }
     });
 
     test(

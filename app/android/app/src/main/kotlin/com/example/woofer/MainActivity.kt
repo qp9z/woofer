@@ -241,15 +241,31 @@ class MainActivity : FlutterActivity() {
             }
             val uri = resolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, values)
                 ?: throw IOException("MediaStore insert returned null")
-            resolver.openOutputStream(uri)?.use { out ->
-                FileInputStream(src).use { it.copyTo(out) }
-            } ?: throw IOException("Could not open output stream for $uri")
-            values.clear()
-            values.put(MediaStore.Downloads.IS_PENDING, 0)
-            resolver.update(uri, values, null, null)
-            return mapOf(
-                "uri" to uri.toString(),
-                "path" to "${Environment.DIRECTORY_DOWNLOADS}/$subDir/$fileName",
+            return withFailureCleanup(
+                // Once insert succeeds, every later failure must remove the row.
+                // Otherwise MediaStore retains an invisible IS_PENDING item and
+                // whatever partial bytes were copied before the failure.
+                cleanup = {
+                    val deleted = resolver.delete(uri, null, null)
+                    if (deleted != 1) {
+                        throw IOException("Could not remove partial MediaStore item $uri")
+                    }
+                },
+                operation = {
+                    resolver.openOutputStream(uri)?.use { out ->
+                        FileInputStream(src).use { it.copyTo(out) }
+                    } ?: throw IOException("Could not open output stream for $uri")
+                    values.clear()
+                    values.put(MediaStore.Downloads.IS_PENDING, 0)
+                    val updated = resolver.update(uri, values, null, null)
+                    if (updated != 1) {
+                        throw IOException("Could not finalize MediaStore item $uri")
+                    }
+                    mapOf(
+                        "uri" to uri.toString(),
+                        "path" to "${Environment.DIRECTORY_DOWNLOADS}/$subDir/$fileName",
+                    )
+                },
             )
         } else {
             // API <=28 : legacy public dir (WRITE_EXTERNAL_STORAGE granted on the Dart side).

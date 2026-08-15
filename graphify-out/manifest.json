@@ -5,13 +5,13 @@
     "semantic_hash": ""
   },
   "app/android/app/build.gradle.kts": {
-    "mtime": 1784765140.1697254,
-    "ast_hash": "e13e84233e8cff2edfafc99c7512095f",
+    "mtime": 1786782878.2783856,
+    "ast_hash": "b5b992866ba1b49a14414bb7b507ae34",
     "semantic_hash": ""
   },
   "app/android/app/src/main/kotlin/com/example/woofer/MainActivity.kt": {
-    "mtime": 1784947710.7794254,
-    "ast_hash": "00a0cf8048fda22c88626f689c213d16",
+    "mtime": 1786783377.5976608,
+    "ast_hash": "df6eb724433ae841e6f79ef3524f4321",
     "semantic_hash": ""
   },
   "app/android/build.gradle.kts": {
@@ -155,8 +155,8 @@
     "semantic_hash": ""
   },
   "app/lib/state/download_controller.dart": {
-    "mtime": 1786782586.0206137,
-    "ast_hash": "5ead22b3e4a7ec9a4192544e8c5c7b4b",
+    "mtime": 1786782841.8032312,
+    "ast_hash": "f8dd421491bc8688581c863784fa1a8f",
     "semantic_hash": ""
   },
   "app/lib/state/download_state.dart": {
@@ -220,8 +220,8 @@
     "semantic_hash": ""
   },
   "app/test/download_controller_test.dart": {
-    "mtime": 1786782586.0356343,
-    "ast_hash": "058f7beb218c490aaee828a671e837e4",
+    "mtime": 1786782841.8137357,
+    "ast_hash": "8f84016efffc37048f62ecc346da382f",
     "semantic_hash": ""
   },
   "design/brand identity/WOOFER Brand Guidelines.html": {
@@ -485,8 +485,18 @@
     "semantic_hash": ""
   },
   "PROJECT_TODO.md": {
-    "mtime": 1786781297.9200618,
-    "ast_hash": "5a95102cdae6880421df3fbf9a199793",
+    "mtime": 1786783377.6016603,
+    "ast_hash": "3ec310e36ed03c005dbd0174344cc2a3",
+    "semantic_hash": ""
+  },
+  "app/android/app/src/main/kotlin/com/example/woofer/FailureCleanup.kt": {
+    "mtime": 1786782878.273379,
+    "ast_hash": "53bb4463cabf8f910d52954a738353c0",
+    "semantic_hash": ""
+  },
+  "app/android/app/src/test/kotlin/com/example/woofer/FailureCleanupTest.kt": {
+    "mtime": 1786782878.2818892,
+    "ast_hash": "b1974ca37ba12da2239164014e5af51b",
     "semantic_hash": ""
   }
 }

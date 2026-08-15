@@ -27,11 +27,13 @@ Check an item only after its acceptance criteria are satisfied.
   - Ensure a failure before `tmpDir` is created cannot strand the controller in `Downloading`.
   - Preserve useful diagnostic details without exposing hostile/raw errors to users.
 
-- [ ] Correct MIME handling for already-muxed video formats.
+- [x] Correct MIME handling for already-muxed video formats. Completed 2026-08-15.
+  - Resolution: muxed outputs now derive their MIME from the actual extension, with MP4, WebM, and Matroska regression coverage.
   - Derive MIME from the selected/output extension instead of always using `video/mp4`.
   - Cover at least MP4, WebM, and Matroska in tests.
 
-- [ ] Clean up failed MediaStore writes.
+- [x] Clean up failed MediaStore writes. Completed 2026-08-15.
+  - Resolution: MediaStore insertion, copying, and finalization now act as a transaction; any post-insert failure deletes the pending row, preserves the original error, and records cleanup failure as suppressed diagnostic context.
   - If copying or finalizing a MediaStore item fails, delete the inserted pending URI.
   - Verify no invisible partial file remains after an interrupted/failed save.
 
@@ -285,6 +287,7 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 84 Flutter tests pass (2026-08-15).
-- [ ] Native end-to-end verification is current; the configured Samsung was `unauthorized` during this review.
+- [x] All 85 Flutter tests pass (2026-08-15).
+- [x] Android `:app:testDebugUnitTest` passes, including all 3 MediaStore cleanup-helper tests (2026-08-15).
+- [ ] Native end-to-end verification is current; the configured Samsung is now authorized, but the full device matrix remains outstanding.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.

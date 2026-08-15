@@ -279,7 +279,7 @@ class DownloadController extends Notifier<DownloadState> {
       } else {
         finalPath = primary; // muxed video+audio — ready as-is
         ext = fmt.ext ?? 'mp4';
-        mime = 'video/mp4';
+        mime = _videoMime(ext);
       }
       if (_shouldStop(operation)) return;
 
