@@ -7,7 +7,8 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P0 — Correctness and lifecycle safety
 
-- [ ] Prevent overlapping extraction and download operations.
+- [x] Prevent overlapping extraction and download operations. Completed 2026-08-15.
+  - Resolution: the newest metadata extraction wins; new links are rejected while a download pipeline owns yt-dlp, including cancellation cleanup.
   - Give each extraction/download an operation ID or cancellation token.
   - Ensure stale callbacks and completions cannot overwrite a newer state.
   - Do not rely only on disabling the Fetch button; shared intents can also start extraction.
@@ -283,7 +284,6 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 75 Flutter tests pass (2026-08-15).
+- [x] All 79 Flutter tests pass (2026-08-15).
 - [ ] Native end-to-end verification is current; the configured Samsung was `unauthorized` during this review.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.
-

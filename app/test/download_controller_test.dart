@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -16,20 +17,45 @@ import 'package:woofer/services/ytdlp_extractor.dart';
 import 'package:woofer/state/download_controller.dart';
 import 'package:woofer/state/download_state.dart';
 
-const _muxed =
-    MediaFormat(formatId: '18', ext: 'mp4', resolution: '360p', filesize: 900, hasAudio: true, hasVideo: true);
-const _videoOnly =
-    MediaFormat(formatId: '137', ext: 'mp4', resolution: '1080p', filesize: 5000, hasAudio: false, hasVideo: true);
-const _audioOnly = MediaFormat(formatId: '140', ext: 'm4a', filesize: 500, hasAudio: true, hasVideo: false);
+const _muxed = MediaFormat(
+  formatId: '18',
+  ext: 'mp4',
+  resolution: '360p',
+  filesize: 900,
+  hasAudio: true,
+  hasVideo: true,
+);
+const _videoOnly = MediaFormat(
+  formatId: '137',
+  ext: 'mp4',
+  resolution: '1080p',
+  filesize: 5000,
+  hasAudio: false,
+  hasVideo: true,
+);
+const _audioOnly = MediaFormat(
+  formatId: '140',
+  ext: 'm4a',
+  filesize: 500,
+  hasAudio: true,
+  hasVideo: false,
+);
 const _info = VideoInfo(
-    title: 'Clip', thumbnail: 't', uploader: 'Chan', formats: [_videoOnly, _muxed, _audioOnly]);
+  title: 'Clip',
+  thumbnail: 't',
+  uploader: 'Chan',
+  formats: [_videoOnly, _muxed, _audioOnly],
+);
 
 /// Fake yt-dlp extractor. Records calls; `download` pings progress and returns a
 /// per-format temp path without touching disk.
 class _FakeYtdlp extends YtdlpExtractor {
-  _FakeYtdlp({this.extractError}) : super(channel: const MethodChannel('ytdlp_fake'));
+  _FakeYtdlp({this.extractError})
+    : super(channel: const MethodChannel('ytdlp_fake'));
   final ApiException? extractError;
   final List<String> downloaded = [];
+  final List<String> downloadUrls = [];
+  final List<String> extractedUrls = [];
   int extractCalls = 0;
   int cancels = 0;
 
@@ -39,16 +65,69 @@ class _FakeYtdlp extends YtdlpExtractor {
   @override
   Future<VideoInfo> extractInfo(String url) async {
     extractCalls++;
+    extractedUrls.add(url);
     if (extractError != null) throw extractError!;
     return _info;
   }
 
   @override
-  Future<String> download(String url, String formatId,
-      {void Function(int received, int total)? onProgress, String? dir}) async {
+  Future<String> download(
+    String url,
+    String formatId, {
+    void Function(int received, int total)? onProgress,
+    String? dir,
+  }) async {
     downloaded.add(formatId);
+    downloadUrls.add(url);
     onProgress?.call(512, 1024);
     return '/tmp/woofer_$formatId.bin';
+  }
+}
+
+/// Lets tests complete extractions in any order.
+class _ControlledExtractYtdlp extends _FakeYtdlp {
+  final Map<String, Completer<VideoInfo>> pending = {};
+
+  @override
+  Future<VideoInfo> extractInfo(String url) {
+    extractCalls++;
+    extractedUrls.add(url);
+    return pending.putIfAbsent(url, Completer<VideoInfo>.new).future;
+  }
+}
+
+/// Holds the first transfer open so callers can attempt conflicting work.
+class _BlockingDownloadYtdlp extends _FakeYtdlp {
+  final Completer<void> firstStarted = Completer<void>();
+  final Completer<String> firstDownload = Completer<String>();
+  int downloadCalls = 0;
+
+  @override
+  Future<String> download(
+    String url,
+    String formatId, {
+    void Function(int received, int total)? onProgress,
+    String? dir,
+  }) {
+    downloadCalls++;
+    downloaded.add(formatId);
+    downloadUrls.add(url);
+    if (downloadCalls == 1) {
+      firstStarted.complete();
+      return firstDownload.future;
+    }
+    onProgress?.call(512, 1024);
+    return Future.value('/tmp/woofer_$formatId.bin');
+  }
+
+  @override
+  Future<void> cancel() async {
+    cancels++;
+    if (!firstDownload.isCompleted) {
+      firstDownload.completeError(
+        const ApiException(code: ApiErrorCode.unknown, message: 'cancelled'),
+      );
+    }
   }
 }
 
@@ -56,7 +135,11 @@ class _FakeProcessor extends MediaProcessor {
   final List<String> ops = [];
 
   @override
-  Future<String> mergeVideoAudio(String video, String audio, {bool deleteInputs = true}) async {
+  Future<String> mergeVideoAudio(
+    String video,
+    String audio, {
+    bool deleteInputs = true,
+  }) async {
     ops.add('merge:$video+$audio');
     return '/tmp/merged.mp4';
   }
@@ -70,11 +153,29 @@ class _FakeProcessor extends MediaProcessor {
     String? title,
     String? artist,
   }) async {
-    ops.add('mp3:$input@$bitrateKbps'
-        '${coverPath == null ? '' : ' +cover:$coverPath'}'
-        '${title == null ? '' : ' +title:$title'}'
-        '${artist == null ? '' : ' +artist:$artist'}');
+    ops.add(
+      'mp3:$input@$bitrateKbps'
+      '${coverPath == null ? '' : ' +cover:$coverPath'}'
+      '${title == null ? '' : ' +title:$title'}'
+      '${artist == null ? '' : ' +artist:$artist'}',
+    );
     return '/tmp/out.mp3';
+  }
+}
+
+class _BlockingProcessor extends _FakeProcessor {
+  final Completer<void> mergeStarted = Completer<void>();
+  final Completer<String> mergeResult = Completer<String>();
+
+  @override
+  Future<String> mergeVideoAudio(
+    String video,
+    String audio, {
+    bool deleteInputs = true,
+  }) {
+    ops.add('merge:$video+$audio');
+    mergeStarted.complete();
+    return mergeResult.future;
   }
 }
 
@@ -93,14 +194,22 @@ class _FakeCover implements CoverFetcher {
 class _FakeStorage extends StorageService {
   // Mirrors the real API 29+ result: `path` is MediaStore's *display* path, only
   // `uri` can actually be opened.
-  _FakeStorage(
-      {this.result = const StorageResult(StorageStatus.success,
-          path: 'Download/woofer/Clip.mp4', uri: 'content://media/external/downloads/42')});
+  _FakeStorage({
+    this.result = const StorageResult(
+      StorageStatus.success,
+      path: 'Download/woofer/Clip.mp4',
+      uri: 'content://media/external/downloads/42',
+    ),
+  });
   final StorageResult result;
   File? saved;
 
   @override
-  Future<StorageResult> saveToDownloads(File source, {String? fileName, String mimeType = 'application/octet-stream'}) async {
+  Future<StorageResult> saveToDownloads(
+    File source, {
+    String? fileName,
+    String mimeType = 'application/octet-stream',
+  }) async {
     saved = source;
     return result;
   }
@@ -114,7 +223,11 @@ class _FakeForeground extends ForegroundService {
   void Function()? cancelHandler;
 
   @override
-  Future<void> show(String title, {required String text, int percent = -1}) async {
+  Future<void> show(
+    String title, {
+    required String text,
+    int percent = -1,
+  }) async {
     shown.add(percent >= 0 ? '$text @$percent%' : text);
   }
 
@@ -122,7 +235,12 @@ class _FakeForeground extends ForegroundService {
   Future<void> hide() async => hides++;
 
   @override
-  Future<void> showResult(String title, String text, {String? uri, String? mimeType}) async {
+  Future<void> showResult(
+    String title,
+    String text, {
+    String? uri,
+    String? mimeType,
+  }) async {
     results.add('$title|$text|$uri');
   }
 
@@ -141,8 +259,10 @@ void main() {
   });
 
   setUp(() async {
-    final db = await databaseFactory.openDatabase(inMemoryDatabasePath,
-        options: OpenDatabaseOptions(singleInstance: false));
+    final db = await databaseFactory.openDatabase(
+      inMemoryDatabasePath,
+      options: OpenDatabaseOptions(singleInstance: false),
+    );
     history = HistoryService(db);
     await history.init();
   });
@@ -154,14 +274,18 @@ void main() {
     _FakeForeground? foreground,
     _FakeCover? cover,
   }) {
-    final c = ProviderContainer(overrides: [
-      ytdlpExtractorProvider.overrideWithValue(ytdlp ?? _FakeYtdlp()),
-      mediaProcessorProvider.overrideWithValue(processor ?? _FakeProcessor()),
-      storageServiceProvider.overrideWithValue(storage ?? _FakeStorage()),
-      foregroundServiceProvider.overrideWithValue(foreground ?? _FakeForeground()),
-      coverFetcherProvider.overrideWithValue(cover ?? _FakeCover()),
-      historyServiceProvider.overrideWith((ref) async => history),
-    ]);
+    final c = ProviderContainer(
+      overrides: [
+        ytdlpExtractorProvider.overrideWithValue(ytdlp ?? _FakeYtdlp()),
+        mediaProcessorProvider.overrideWithValue(processor ?? _FakeProcessor()),
+        storageServiceProvider.overrideWithValue(storage ?? _FakeStorage()),
+        foregroundServiceProvider.overrideWithValue(
+          foreground ?? _FakeForeground(),
+        ),
+        coverFetcherProvider.overrideWithValue(cover ?? _FakeCover()),
+        historyServiceProvider.overrideWith((ref) async => history),
+      ],
+    );
     addTearDown(c.dispose);
     return c;
   }
@@ -171,7 +295,9 @@ void main() {
       final ytdlp = _FakeYtdlp();
       final c = makeContainer(ytdlp: ytdlp);
 
-      await c.read(downloadControllerProvider.notifier).extract('https://youtu.be/abc');
+      await c
+          .read(downloadControllerProvider.notifier)
+          .extract('https://youtu.be/abc');
 
       expect(ytdlp.extractCalls, 1);
       final s = c.read(downloadControllerProvider);
@@ -180,20 +306,62 @@ void main() {
     });
 
     test('extraction failure surfaces the error code', () async {
-      final ytdlp = _FakeYtdlp(extractError: const ApiException(code: ApiErrorCode.private, message: 'private'));
+      final ytdlp = _FakeYtdlp(
+        extractError: const ApiException(
+          code: ApiErrorCode.private,
+          message: 'private',
+        ),
+      );
       final c = makeContainer(ytdlp: ytdlp);
 
-      await c.read(downloadControllerProvider.notifier).extract('https://youtu.be/abc');
+      await c
+          .read(downloadControllerProvider.notifier)
+          .extract('https://youtu.be/abc');
 
       final s = c.read(downloadControllerProvider);
       expect(s, isA<Failed>());
       expect((s as Failed).code, ApiErrorCode.private);
     });
+
+    test(
+      'the newest concurrent extraction wins even when the older one finishes last',
+      () async {
+        final ytdlp = _ControlledExtractYtdlp();
+        final c = makeContainer(ytdlp: ytdlp);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        const firstInfo = VideoInfo(title: 'First', formats: [_muxed]);
+        const secondInfo = VideoInfo(title: 'Second', formats: [_muxed]);
+
+        final first = ctrl.extract('https://example.com/first');
+        final second = ctrl.extract('https://example.com/second');
+
+        ytdlp.pending['https://example.com/second']!.complete(secondInfo);
+        await second;
+        expect(
+          (c.read(downloadControllerProvider) as FormatsReady).info.title,
+          'Second',
+        );
+
+        ytdlp.pending['https://example.com/first']!.complete(firstInfo);
+        await first;
+        expect(
+          (c.read(downloadControllerProvider) as FormatsReady).info.title,
+          'Second',
+        );
+        expect(ytdlp.extractedUrls, [
+          'https://example.com/first',
+          'https://example.com/second',
+        ]);
+      },
+    );
   });
 
   group('download pipeline', () {
     /// Run extract → select → download, capturing every state emitted.
-    Future<List<DownloadState>> run(ProviderContainer c, MediaFormat fmt) async {
+    Future<List<DownloadState>> run(
+      ProviderContainer c,
+      MediaFormat fmt,
+    ) async {
       final seen = <DownloadState>[];
       c.listen(downloadControllerProvider, (_, next) => seen.add(next));
       final ctrl = c.read(downloadControllerProvider.notifier);
@@ -221,62 +389,84 @@ void main() {
       expect(rows.single.filePath, 'content://media/external/downloads/42');
     });
 
-    test('falls back to the saved path when there is no uri (legacy API <=28)', () async {
-      final c = makeContainer(
+    test(
+      'falls back to the saved path when there is no uri (legacy API <=28)',
+      () async {
+        final c = makeContainer(
           storage: _FakeStorage(
-              result: const StorageResult(StorageStatus.success,
-                  path: '/storage/emulated/0/Download/woofer/Clip.mp4')));
+            result: const StorageResult(
+              StorageStatus.success,
+              path: '/storage/emulated/0/Download/woofer/Clip.mp4',
+            ),
+          ),
+        );
 
-      await run(c, _muxed);
+        await run(c, _muxed);
 
-      final rows = await history.getAll();
-      expect(rows.single.filePath, '/storage/emulated/0/Download/woofer/Clip.mp4');
-    });
+        final rows = await history.getAll();
+        expect(
+          rows.single.filePath,
+          '/storage/emulated/0/Download/woofer/Clip.mp4',
+        );
+      },
+    );
 
-    test('video-only format: downloads video + audio, merges, then done', () async {
-      final ytdlp = _FakeYtdlp();
-      final proc = _FakeProcessor();
-      final c = makeContainer(ytdlp: ytdlp, processor: proc);
+    test(
+      'video-only format: downloads video + audio, merges, then done',
+      () async {
+        final ytdlp = _FakeYtdlp();
+        final proc = _FakeProcessor();
+        final c = makeContainer(ytdlp: ytdlp, processor: proc);
 
-      final seen = await run(c, _videoOnly);
+        final seen = await run(c, _videoOnly);
 
-      expect(c.read(downloadControllerProvider), isA<Done>());
-      // Both the video and the best audio track were fetched.
-      expect(ytdlp.downloaded, ['137', '140']);
-      // A merge ran, and the Processing state was surfaced with a merge label.
-      expect(proc.ops.single, startsWith('merge:'));
-      final processing = seen.whereType<Processing>().single;
-      expect(processing.label, contains('Merging'));
-    });
+        expect(c.read(downloadControllerProvider), isA<Done>());
+        // Both the video and the best audio track were fetched.
+        expect(ytdlp.downloaded, ['137', '140']);
+        // A merge ran, and the Processing state was surfaced with a merge label.
+        expect(proc.ops.single, startsWith('merge:'));
+        final processing = seen.whereType<Processing>().single;
+        expect(processing.label, contains('Merging'));
+      },
+    );
 
-    test('audio-only format: transcodes to MP3 at 192k with the cover attached', () async {
-      final ytdlp = _FakeYtdlp();
-      final proc = _FakeProcessor();
-      final cover = _FakeCover();
-      final c = makeContainer(ytdlp: ytdlp, processor: proc, cover: cover);
+    test(
+      'audio-only format: transcodes to MP3 at 192k with the cover attached',
+      () async {
+        final ytdlp = _FakeYtdlp();
+        final proc = _FakeProcessor();
+        final cover = _FakeCover();
+        final c = makeContainer(ytdlp: ytdlp, processor: proc, cover: cover);
 
-      final seen = await run(c, _audioOnly);
+        final seen = await run(c, _audioOnly);
 
-      expect(c.read(downloadControllerProvider), isA<Done>());
-      expect(proc.ops.single, contains('@192'));
-      // The artwork comes from the video's own thumbnail and reaches ffmpeg,
-      // along with the tags that make it read as a track rather than a filename.
-      expect(cover.requestedUrl, 't'); // _info.thumbnail
-      expect(proc.ops.single, contains('+cover:/tmp/cover.jpg'));
-      expect(proc.ops.single, contains('+title:Clip'));
-      expect(proc.ops.single, contains('+artist:Chan'));
-      expect(seen.whereType<Processing>().single.label, contains('MP3'));
-    });
+        expect(c.read(downloadControllerProvider), isA<Done>());
+        expect(proc.ops.single, contains('@192'));
+        // The artwork comes from the video's own thumbnail and reaches ffmpeg,
+        // along with the tags that make it read as a track rather than a filename.
+        expect(cover.requestedUrl, 't'); // _info.thumbnail
+        expect(proc.ops.single, contains('+cover:/tmp/cover.jpg'));
+        expect(proc.ops.single, contains('+title:Clip'));
+        expect(proc.ops.single, contains('+artist:Chan'));
+        expect(seen.whereType<Processing>().single.label, contains('MP3'));
+      },
+    );
 
-    test('no thumbnail: still produces the MP3, just without artwork', () async {
-      final proc = _FakeProcessor();
-      final c = makeContainer(processor: proc, cover: _FakeCover(result: null));
+    test(
+      'no thumbnail: still produces the MP3, just without artwork',
+      () async {
+        final proc = _FakeProcessor();
+        final c = makeContainer(
+          processor: proc,
+          cover: _FakeCover(result: null),
+        );
 
-      await run(c, _audioOnly);
+        await run(c, _audioOnly);
 
-      expect(c.read(downloadControllerProvider), isA<Done>());
-      expect(proc.ops.single, isNot(contains('+cover')));
-    });
+        expect(c.read(downloadControllerProvider), isA<Done>());
+        expect(proc.ops.single, isNot(contains('+cover')));
+      },
+    );
 
     test('notifications walk the phases and end on a tappable result', () async {
       final fg = _FakeForeground();
@@ -297,56 +487,159 @@ void main() {
       // The ongoing notification is torn down before the result is posted —
       // stopping the service would otherwise take the result down with it.
       expect(fg.hides, 1);
-      expect(fg.results.single,
-          'Clip|Saved to Downloads · tap to open|content://media/external/downloads/42');
-    });
-
-    test('a failure notifies the honest headline and no file to open', () async {
-      final fg = _FakeForeground();
-      final c = makeContainer(
-        foreground: fg,
-        storage: _FakeStorage(
-            result: const StorageResult(StorageStatus.permissionDenied, message: 'denied')),
+      expect(
+        fg.results.single,
+        'Clip|Saved to Downloads · tap to open|content://media/external/downloads/42',
       );
-
-      await run(c, _muxed);
-
-      expect(fg.hides, 1);
-      expect(fg.results.single, 'Something went wrong|denied|null');
     });
 
-    test('cancelling from the notification stops the download silently', () async {
-      final fg = _FakeForeground();
-      final ytdlp = _FakeYtdlp();
-      final c = makeContainer(foreground: fg, ytdlp: ytdlp);
-      final ctrl = c.read(downloadControllerProvider.notifier);
+    test(
+      'a failure notifies the honest headline and no file to open',
+      () async {
+        final fg = _FakeForeground();
+        final c = makeContainer(
+          foreground: fg,
+          storage: _FakeStorage(
+            result: const StorageResult(
+              StorageStatus.permissionDenied,
+              message: 'denied',
+            ),
+          ),
+        );
 
-      await ctrl.extract('https://youtu.be/abc');
-      ctrl.selectFormat(_muxed);
-      final pending = ctrl.download();
-      fg.cancelHandler!(); // the notification's Cancel button
-      await pending;
+        await run(c, _muxed);
 
-      expect(c.read(downloadControllerProvider), isA<FormatsReady>());
-      expect(await history.getAll(), isEmpty);
-      // The transfer itself is aborted, not just flagged — otherwise a 4K cancel
-      // sits there downloading for another few minutes.
-      expect(ytdlp.cancels, 1);
-      expect(fg.hides, 1); // notification cleared
-      expect(fg.results, isEmpty); // ...but no "it failed" — the user did this
-    });
+        expect(fg.hides, 1);
+        expect(fg.results.single, 'Something went wrong|denied|null');
+      },
+    );
 
-    test('a save failure becomes Failed(unknown) and records no history', () async {
-      final c = makeContainer(
-          storage: _FakeStorage(result: const StorageResult(StorageStatus.permissionDenied, message: 'denied')));
+    test(
+      'cancelling from the notification stops the download silently',
+      () async {
+        final fg = _FakeForeground();
+        final ytdlp = _FakeYtdlp();
+        final c = makeContainer(foreground: fg, ytdlp: ytdlp);
+        final ctrl = c.read(downloadControllerProvider.notifier);
 
-      await run(c, _muxed);
+        await ctrl.extract('https://youtu.be/abc');
+        ctrl.selectFormat(_muxed);
+        final pending = ctrl.download();
+        fg.cancelHandler!(); // the notification's Cancel button
+        await pending;
 
-      final s = c.read(downloadControllerProvider);
-      expect(s, isA<Failed>());
-      expect((s as Failed).code, ApiErrorCode.unknown);
-      expect(await history.getAll(), isEmpty);
-    });
+        expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+        expect(await history.getAll(), isEmpty);
+        // The transfer itself is aborted, not just flagged — otherwise a 4K cancel
+        // sits there downloading for another few minutes.
+        expect(ytdlp.cancels, 1);
+        expect(fg.hides, 1); // notification cleared
+        expect(
+          fg.results,
+          isEmpty,
+        ); // ...but no "it failed" — the user did this
+      },
+    );
+
+    test(
+      'a replacement extraction is rejected while a download owns yt-dlp',
+      () async {
+        final ytdlp = _BlockingDownloadYtdlp();
+        final c = makeContainer(ytdlp: ytdlp);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/original');
+        ctrl.selectFormat(_muxed);
+        final pending = ctrl.download();
+        await ytdlp.firstStarted.future;
+
+        await ctrl.extract('https://example.com/replacement');
+
+        expect(c.read(downloadControllerProvider), isA<Downloading>());
+        expect(ytdlp.extractedUrls, ['https://example.com/original']);
+        ytdlp.firstDownload.complete('/tmp/woofer_18.bin');
+        await pending;
+
+        expect(ytdlp.downloadUrls, ['https://example.com/original']);
+        expect(c.read(downloadControllerProvider), isA<Done>());
+      },
+    );
+
+    test(
+      'a replacement extraction is rejected while media is processing',
+      () async {
+        final ytdlp = _FakeYtdlp();
+        final processor = _BlockingProcessor();
+        final c = makeContainer(ytdlp: ytdlp, processor: processor);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/original');
+        ctrl.selectFormat(_videoOnly);
+        final pending = ctrl.download();
+        await processor.mergeStarted.future;
+        expect(c.read(downloadControllerProvider), isA<Processing>());
+
+        await ctrl.extract('https://example.com/replacement');
+
+        expect(c.read(downloadControllerProvider), isA<Processing>());
+        expect(ytdlp.extractedUrls, ['https://example.com/original']);
+        processor.mergeResult.complete('/tmp/merged.mp4');
+        await pending;
+        expect(c.read(downloadControllerProvider), isA<Done>());
+      },
+    );
+
+    test(
+      'cancel and immediate restart cannot overlap native downloads',
+      () async {
+        final ytdlp = _BlockingDownloadYtdlp();
+        final c = makeContainer(ytdlp: ytdlp);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/original');
+        ctrl.selectFormat(_muxed);
+        final cancelled = ctrl.download();
+        await ytdlp.firstStarted.future;
+
+        ctrl.cancel();
+        await ctrl.download(); // ignored while the cancelled call is unwinding
+        expect(ytdlp.downloadCalls, 1);
+
+        await cancelled;
+        final ready = c.read(downloadControllerProvider);
+        expect(ready, isA<FormatsReady>());
+        expect((ready as FormatsReady).selected, _muxed);
+
+        await ctrl.download();
+        expect(ytdlp.downloadCalls, 2);
+        expect(
+          ytdlp.downloadUrls,
+          everyElement('https://example.com/original'),
+        );
+        expect(c.read(downloadControllerProvider), isA<Done>());
+      },
+    );
+
+    test(
+      'a save failure becomes Failed(unknown) and records no history',
+      () async {
+        final c = makeContainer(
+          storage: _FakeStorage(
+            result: const StorageResult(
+              StorageStatus.permissionDenied,
+              message: 'denied',
+            ),
+          ),
+        );
+
+        await run(c, _muxed);
+
+        final s = c.read(downloadControllerProvider);
+        expect(s, isA<Failed>());
+        expect((s as Failed).code, ApiErrorCode.unknown);
+        expect(await history.getAll(), isEmpty);
+      },
+    );
   });
 
   test('cancel returns to format selection without saving', () async {

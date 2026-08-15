@@ -19,12 +19,24 @@ import 'download_state.dart';
 
 /// Injectable services — override these in tests. Everything runs on-device;
 /// yt-dlp (Chaquopy) is the single extractor for every site, YouTube included.
-final ytdlpExtractorProvider = Provider<YtdlpExtractor>((ref) => YtdlpExtractor());
-final mediaProcessorProvider = Provider<MediaProcessor>((ref) => MediaProcessor());
-final storageServiceProvider = Provider<StorageService>((ref) => StorageService());
-final foregroundServiceProvider = Provider<ForegroundService>((ref) => ForegroundService());
-final coverFetcherProvider = Provider<CoverFetcher>((ref) => const CoverFetcher());
-final historyServiceProvider = FutureProvider<HistoryService>((ref) => HistoryService.open());
+final ytdlpExtractorProvider = Provider<YtdlpExtractor>(
+  (ref) => YtdlpExtractor(),
+);
+final mediaProcessorProvider = Provider<MediaProcessor>(
+  (ref) => MediaProcessor(),
+);
+final storageServiceProvider = Provider<StorageService>(
+  (ref) => StorageService(),
+);
+final foregroundServiceProvider = Provider<ForegroundService>(
+  (ref) => ForegroundService(),
+);
+final coverFetcherProvider = Provider<CoverFetcher>(
+  (ref) => const CoverFetcher(),
+);
+final historyServiceProvider = FutureProvider<HistoryService>(
+  (ref) => HistoryService.open(),
+);
 
 /// Past downloads, newest first. Invalidated whenever a download is recorded.
 final historyListProvider = FutureProvider<List<HistoryEntry>>((ref) async {
@@ -41,7 +53,8 @@ class DownloadController extends Notifier<DownloadState> {
   String? _url;
   VideoInfo? _info;
   MediaFormat? _selected;
-  bool _cancelled = false;
+  int _extractGeneration = 0;
+  _DownloadOperation? _activeDownload;
 
   @override
   DownloadState build() {
@@ -57,14 +70,32 @@ class DownloadController extends Notifier<DownloadState> {
   ForegroundService get _foreground => ref.read(foregroundServiceProvider);
   CoverFetcher get _cover => ref.read(coverFetcherProvider);
 
+  /// Whether a URL can be resolved right now. Concurrent extractions are safe
+  /// (the newest one wins), but a running download owns the native yt-dlp
+  /// channel until it has completely unwound.
+  bool get canExtract => _activeDownload == null;
+
   /// Resolve [url] to formats via yt-dlp. Moves to [FormatsReady] or [Failed].
   Future<void> extract(String url) async {
+    // The native bridge and its progress callback support one download at a
+    // time. Reject replacement links until the current pipeline (including its
+    // cleanup) is finished, whether this came from Fetch or a share intent.
+    if (!canExtract) return;
+
+    // More than one extraction may be in flight (for example, two rapid share
+    // intents). Only the newest is allowed to publish a result.
+    final generation = ++_extractGeneration;
     _url = url;
+    _info = null;
+    _selected = null;
     state = const Loading();
     try {
-      _info = await _ytdlp.extractInfo(url);
-      state = FormatsReady(_info!);
+      final info = await _ytdlp.extractInfo(url);
+      if (generation != _extractGeneration || !canExtract) return;
+      _info = info;
+      state = FormatsReady(info);
     } on ApiException catch (e) {
+      if (generation != _extractGeneration || !canExtract) return;
       state = Failed(e.code, e.message);
     }
   }
@@ -78,6 +109,7 @@ class DownloadController extends Notifier<DownloadState> {
   /// After a failure: reopen format selection if we already resolved the video
   /// (so the sheet comes back), otherwise re-resolve the last URL from scratch.
   void retry() {
+    if (!canExtract) return;
     final info = _info;
     final url = _url;
     if (info != null) {
@@ -89,6 +121,8 @@ class DownloadController extends Notifier<DownloadState> {
 
   /// Back to a clean slate.
   void reset() {
+    // Invalidate an extraction which may still complete after the UI resets.
+    _extractGeneration++;
     _url = null;
     _info = null;
     _selected = null;
@@ -97,22 +131,28 @@ class DownloadController extends Notifier<DownloadState> {
 
   /// Abort the flow and return to format selection.
   ///
-  /// [_cancelled] stops the pipeline at the next step boundary, and the extractor
+  /// The operation's cancellation flag stops the pipeline at the next step
+  /// boundary, and the extractor
   /// is told to abort the transfer itself — otherwise cancelling a 4K download
   /// only registered once its last byte had arrived, minutes later, which made
   /// the notification's Cancel button look broken.
   // ponytail: an ffmpeg merge already under way still runs to completion (its
   // output is then discarded). FFmpegKit.cancel() if that ever matters.
   void cancel() {
-    _cancelled = true;
+    final operation = _activeDownload;
+    if (operation == null || operation.cancelled) return;
+    operation.cancelled = true;
     unawaited(_ytdlp.cancel());
-    final info = _info;
-    if (info != null) state = FormatsReady(info, selected: _selected);
+    // Keep the active state until the native call has actually unwound. This
+    // prevents an immediate retry from sharing YtdlpExtractor's one progress
+    // callback with the cancelled transfer. The finally block restores the
+    // selected format once cleanup is complete.
   }
 
   /// Download the selected format: fetch stream(s), merge/transcode if needed,
   /// save to Downloads, record history. No-op unless a format is selected.
   Future<void> download() async {
+    if (_activeDownload != null) return;
     final ready = state;
     if (ready is! FormatsReady || ready.selected == null) return;
     final fmt = ready.selected!;
@@ -120,9 +160,10 @@ class DownloadController extends Notifier<DownloadState> {
     final url = _url;
     if (url == null) return;
 
+    final operation = _DownloadOperation(url: url, info: info, format: fmt);
+    _activeDownload = operation;
     _info = info;
     _selected = fmt;
-    _cancelled = false;
     final temps = <String>[];
 
     // Set Downloading synchronously (before any await) so a cancel() racing the
@@ -148,24 +189,29 @@ class DownloadController extends Notifier<DownloadState> {
     final tmpDir = await Directory.systemTemp.createTemp('woofer_dl_');
     try {
       // 1. Download the selected stream.
-      final primary = await _downloadFormat(fmt, tmpDir.path, onProgress: (received, total) {
-        if (_cancelled) return;
-        state = Downloading(format: fmt, received: received, total: total);
-        // Only touch the notification when the whole percent changes — progress
-        // hooks fire far too often to cross the platform channel every time.
-        final percent = total > 0 ? (received * 100) ~/ total : -1;
-        if (percent != shownPercent) {
-          shownPercent = percent;
-          final of = total > 0 ? ' of ${formatBytes(total)}' : '';
-          _foreground.show(
-            label,
-            text: 'Downloading · ${formatBytes(received)}$of',
-            percent: percent,
-          );
-        }
-      });
+      final primary = await _downloadFormat(
+        operation.url,
+        fmt,
+        tmpDir.path,
+        onProgress: (received, total) {
+          if (_shouldStop(operation)) return;
+          state = Downloading(format: fmt, received: received, total: total);
+          // Only touch the notification when the whole percent changes — progress
+          // hooks fire far too often to cross the platform channel every time.
+          final percent = total > 0 ? (received * 100) ~/ total : -1;
+          if (percent != shownPercent) {
+            shownPercent = percent;
+            final of = total > 0 ? ' of ${formatBytes(total)}' : '';
+            _foreground.show(
+              label,
+              text: 'Downloading · ${formatBytes(received)}$of',
+              percent: percent,
+            );
+          }
+        },
+      );
       temps.add(primary);
-      if (_cancelled) return;
+      if (_shouldStop(operation)) return;
 
       // 2. Post-process: merge video-only with audio, or transcode audio to MP3.
       final String finalPath;
@@ -174,11 +220,18 @@ class DownloadController extends Notifier<DownloadState> {
       if (fmt.needsMerge) {
         final audioFmt = _bestAudio(info);
         if (audioFmt == null) {
-          throw const ApiException(code: ApiErrorCode.unknown, message: 'No audio track available to merge.');
+          throw const ApiException(
+            code: ApiErrorCode.unknown,
+            message: 'No audio track available to merge.',
+          );
         }
-        final audioPath = await _downloadFormat(audioFmt, tmpDir.path);
+        final audioPath = await _downloadFormat(
+          operation.url,
+          audioFmt,
+          tmpDir.path,
+        );
         temps.add(audioPath);
-        if (_cancelled) return;
+        if (_shouldStop(operation)) return;
         state = Processing(fmt, 'Merging video and audio');
         // Indeterminate — a 4K merge isn't instant and ffmpeg gives no percentage.
         await _foreground.show(label, text: 'Merging video and audio');
@@ -209,7 +262,7 @@ class DownloadController extends Notifier<DownloadState> {
         ext = fmt.ext ?? 'mp4';
         mime = 'video/mp4';
       }
-      if (_cancelled) return;
+      if (_shouldStop(operation)) return;
 
       // 3. Save to public Downloads. Its own phase: copying 1.3 GB into MediaStore
       // is slow enough that a stalled "Merging" would read as a hang.
@@ -219,11 +272,16 @@ class DownloadController extends Notifier<DownloadState> {
         fileName: _fileName(info.title, ext),
         mimeType: mime,
       );
-      if (_cancelled) return;
+      if (_shouldStop(operation)) return;
       if (!saved.isSuccess) {
         final message = saved.message ?? 'Could not save the file.';
         state = Failed(ApiErrorCode.unknown, message);
-        outcome = (title: describeError(ApiErrorCode.unknown), text: message, uri: null, mime: null);
+        outcome = (
+          title: describeError(ApiErrorCode.unknown),
+          text: message,
+          uri: null,
+          mime: null,
+        );
         return;
       }
 
@@ -236,7 +294,7 @@ class DownloadController extends Notifier<DownloadState> {
       // wrong for a merge (video only) and for an MP3 transcode.
       final bytes = await out.exists() ? await out.length() : fmt.filesize;
       final stored = saved.uri ?? saved.path ?? finalPath;
-      await _recordHistory(info, url, stored, fmt, bytes);
+      await _recordHistory(info, operation.url, stored, fmt, bytes);
       outcome = (
         title: label,
         text: 'Saved to Downloads · tap to open',
@@ -245,15 +303,22 @@ class DownloadController extends Notifier<DownloadState> {
       );
       state = Done(path: saved.path ?? stored, uri: saved.uri);
     } on ApiException catch (e) {
-      if (!_cancelled) {
+      if (!_shouldStop(operation)) {
         state = Failed(e.code, e.message);
-        outcome = (title: describeError(e.code), text: e.message, uri: null, mime: null);
+        outcome = (
+          title: describeError(e.code),
+          text: e.message,
+          uri: null,
+          mime: null,
+        );
       }
     } finally {
       for (final p in temps) {
         await _deleteQuietly(p);
       }
-      await _deleteDirQuietly(tmpDir); // nuke any yt-dlp leftovers (.part, fragments)
+      await _deleteDirQuietly(
+        tmpDir,
+      ); // nuke any yt-dlp leftovers (.part, fragments)
       // Release the process last: cleanup is part of the download too. The result
       // has to be posted *after*, because stopping the service takes its own
       // notification down with it.
@@ -267,37 +332,55 @@ class DownloadController extends Notifier<DownloadState> {
           mimeType: outcome.mime,
         );
       }
+      if (identical(_activeDownload, operation)) {
+        _activeDownload = null;
+        if (operation.cancelled) {
+          state = FormatsReady(operation.info, selected: operation.format);
+        }
+      }
     }
   }
 
   /// Download one [format] into [dir] (a private scratch dir) via yt-dlp.
   Future<String> _downloadFormat(
+    String url,
     MediaFormat format,
     String dir, {
     void Function(int received, int total)? onProgress,
-  }) =>
-      _ytdlp.download(_url!, format.formatId, onProgress: onProgress, dir: dir);
+  }) => _ytdlp.download(url, format.formatId, onProgress: onProgress, dir: dir);
+
+  bool _shouldStop(_DownloadOperation operation) =>
+      operation.cancelled || !identical(_activeDownload, operation);
 
   /// Best audio-only format to pair with a video-only stream (largest = best).
   MediaFormat? _bestAudio(VideoInfo info) {
-    final audios = info.formats.where((f) => f.hasAudio && !f.hasVideo).toList();
+    final audios = info.formats
+        .where((f) => f.hasAudio && !f.hasVideo)
+        .toList();
     if (audios.isEmpty) return null;
     audios.sort((a, b) => (b.filesize ?? 0).compareTo(a.filesize ?? 0));
     return audios.first;
   }
 
   Future<void> _recordHistory(
-      VideoInfo info, String url, String path, MediaFormat format, int? size) async {
+    VideoInfo info,
+    String url,
+    String path,
+    MediaFormat format,
+    int? size,
+  ) async {
     try {
       final history = await ref.read(historyServiceProvider.future);
-      await history.add(HistoryEntry(
-        title: info.title,
-        thumbnail: info.thumbnail,
-        sourceUrl: url,
-        filePath: path,
-        format: format.resolution ?? format.note ?? format.formatId,
-        size: size,
-      ));
+      await history.add(
+        HistoryEntry(
+          title: info.title,
+          thumbnail: info.thumbnail,
+          sourceUrl: url,
+          filePath: path,
+          format: format.resolution ?? format.note ?? format.formatId,
+          size: size,
+        ),
+      );
       ref.invalidate(historyListProvider); // the Library tab picks it up
     } catch (_) {
       // ponytail: history is best-effort — logging failure must not fail a saved download.
@@ -331,8 +414,24 @@ class DownloadController extends Notifier<DownloadState> {
   }
 
   String _videoMime(String ext) => switch (ext) {
-        'webm' => 'video/webm',
-        'mkv' => 'video/x-matroska',
-        _ => 'video/mp4',
-      };
+    'webm' => 'video/webm',
+    'mkv' => 'video/x-matroska',
+    _ => 'video/mp4',
+  };
+}
+
+/// Immutable inputs and mutable cancellation ownership for one pipeline.
+/// Identity, rather than controller-wide booleans, keeps stale callbacks from
+/// affecting any operation which may follow it.
+class _DownloadOperation {
+  final String url;
+  final VideoInfo info;
+  final MediaFormat format;
+  bool cancelled = false;
+
+  _DownloadOperation({
+    required this.url,
+    required this.info,
+    required this.format,
+  });
 }

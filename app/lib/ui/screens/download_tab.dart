@@ -61,17 +61,25 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
     });
 
     final loading = state is Loading;
+    final busy = loading || state is Downloading || state is Processing;
     final hasText = _url.text.trim().isNotEmpty;
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 100), // clear the floating nav pill
+      padding: const EdgeInsets.fromLTRB(
+        20,
+        4,
+        20,
+        100,
+      ), // clear the floating nav pill
       physics: const BouncingScrollPhysics(),
       children: [
         // Title row.
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Expanded(child: Wordmark(fontSize: AppType.display, height: 0.95)),
+            const Expanded(
+              child: Wordmark(fontSize: AppType.display, height: 0.95),
+            ),
             _InfoCircle(onTap: () => showAboutSheet(context)),
           ],
         ),
@@ -95,7 +103,7 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
           label: 'Fetch',
           icon: CupertinoIcons.arrow_down_circle,
           loading: loading,
-          onPressed: loading ? null : _fetch,
+          onPressed: busy ? null : _fetch,
         ),
 
         // Detected media (formats resolved, sheet may be closed).
@@ -119,7 +127,11 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
         // Error.
         if (state is Failed) ...[
           const SizedBox(height: AppSpacing.md),
-          _ErrorCard(state: state, onRetry: () => ref.read(downloadControllerProvider.notifier).retry()),
+          _ErrorCard(
+            state: state,
+            onRetry: () =>
+                ref.read(downloadControllerProvider.notifier).retry(),
+          ),
         ],
 
         // Empty hint.
@@ -138,20 +150,20 @@ class _InfoCircle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          width: AppTouch.min,
-          height: AppTouch.min,
-          margin: const EdgeInsets.only(top: 1),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: CupertinoColors.white.withValues(alpha: 0.05),
-            border: AppGlass.hairline(0.10),
-          ),
-          child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
-        ),
-      );
+    behavior: HitTestBehavior.opaque,
+    onTap: onTap,
+    child: Container(
+      width: AppTouch.min,
+      height: AppTouch.min,
+      margin: const EdgeInsets.only(top: 1),
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: CupertinoColors.white.withValues(alpha: 0.05),
+        border: AppGlass.hairline(0.10),
+      ),
+      child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
+    ),
+  );
 }
 
 /// Uppercase section label with letter-spacing (VIDEO LINK / NOW DOWNLOADING).
@@ -162,17 +174,17 @@ class _CaptionLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 2),
-        child: Text(
-          text.toUpperCase(),
-          style: TextStyle(
-            fontSize: AppType.label,
-            fontWeight: FontWeight.w600,
-            letterSpacing: 2.0,
-            color: dim ? AppColors.n500 : AppColors.n400,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(left: 2),
+    child: Text(
+      text.toUpperCase(),
+      style: TextStyle(
+        fontSize: AppType.label,
+        fontWeight: FontWeight.w600,
+        letterSpacing: 2.0,
+        color: dim ? AppColors.n500 : AppColors.n400,
+      ),
+    ),
+  );
 }
 
 /// Frosted URL input: text field + clear (when non-empty) + inline Paste. The
@@ -219,8 +231,14 @@ class _UrlField extends StatelessWidget {
               maxLines: 1,
               decoration: const BoxDecoration(),
               padding: const EdgeInsets.symmetric(vertical: 13),
-              style: const TextStyle(fontSize: AppType.body, color: AppColors.text),
-              placeholderStyle: const TextStyle(fontSize: AppType.body, color: AppColors.n600),
+              style: const TextStyle(
+                fontSize: AppType.body,
+                color: AppColors.text,
+              ),
+              placeholderStyle: const TextStyle(
+                fontSize: AppType.body,
+                color: AppColors.n600,
+              ),
             ),
           ),
           if (active)
@@ -230,7 +248,11 @@ class _UrlField extends StatelessWidget {
               child: const Padding(
                 // Padded out to a comfortable tap target around a small glyph.
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                child: Icon(CupertinoIcons.clear_circled_solid, size: 20, color: AppColors.n400),
+                child: Icon(
+                  CupertinoIcons.clear_circled_solid,
+                  size: 20,
+                  color: AppColors.n400,
+                ),
               ),
             ),
           const SizedBox(width: 2),
@@ -247,13 +269,20 @@ class _UrlField extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: const [
-                  Icon(CupertinoIcons.doc_on_clipboard, size: 18, color: AppColors.a200),
+                  Icon(
+                    CupertinoIcons.doc_on_clipboard,
+                    size: 18,
+                    color: AppColors.a200,
+                  ),
                   SizedBox(width: 7),
-                  Text('Paste',
-                      style: TextStyle(
-                          fontSize: AppType.body,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.a200)),
+                  Text(
+                    'Paste',
+                    style: TextStyle(
+                      fontSize: AppType.body,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.a200,
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -270,14 +299,19 @@ class _DetectedCard extends StatelessWidget {
   final VideoInfo info;
   final String sourceUrl;
   final VoidCallback onOptions;
-  const _DetectedCard({required this.info, required this.sourceUrl, required this.onOptions});
+  const _DetectedCard({
+    required this.info,
+    required this.sourceUrl,
+    required this.onOptions,
+  });
 
   bool get _hasVideo => info.formats.any((f) => f.hasVideo);
 
   @override
   Widget build(BuildContext context) {
     final duration = formatDuration(info.duration);
-    final meta = _sourceLabel(sourceUrl) + (duration.isEmpty ? '' : ' · $duration');
+    final meta =
+        _sourceLabel(sourceUrl) + (duration.isEmpty ? '' : ' · $duration');
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
@@ -302,11 +336,16 @@ class _DetectedCard extends StatelessWidget {
                   Positioned(
                     top: 10,
                     left: 10,
-                    child: _Badge(child: Text(_sourceLabel(sourceUrl),
+                    child: _Badge(
+                      child: Text(
+                        _sourceLabel(sourceUrl),
                         style: const TextStyle(
-                            fontSize: AppType.label,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.a200))),
+                          fontSize: AppType.label,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.a200,
+                        ),
+                      ),
+                    ),
                   ),
                   // Duration.
                   if (duration.isNotEmpty)
@@ -314,16 +353,24 @@ class _DetectedCard extends StatelessWidget {
                       bottom: 10,
                       right: 10,
                       child: Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 9,
+                          vertical: 4,
+                        ),
                         decoration: BoxDecoration(
-                          color: const Color(0xFF060710).withValues(alpha: 0.62),
+                          color: const Color(
+                            0xFF060710,
+                          ).withValues(alpha: 0.62),
                           borderRadius: BorderRadius.circular(7),
                         ),
-                        child: Text(duration,
-                            style: const TextStyle(
-                                fontSize: AppType.label,
-                                fontWeight: FontWeight.w600,
-                                color: CupertinoColors.white)),
+                        child: Text(
+                          duration,
+                          style: const TextStyle(
+                            fontSize: AppType.label,
+                            fontWeight: FontWeight.w600,
+                            color: CupertinoColors.white,
+                          ),
+                        ),
                       ),
                     ),
                   // Play.
@@ -338,7 +385,11 @@ class _DetectedCard extends StatelessWidget {
                         color: CupertinoColors.white.withValues(alpha: 0.12),
                         border: AppGlass.hairline(0.16),
                       ),
-                      child: const Icon(CupertinoIcons.play_fill, size: 17, color: AppColors.a200),
+                      child: const Icon(
+                        CupertinoIcons.play_fill,
+                        size: 17,
+                        color: AppColors.a200,
+                      ),
                     ),
                   ),
                 ],
@@ -353,25 +404,36 @@ class _DetectedCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(info.title ?? 'Detected media',
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                                fontSize: AppType.bodyStrong,
-                                fontWeight: FontWeight.w600,
-                                height: 1.25,
-                                color: AppColors.text)),
+                        Text(
+                          info.title ?? 'Detected media',
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: AppType.bodyStrong,
+                            fontWeight: FontWeight.w600,
+                            height: 1.25,
+                            color: AppColors.text,
+                          ),
+                        ),
                         const SizedBox(height: 3),
-                        Text(meta,
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                        Text(
+                          meta,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: AppType.meta,
+                            color: AppColors.n400,
+                          ),
+                        ),
                       ],
                     ),
                   ),
                   const SizedBox(width: 10),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 14,
+                      vertical: 12,
+                    ),
                     decoration: BoxDecoration(
                       color: CupertinoColors.white.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(13),
@@ -380,13 +442,20 @@ class _DetectedCard extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        Icon(CupertinoIcons.slider_horizontal_3, size: 18, color: AppColors.a200),
+                        Icon(
+                          CupertinoIcons.slider_horizontal_3,
+                          size: 18,
+                          color: AppColors.a200,
+                        ),
                         SizedBox(width: 7),
-                        Text('Options',
-                            style: TextStyle(
-                                fontSize: AppType.body,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.a200)),
+                        Text(
+                          'Options',
+                          style: TextStyle(
+                            fontSize: AppType.body,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.a200,
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -438,7 +507,8 @@ class _Thumb extends StatelessWidget {
       url!,
       fit: BoxFit.cover,
       errorBuilder: (_, _, _) => placeholder,
-      loadingBuilder: (ctx, child, progress) => progress == null ? child : placeholder,
+      loadingBuilder: (ctx, child, progress) =>
+          progress == null ? child : placeholder,
     );
   }
 }
@@ -449,14 +519,14 @@ class _Badge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-        decoration: BoxDecoration(
-          color: CupertinoColors.white.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(9),
-          border: AppGlass.hairline(0.16),
-        ),
-        child: child,
-      );
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+    decoration: BoxDecoration(
+      color: CupertinoColors.white.withValues(alpha: 0.12),
+      borderRadius: BorderRadius.circular(9),
+      border: AppGlass.hairline(0.16),
+    ),
+    child: child,
+  );
 }
 
 /// Live download / processing card with progress bar and cancel.
@@ -468,19 +538,19 @@ class _ActiveCard extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final (title, icon, progress, status) = switch (state) {
       Downloading d => (
-          formatLabel(d.format),
-          d.format.hasVideo ? CupertinoIcons.film : CupertinoIcons.waveform,
-          d.progress,
-          d.total > 0
-              ? '${((d.progress ?? 0) * 100).toStringAsFixed(0)}% · ${formatBytes(d.received)} of ${formatBytes(d.total)}'
-              : '${formatBytes(d.received)} downloaded',
-        ),
+        formatLabel(d.format),
+        d.format.hasVideo ? CupertinoIcons.film : CupertinoIcons.waveform,
+        d.progress,
+        d.total > 0
+            ? '${((d.progress ?? 0) * 100).toStringAsFixed(0)}% · ${formatBytes(d.received)} of ${formatBytes(d.total)}'
+            : '${formatBytes(d.received)} downloaded',
+      ),
       Processing p => (
-          formatLabel(p.format),
-          p.format.hasVideo ? CupertinoIcons.film : CupertinoIcons.waveform,
-          null,
-          p.label,
-        ),
+        formatLabel(p.format),
+        p.format.hasVideo ? CupertinoIcons.film : CupertinoIcons.waveform,
+        null,
+        p.label,
+      ),
       _ => ('', CupertinoIcons.waveform, null, ''),
     };
 
@@ -499,20 +569,28 @@ class _ActiveCard extends ConsumerWidget {
               Icon(icon, size: 20, color: AppColors.a200),
               const SizedBox(width: 10),
               Expanded(
-                child: Text(title,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: const TextStyle(
-                        fontSize: AppType.body,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text)),
+                child: Text(
+                  title,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: AppType.body,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text,
+                  ),
+                ),
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
-                onTap: () => ref.read(downloadControllerProvider.notifier).cancel(),
+                onTap: () =>
+                    ref.read(downloadControllerProvider.notifier).cancel(),
                 child: const Padding(
                   padding: EdgeInsets.only(left: 12, top: 4, bottom: 4),
-                  child: Icon(CupertinoIcons.xmark, size: 20, color: AppColors.n400),
+                  child: Icon(
+                    CupertinoIcons.xmark,
+                    size: 20,
+                    color: AppColors.n400,
+                  ),
                 ),
               ),
             ],
@@ -520,7 +598,13 @@ class _ActiveCard extends ConsumerWidget {
           const SizedBox(height: 12),
           _ProgressBar(progress: progress),
           const SizedBox(height: 9),
-          Text(status, style: const TextStyle(fontSize: AppType.label, color: AppColors.n400)),
+          Text(
+            status,
+            style: const TextStyle(
+              fontSize: AppType.label,
+              color: AppColors.n400,
+            ),
+          ),
         ],
       ),
     );
@@ -540,7 +624,9 @@ class _ProgressBar extends StatelessWidget {
         child: Stack(
           children: [
             Positioned.fill(
-              child: ColoredBox(color: CupertinoColors.white.withValues(alpha: 0.14)),
+              child: ColoredBox(
+                color: CupertinoColors.white.withValues(alpha: 0.14),
+              ),
             ),
             if (progress != null)
               LayoutBuilder(
@@ -548,7 +634,9 @@ class _ProgressBar extends StatelessWidget {
                   duration: const Duration(milliseconds: 300),
                   width: c.maxWidth * progress!.clamp(0.0, 1.0),
                   decoration: const BoxDecoration(
-                    gradient: LinearGradient(colors: [Color(0xFFC3BAFF), AppColors.a500]),
+                    gradient: LinearGradient(
+                      colors: [Color(0xFFC3BAFF), AppColors.a500],
+                    ),
                   ),
                 ),
               )
@@ -571,9 +659,10 @@ class _IndeterminateStripe extends StatefulWidget {
 
 class _IndeterminateStripeState extends State<_IndeterminateStripe>
     with SingleTickerProviderStateMixin {
-  late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 1100))
-        ..repeat(reverse: true);
+  late final AnimationController _c = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 1100),
+  )..repeat(reverse: true);
 
   @override
   void dispose() {
@@ -583,13 +672,13 @@ class _IndeterminateStripeState extends State<_IndeterminateStripe>
 
   @override
   Widget build(BuildContext context) => FadeTransition(
-        opacity: Tween(begin: 0.4, end: 1.0).animate(_c),
-        child: const DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(colors: [Color(0xFFC3BAFF), AppColors.a500]),
-          ),
-        ),
-      );
+    opacity: Tween(begin: 0.4, end: 1.0).animate(_c),
+    child: const DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(colors: [Color(0xFFC3BAFF), AppColors.a500]),
+      ),
+    ),
+  );
 }
 
 class _ErrorCard extends StatelessWidget {
@@ -617,15 +706,23 @@ class _ErrorCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(describeError(state.code),
-                    style: const TextStyle(
-                        fontSize: AppType.bodyStrong,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.text)),
+                Text(
+                  describeError(state.code),
+                  style: const TextStyle(
+                    fontSize: AppType.bodyStrong,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.text,
+                  ),
+                ),
                 const SizedBox(height: 4),
-                Text(state.message,
-                    style: const TextStyle(
-                        fontSize: AppType.meta, height: 1.35, color: AppColors.n400)),
+                Text(
+                  state.message,
+                  style: const TextStyle(
+                    fontSize: AppType.meta,
+                    height: 1.35,
+                    color: AppColors.n400,
+                  ),
+                ),
               ],
             ),
           ),
@@ -635,9 +732,14 @@ class _ErrorCard extends StatelessWidget {
             onTap: onRetry,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-              child: Text('Try again',
-                  style: TextStyle(
-                      fontSize: AppType.body, fontWeight: FontWeight.w600, color: red)),
+              child: Text(
+                'Try again',
+                style: TextStyle(
+                  fontSize: AppType.body,
+                  fontWeight: FontWeight.w600,
+                  color: red,
+                ),
+              ),
             ),
           ),
         ],
@@ -651,13 +753,17 @@ class _Hint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => const Center(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'Tip: share a link straight from YouTube and Woofer will pick it up.',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontSize: AppType.meta, height: 1.5, color: AppColors.n500),
-          ),
+    child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 16),
+      child: Text(
+        'Tip: share a link straight from YouTube and Woofer will pick it up.',
+        textAlign: TextAlign.center,
+        style: TextStyle(
+          fontSize: AppType.meta,
+          height: 1.5,
+          color: AppColors.n500,
         ),
-      );
+      ),
+    ),
+  );
 }

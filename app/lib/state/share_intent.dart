@@ -8,7 +8,8 @@ import 'download_controller.dart';
 /// The first http(s) URL inside shared text. Apps often prepend a title
 /// ("Cool clip https://youtu.be/x"), so we pull the link out rather than
 /// trusting the whole string.
-String? firstUrl(String text) => RegExp(r'https?://\S+').firstMatch(text)?.group(0);
+String? firstUrl(String text) =>
+    RegExp(r'https?://\S+').firstMatch(text)?.group(0);
 
 /// First shared text/url item that contains a URL.
 String? _pickUrl(List<SharedMediaFile> items) {
@@ -38,7 +39,7 @@ final sharedUrlProvider = StreamProvider<String>((ref) async* {
   final initial = await ReceiveSharingIntent.instance.getInitialMedia();
   ReceiveSharingIntent.instance.reset();
   final initialUrl = _pickUrl(initial);
-  if (initialUrl != null) {
+  if (initialUrl != null && controller.canExtract) {
     unawaited(controller.extract(initialUrl));
     yield initialUrl;
   }
@@ -46,7 +47,7 @@ final sharedUrlProvider = StreamProvider<String>((ref) async* {
   // Live shares while the app is already running.
   await for (final items in ReceiveSharingIntent.instance.getMediaStream()) {
     final url = _pickUrl(items);
-    if (url != null) {
+    if (url != null && controller.canExtract) {
       unawaited(controller.extract(url));
       yield url;
     }

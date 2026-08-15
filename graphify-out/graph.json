@@ -734,8 +734,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "main.dart"
     },
     {
@@ -745,8 +745,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_wooferapp",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "wooferapp"
     },
     {
@@ -756,8 +756,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "statelesswidget",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "statelesswidget"
     },
     {
@@ -767,8 +767,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_boot",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_boot"
     },
     {
@@ -778,8 +778,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "statefulwidget",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "statefulwidget"
     },
     {
@@ -789,8 +789,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_bootstate",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_bootstate"
     },
     {
@@ -800,8 +800,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "state",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "state"
     },
     {
@@ -811,8 +811,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_ready",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_ready"
     },
     {
@@ -822,8 +822,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_timer",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_timer"
     },
     {
@@ -833,8 +833,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "timer",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "timer?"
     },
     {
@@ -844,8 +844,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_main",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "main"
     },
     {
@@ -855,8 +855,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_build",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "build"
     },
     {
@@ -866,8 +866,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_createstate",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "createstate"
     },
     {
@@ -877,8 +877,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_initstate",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "initstate"
     },
     {
@@ -888,8 +888,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_main_dispose",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "dispose"
     },
     {
@@ -899,8 +899,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_async",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "dart:async"
     },
     {
@@ -910,8 +910,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_cupertino_dart",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "package:flutter/cupertino.dart"
     },
     {
@@ -932,8 +932,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "ui_screens_home_shell_dart",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "ui/screens/home_shell.dart"
     },
     {
@@ -943,8 +943,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "ui_screens_splash_screen_dart",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "ui/screens/splash_screen.dart"
     },
     {
@@ -954,8 +954,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "ui_theme_app_theme_dart",
-      "community": 41,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "ui/theme/app_theme.dart"
     },
     {
@@ -1064,8 +1064,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "string",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "string?"
     },
     {
@@ -1174,8 +1174,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "video_info.dart"
     },
     {
@@ -1185,8 +1185,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_videoinfo",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "videoinfo"
     },
     {
@@ -1196,8 +1196,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_title",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "title"
     },
     {
@@ -1207,8 +1207,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_thumbnail",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "thumbnail"
     },
     {
@@ -1218,8 +1218,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_duration",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "duration"
     },
     {
@@ -1229,8 +1229,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "double",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "double?"
     },
     {
@@ -1240,8 +1240,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_uploader",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "uploader"
     },
     {
@@ -1251,8 +1251,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_formats",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "formats"
     },
     {
@@ -1262,8 +1262,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "list",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "list"
     },
     {
@@ -1273,8 +1273,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_models_video_info_fromjson",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "fromjson"
     },
     {
@@ -1284,8 +1284,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "media_format_dart",
-      "community": 38,
-      "community_name": "glass_ui_test.dart",
+      "community": 40,
+      "community_name": "String?",
       "norm_label": "media_format.dart"
     },
     {
@@ -1317,8 +1317,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_api_exception_apiexception",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 14,
+      "community_name": "_download_to_file",
       "norm_label": "apiexception"
     },
     {
@@ -1328,8 +1328,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "exception",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 14,
+      "community_name": "_download_to_file",
       "norm_label": "exception"
     },
     {
@@ -1449,8 +1449,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_cover_fetcher",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "cover_fetcher.dart"
     },
     {
@@ -1460,8 +1460,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_cover_fetcher_coverfetcher",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "coverfetcher"
     },
     {
@@ -1471,8 +1471,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_cover_fetcher_timeout",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "_timeout"
     },
     {
@@ -1482,8 +1482,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "static_const_duration",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "static const duration"
     },
     {
@@ -1493,8 +1493,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_cover_fetcher_fetch",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "fetch"
     },
     {
@@ -1504,8 +1504,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_cover_fetcher_imageext",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "_imageext"
     },
     {
@@ -1515,8 +1515,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_io",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "dart:io"
     },
     {
@@ -1658,8 +1658,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_services_dart",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "package:flutter/services.dart"
     },
     {
@@ -1680,8 +1680,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "history_service.dart"
     },
     {
@@ -1691,8 +1691,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_historyentry",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "historyentry"
     },
     {
@@ -1713,8 +1713,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_id",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "id"
     },
     {
@@ -1724,8 +1724,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_title",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "title"
     },
     {
@@ -1735,8 +1735,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_thumbnail",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "thumbnail"
     },
     {
@@ -1746,8 +1746,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_sourceurl",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "sourceurl"
     },
     {
@@ -1757,8 +1757,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_filepath",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "filepath"
     },
     {
@@ -1768,8 +1768,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_format",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "format"
     },
     {
@@ -1779,8 +1779,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_size",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "size"
     },
     {
@@ -1790,8 +1790,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_createdat",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "createdat"
     },
     {
@@ -1801,8 +1801,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "datetime",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "datetime"
     },
     {
@@ -1812,8 +1812,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_table",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "table"
     },
     {
@@ -1834,8 +1834,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_db",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "_db"
     },
     {
@@ -1856,8 +1856,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_createtablesql",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "_createtablesql"
     },
     {
@@ -1867,8 +1867,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_tomap",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "tomap"
     },
     {
@@ -1878,8 +1878,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_frommap",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "frommap"
     },
     {
@@ -1889,8 +1889,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_open",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "open"
     },
     {
@@ -1900,8 +1900,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_init",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "init"
     },
     {
@@ -1911,8 +1911,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_add",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "add"
     },
     {
@@ -1922,8 +1922,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_getall",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "getall"
     },
     {
@@ -1933,8 +1933,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_delete",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "delete"
     },
     {
@@ -1944,8 +1944,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_history_service_clear",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "clear"
     },
     {
@@ -1955,8 +1955,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_sqflite_sqflite_dart",
-      "community": 14,
-      "community_name": "_download_to_file",
+      "community": 47,
+      "community_name": "history_service_test.dart",
       "norm_label": "package:sqflite/sqflite.dart"
     },
     {
@@ -1977,8 +1977,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_media_processor_mediaprocessor",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 53,
+      "community_name": "StatelessWidget",
       "norm_label": "mediaprocessor"
     },
     {
@@ -2032,8 +2032,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "directory",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "directory"
     },
     {
@@ -2230,8 +2230,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "api_exception_dart",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "api_exception.dart"
     },
     {
@@ -2461,8 +2461,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "ytdlp_extractor.dart"
     },
     {
@@ -2472,8 +2472,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_ytdlpextractor",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 51,
+      "community_name": "_FakeYtdlp",
       "norm_label": "ytdlpextractor"
     },
     {
@@ -2483,8 +2483,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_channel",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "_channel"
     },
     {
@@ -2494,8 +2494,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_extractinfo",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "extractinfo"
     },
     {
@@ -2505,8 +2505,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_download",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "download"
     },
     {
@@ -2516,8 +2516,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_cancel",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "cancel"
     },
     {
@@ -2527,8 +2527,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_invoke",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "_invoke"
     },
     {
@@ -2538,8 +2538,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_onnativecall",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "_onnativecall"
     },
     {
@@ -2549,8 +2549,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_services_ytdlp_extractor_ytdlperrorcode",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "ytdlperrorcode"
     },
     {
@@ -2560,8 +2560,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "dart_convert",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "dart:convert"
     },
     {
@@ -2571,8 +2571,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "models_video_info_dart",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 18,
+      "community_name": "history_service.dart",
       "norm_label": "../../models/video_info.dart"
     },
     {
@@ -2593,8 +2593,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_downloadcontroller",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "downloadcontroller"
     },
     {
@@ -2604,9 +2604,20 @@
       "source_location": null,
       "_origin": "ast",
       "id": "notifier",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
+      "norm_label": "notifier"
+    },
+    {
+      "label": "_DownloadOperation",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_downloadoperation",
       "community": 19,
       "community_name": "history_screen.dart",
-      "norm_label": "notifier"
+      "norm_label": "_downloadoperation"
     },
     {
       "label": "ytdlpExtractorProvider",
@@ -2615,8 +2626,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_ytdlpextractorprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "ytdlpextractorprovider"
     },
     {
@@ -2626,8 +2637,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_mediaprocessorprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "mediaprocessorprovider"
     },
     {
@@ -2637,8 +2648,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_storageserviceprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "storageserviceprovider"
     },
     {
@@ -2648,8 +2659,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_foregroundserviceprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 56,
+      "community_name": "foregroundServiceProvider",
       "norm_label": "foregroundserviceprovider"
     },
     {
@@ -2659,8 +2670,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_coverfetcherprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "coverfetcherprovider"
     },
     {
@@ -2670,8 +2681,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_historyserviceprovider",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "historyserviceprovider"
     },
     {
@@ -2681,8 +2692,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_historylistprovider",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "historylistprovider"
     },
     {
@@ -2703,8 +2714,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_downloadcontrollerprovider",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "downloadcontrollerprovider"
     },
     {
@@ -2741,15 +2752,26 @@
       "norm_label": "_selected"
     },
     {
-      "label": "_cancelled",
+      "label": "_extractGeneration",
       "file_type": "code",
       "source_file": "app/lib/state/download_controller.dart",
       "source_location": null,
       "_origin": "ast",
-      "id": "app_lib_state_download_controller_cancelled",
+      "id": "app_lib_state_download_controller_extractgeneration",
       "community": 19,
       "community_name": "history_screen.dart",
-      "norm_label": "_cancelled"
+      "norm_label": "_extractgeneration"
+    },
+    {
+      "label": "_activeDownload",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_activedownload",
+      "community": 19,
+      "community_name": "history_screen.dart",
+      "norm_label": "_activedownload"
     },
     {
       "label": "_ytdlp",
@@ -2862,6 +2884,39 @@
       "norm_label": "coverfetcher get"
     },
     {
+      "label": "canExtract",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_canextract",
+      "community": 19,
+      "community_name": "history_screen.dart",
+      "norm_label": "canextract"
+    },
+    {
+      "label": "format",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_format",
+      "community": 19,
+      "community_name": "history_screen.dart",
+      "norm_label": "format"
+    },
+    {
+      "label": "cancelled",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_cancelled",
+      "community": 19,
+      "community_name": "history_screen.dart",
+      "norm_label": "cancelled"
+    },
+    {
       "label": "getAll",
       "file_type": "code",
       "source_file": "app/lib/state/download_controller.dart",
@@ -2879,8 +2934,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_build",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 56,
+      "community_name": "foregroundServiceProvider",
       "norm_label": "build"
     },
     {
@@ -2961,6 +3016,17 @@
       "norm_label": "_downloadformat"
     },
     {
+      "label": "_shouldStop",
+      "file_type": "code",
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_lib_state_download_controller_shouldstop",
+      "community": 19,
+      "community_name": "history_screen.dart",
+      "norm_label": "_shouldstop"
+    },
+    {
       "label": "_bestAudio",
       "file_type": "code",
       "source_file": "app/lib/state/download_controller.dart",
@@ -2978,8 +3044,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_download_controller_recordhistory",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "_recordhistory"
     },
     {
@@ -3044,8 +3110,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "models_media_format_dart",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "../../models/media_format.dart"
     },
     {
@@ -3407,8 +3473,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "share_intent.dart"
     },
     {
@@ -3418,8 +3484,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_null",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "null"
     },
     {
@@ -3429,8 +3495,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "return",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "return"
     },
     {
@@ -3440,8 +3506,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_sharedurlprovider",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "sharedurlprovider"
     },
     {
@@ -3451,8 +3517,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_controller",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "controller"
     },
     {
@@ -3462,8 +3528,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_initial",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "initial"
     },
     {
@@ -3473,8 +3539,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_initialurl",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "initialurl"
     },
     {
@@ -3484,8 +3550,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_firsturl",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "firsturl"
     },
     {
@@ -3495,8 +3561,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_state_share_intent_pickurl",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "_pickurl"
     },
     {
@@ -3506,8 +3572,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_receive_sharing_intent_receive_sharing_intent_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "package:receive_sharing_intent/receive_sharing_intent.dart"
     },
     {
@@ -3517,8 +3583,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "download_controller_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 54,
+      "community_name": "share_intent.dart",
       "norm_label": "download_controller.dart"
     },
     {
@@ -3528,8 +3594,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "format_utils.dart"
     },
     {
@@ -3539,8 +3605,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_res",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "res"
     },
     {
@@ -3550,8 +3616,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_parts",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "parts"
     },
     {
@@ -3561,8 +3627,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_false",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "false"
     },
     {
@@ -3572,8 +3638,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_units",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "units"
     },
     {
@@ -3583,8 +3649,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_value",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "value"
     },
     {
@@ -3594,8 +3660,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_unit",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "unit"
     },
     {
@@ -3605,8 +3671,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_digits",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "digits"
     },
     {
@@ -3616,8 +3682,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_total",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "total"
     },
     {
@@ -3627,8 +3693,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_h",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "h"
     },
     {
@@ -3638,8 +3704,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_m",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "m"
     },
     {
@@ -3649,8 +3715,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_s",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "s"
     },
     {
@@ -3660,8 +3726,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_ss",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "ss"
     },
     {
@@ -3671,8 +3737,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_months",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "months"
     },
     {
@@ -3682,8 +3748,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatlabel",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatlabel"
     },
     {
@@ -3693,8 +3759,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatsubtitle",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatsubtitle"
     },
     {
@@ -3704,8 +3770,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_join",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "join"
     },
     {
@@ -3715,8 +3781,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatisvideo",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatisvideo"
     },
     {
@@ -3726,8 +3792,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatbytes",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatbytes"
     },
     {
@@ -3737,8 +3803,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatduration",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatduration"
     },
     {
@@ -3748,8 +3814,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_formatdate",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "formatdate"
     },
     {
@@ -3759,8 +3825,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_format_utils_describeerror",
-      "community": 24,
-      "community_name": "download_state.dart",
+      "community": 13,
+      "community_name": "StatelessWidget",
       "norm_label": "describeerror"
     },
     {
@@ -3770,8 +3836,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "glass_gallery.dart"
     },
     {
@@ -3781,8 +3847,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_glassgalleryscreen",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "glassgalleryscreen"
     },
     {
@@ -3792,8 +3858,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_glassgalleryscreenstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_glassgalleryscreenstate"
     },
     {
@@ -3803,8 +3869,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_brightness",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_brightness"
     },
     {
@@ -3814,8 +3880,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "brightness",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "brightness"
     },
     {
@@ -3825,8 +3891,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_isdark",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_isdark"
     },
     {
@@ -3836,8 +3902,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_gap",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_gap"
     },
     {
@@ -3847,8 +3913,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "static_const_widget",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "static const widget"
     },
     {
@@ -3858,8 +3924,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_createstate",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "createstate"
     },
     {
@@ -3869,8 +3935,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_toggle",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_toggle"
     },
     {
@@ -3880,8 +3946,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_build",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "build"
     },
     {
@@ -3891,8 +3957,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_opensheet",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_opensheet"
     },
     {
@@ -3902,8 +3968,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_gallery_glass_gallery_section",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "_section"
     },
     {
@@ -3913,8 +3979,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "theme_app_theme_dart",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "../theme/app_theme.dart"
     },
     {
@@ -3924,8 +3990,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "widgets_glass_button_dart",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "../widgets/glass_button.dart"
     },
     {
@@ -3935,8 +4001,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "widgets_glass_container_dart",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "../widgets/glass_container.dart"
     },
     {
@@ -3946,8 +4012,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "widgets_glass_list_tile_dart",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "../widgets/glass_list_tile.dart"
     },
     {
@@ -3957,8 +4023,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "widgets_glass_scaffold_dart",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "../widgets/glass_scaffold.dart"
     },
     {
@@ -3968,8 +4034,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "widgets_glass_sheet_dart",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 32,
+      "community_name": "screens_test.dart",
       "norm_label": "../widgets/glass_sheet.dart"
     },
     {
@@ -3990,8 +4056,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_downloadtab",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "downloadtab"
     },
     {
@@ -4001,8 +4067,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "consumerstatefulwidget",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "consumerstatefulwidget"
     },
     {
@@ -4012,8 +4078,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_downloadtabstate",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "_downloadtabstate"
     },
     {
@@ -4023,8 +4089,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "consumerstate",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "consumerstate"
     },
     {
@@ -4034,8 +4100,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_infocircle",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_infocircle"
     },
     {
@@ -4045,8 +4111,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_captionlabel",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_captionlabel"
     },
     {
@@ -4056,8 +4122,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_urlfield",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_urlfield"
     },
     {
@@ -4067,8 +4133,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_detectedcard",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_detectedcard"
     },
     {
@@ -4078,8 +4144,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_thumb",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_thumb"
     },
     {
@@ -4089,8 +4155,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_badge",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_badge"
     },
     {
@@ -4100,8 +4166,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_activecard",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "_activecard"
     },
     {
@@ -4111,8 +4177,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "consumerwidget",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "consumerwidget"
     },
     {
@@ -4122,8 +4188,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_progressbar",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_progressbar"
     },
     {
@@ -4133,8 +4199,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_indeterminatestripe",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_indeterminatestripe"
     },
     {
@@ -4144,8 +4210,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_indeterminatestripestate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_indeterminatestripestate"
     },
     {
@@ -4155,8 +4221,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "singletickerproviderstatemixin",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "singletickerproviderstatemixin"
     },
     {
@@ -4166,8 +4232,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_errorcard",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_errorcard"
     },
     {
@@ -4177,8 +4243,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_hint",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_hint"
     },
     {
@@ -4463,8 +4529,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_fetch",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "_fetch"
     },
     {
@@ -4485,8 +4551,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_download_tab_build",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "build"
     },
     {
@@ -4606,8 +4672,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_homeshell",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "homeshell"
     },
     {
@@ -4628,8 +4694,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_homeshellstate",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "_homeshellstate"
     },
     {
@@ -4639,8 +4705,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_header",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_header"
     },
     {
@@ -4650,8 +4716,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_toast",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_toast"
     },
     {
@@ -4661,8 +4727,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_navpill",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_navpill"
     },
     {
@@ -4672,8 +4738,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_navitem",
-      "community": 4,
-      "community_name": "formats_screen.dart",
+      "community": 2,
+      "community_name": "_error",
       "norm_label": "_navitem"
     },
     {
@@ -4683,8 +4749,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_fadein",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_fadein"
     },
     {
@@ -4694,8 +4760,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_fadeinstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_fadeinstate"
     },
     {
@@ -4914,8 +4980,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_openformatsheet",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "_openformatsheet"
     },
     {
@@ -4925,8 +4991,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_home_shell_build",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "build"
     },
     {
@@ -5024,8 +5090,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_library_tab_librarytab",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "librarytab"
     },
     {
@@ -5035,8 +5101,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_library_tab_librarytabstate",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "_librarytabstate"
     },
     {
@@ -5167,8 +5233,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_library_tab_build",
-      "community": 17,
-      "community_name": "video_info.dart",
+      "community": 33,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "build"
     },
     {
@@ -5200,8 +5266,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_screens_library_tab_openactions",
-      "community": 19,
-      "community_name": "history_screen.dart",
+      "community": 46,
+      "community_name": "media_processor_test.dart",
       "norm_label": "_openactions"
     },
     {
@@ -5849,8 +5915,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_sheets_format_sheet_confirm",
-      "community": 35,
-      "community_name": "aurora_background.dart",
+      "community": 41,
+      "community_name": "package:flutter/cupertino.dart",
       "norm_label": "_confirm"
     },
     {
@@ -6740,8 +6806,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_aurora_background_aurorabackground",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "aurorabackground"
     },
     {
@@ -6751,8 +6817,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_aurora_background_aurorabackgroundstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_aurorabackgroundstate"
     },
     {
@@ -6828,8 +6894,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "color",
-      "community": 0,
-      "community_name": "Counter App UI",
+      "community": 38,
+      "community_name": "glass_scaffold.dart",
       "norm_label": "color"
     },
     {
@@ -6938,8 +7004,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_fetch_button_fetchbutton",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "fetchbutton"
     },
     {
@@ -6949,8 +7015,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_fetch_button_fetchbuttonstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_fetchbuttonstate"
     },
     {
@@ -7125,8 +7191,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_glassbutton",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "glassbutton"
     },
     {
@@ -7136,8 +7202,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_button_glassbuttonstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_glassbuttonstate"
     },
     {
@@ -7719,7 +7785,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "glass_scaffold.dart"
     },
@@ -7730,7 +7796,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_glassbackground",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "glassbackground"
     },
@@ -7741,7 +7807,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_blob",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "_blob"
     },
@@ -7752,7 +7818,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_glassscaffold",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "glassscaffold"
     },
@@ -7763,7 +7829,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_child",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "child"
     },
@@ -7774,7 +7840,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_color",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "color"
     },
@@ -7785,7 +7851,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_size",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "size"
     },
@@ -7796,7 +7862,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "double_alpha",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "double alpha,"
     },
@@ -7807,7 +7873,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_bottom",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "bottom"
     },
@@ -7818,7 +7884,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "double_top_left_right",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "double? top, left, right,"
     },
@@ -7829,7 +7895,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_title",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "title"
     },
@@ -7840,7 +7906,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_leading",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "leading"
     },
@@ -7851,7 +7917,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_trailing",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "trailing"
     },
@@ -7862,7 +7928,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_children",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "children"
     },
@@ -7873,7 +7939,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_slivers",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "slivers"
     },
@@ -7884,7 +7950,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_padding",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "padding"
     },
@@ -7895,7 +7961,7 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_glass_scaffold_build",
-      "community": 33,
+      "community": 38,
       "community_name": "glass_scaffold.dart",
       "norm_label": "build"
     },
@@ -8038,8 +8104,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_woofer_mark_woofermark",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "woofermark"
     },
     {
@@ -8049,8 +8115,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_woofer_mark_woofermarkstate",
-      "community": 13,
-      "community_name": "StatelessWidget",
+      "community": 29,
+      "community_name": "glass_button.dart",
       "norm_label": "_woofermarkstate"
     },
     {
@@ -8060,8 +8126,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_woofer_mark_markpainter",
-      "community": 27,
-      "community_name": "history_screen.dart",
+      "community": 57,
+      "community_name": "_MarkPainter",
       "norm_label": "_markpainter"
     },
     {
@@ -8071,8 +8137,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "custompainter",
-      "community": 27,
-      "community_name": "history_screen.dart",
+      "community": 57,
+      "community_name": "_MarkPainter",
       "norm_label": "custompainter"
     },
     {
@@ -8247,8 +8313,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_wordmark",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "wordmark.dart"
     },
     {
@@ -8258,8 +8324,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_wordmark_wordmark",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "wordmark"
     },
     {
@@ -8269,8 +8335,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_wordmark_fontsize",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "fontsize"
     },
     {
@@ -8280,8 +8346,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_wordmark_height",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "height"
     },
     {
@@ -8291,8 +8357,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_lib_ui_widgets_wordmark_build",
-      "community": 51,
-      "community_name": "package:flutter/cupertino.dart",
+      "community": 49,
+      "community_name": "historyServiceProvider",
       "norm_label": "build"
     },
     {
@@ -8313,9 +8379,31 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_download_controller_test_fakeytdlp",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 51,
+      "community_name": "_FakeYtdlp",
       "norm_label": "_fakeytdlp"
+    },
+    {
+      "label": "_ControlledExtractYtdlp",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_controlledextractytdlp",
+      "community": 51,
+      "community_name": "_FakeYtdlp",
+      "norm_label": "_controlledextractytdlp"
+    },
+    {
+      "label": "_BlockingDownloadYtdlp",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_blockingdownloadytdlp",
+      "community": 51,
+      "community_name": "_FakeYtdlp",
+      "norm_label": "_blockingdownloadytdlp"
     },
     {
       "label": "_FakeProcessor",
@@ -8324,9 +8412,20 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_download_controller_test_fakeprocessor",
-      "community": 3,
-      "community_name": "Home Page State",
+      "community": 53,
+      "community_name": "StatelessWidget",
       "norm_label": "_fakeprocessor"
+    },
+    {
+      "label": "_BlockingProcessor",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_blockingprocessor",
+      "community": 53,
+      "community_name": "StatelessWidget",
+      "norm_label": "_blockingprocessor"
     },
     {
       "label": "_FakeCover",
@@ -8335,8 +8434,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_download_controller_test_fakecover",
-      "community": 48,
-      "community_name": "dart:io",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "_fakecover"
     },
     {
@@ -8428,6 +8527,28 @@
       "norm_label": "downloaded"
     },
     {
+      "label": "downloadUrls",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_downloadurls",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "downloadurls"
+    },
+    {
+      "label": "extractedUrls",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_extractedurls",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "extractedurls"
+    },
+    {
       "label": "extractCalls",
       "file_type": "code",
       "source_file": "app/test/download_controller_test.dart",
@@ -8450,6 +8571,72 @@
       "norm_label": "cancels"
     },
     {
+      "label": "pending",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_pending",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "pending"
+    },
+    {
+      "label": "Map",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "map",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "map"
+    },
+    {
+      "label": "firstStarted",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_firststarted",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "firststarted"
+    },
+    {
+      "label": "Completer",
+      "file_type": "code",
+      "source_file": null,
+      "source_location": null,
+      "_origin": "ast",
+      "id": "completer",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "completer"
+    },
+    {
+      "label": "firstDownload",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_firstdownload",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "firstdownload"
+    },
+    {
+      "label": "downloadCalls",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_downloadcalls",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "downloadcalls"
+    },
+    {
       "label": "ops",
       "file_type": "code",
       "source_file": "app/test/download_controller_test.dart",
@@ -8459,6 +8646,28 @@
       "community": 37,
       "community_name": "GlassGalleryScreen",
       "norm_label": "ops"
+    },
+    {
+      "label": "mergeStarted",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_mergestarted",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "mergestarted"
+    },
+    {
+      "label": "mergeResult",
+      "file_type": "code",
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "_origin": "ast",
+      "id": "app_test_download_controller_test_mergeresult",
+      "community": 37,
+      "community_name": "GlassGalleryScreen",
+      "norm_label": "mergeresult"
     },
     {
       "label": "result",
@@ -8500,8 +8709,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "file",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "file"
     },
     {
@@ -8698,8 +8907,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_flutter_test_flutter_test_dart",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "package:flutter_test/flutter_test.dart"
     },
     {
@@ -8720,8 +8929,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_media_format_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/models/media_format.dart"
     },
     {
@@ -8731,8 +8940,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_video_info_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/models/video_info.dart"
     },
     {
@@ -8742,8 +8951,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_api_exception_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/services/api_exception.dart"
     },
     {
@@ -8786,8 +8995,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_media_processor_dart",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "package:woofer/services/media_processor.dart"
     },
     {
@@ -8797,8 +9006,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_storage_service_dart",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "package:woofer/services/storage_service.dart"
     },
     {
@@ -8808,8 +9017,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_services_ytdlp_extractor_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "package:woofer/services/ytdlp_extractor.dart"
     },
     {
@@ -8841,8 +9050,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_format_utils_test",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "format_utils_test.dart"
     },
     {
@@ -8852,8 +9061,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_format_utils_test_main",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "main"
     },
     {
@@ -8863,8 +9072,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_format_utils_dart",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "package:woofer/ui/format_utils.dart"
     },
     {
@@ -8874,8 +9083,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_glass_ui_test",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "glass_ui_test.dart"
     },
     {
@@ -8885,8 +9094,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_glass_ui_test_app",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "_app"
     },
     {
@@ -8896,8 +9105,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_glass_ui_test_main",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "main"
     },
     {
@@ -8907,8 +9116,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_theme_app_theme_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/theme/app_theme.dart"
     },
     {
@@ -8918,8 +9127,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_button_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_button.dart"
     },
     {
@@ -8929,8 +9138,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_container_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_container.dart"
     },
     {
@@ -8940,8 +9149,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_scaffold_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_scaffold.dart"
     },
     {
@@ -8951,8 +9160,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_ui_widgets_glass_sheet_dart",
-      "community": 26,
-      "community_name": "progress_screen.dart",
+      "community": 55,
+      "community_name": "glass_ui_test.dart",
       "norm_label": "package:woofer/ui/widgets/glass_sheet.dart"
     },
     {
@@ -9017,8 +9226,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_json_parsing_test",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "json_parsing_test.dart"
     },
     {
@@ -9028,8 +9237,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_json_parsing_test_main",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "main"
     },
     {
@@ -9039,8 +9248,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_models_api_error_dart",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 48,
+      "community_name": "json_parsing_test.dart",
       "norm_label": "package:woofer/models/api_error.dart"
     },
     {
@@ -9050,8 +9259,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_media_processor_test",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "media_processor_test.dart"
     },
     {
@@ -9061,8 +9270,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_media_processor_test_dir",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "dir"
     },
     {
@@ -9072,8 +9281,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_media_processor_test_main",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "main"
     },
     {
@@ -9083,8 +9292,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_media_processor_test_touch",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "touch"
     },
     {
@@ -9094,8 +9303,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_media_processor_test_okrunner",
-      "community": 46,
-      "community_name": "media_processor_test.dart",
+      "community": 3,
+      "community_name": "Home Page State",
       "norm_label": "okrunner"
     },
     {
@@ -9171,8 +9380,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_share_intent_test",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "share_intent_test.dart"
     },
     {
@@ -9182,8 +9391,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_share_intent_test_main",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "main"
     },
     {
@@ -9193,8 +9402,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "package_woofer_state_share_intent_dart",
-      "community": 32,
-      "community_name": "screens_test.dart",
+      "community": 43,
+      "community_name": "storage_service_test.dart",
       "norm_label": "package:woofer/state/share_intent.dart"
     },
     {
@@ -9204,8 +9413,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "storage_service_test.dart"
     },
     {
@@ -9215,8 +9424,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_channel",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "channel"
     },
     {
@@ -9226,8 +9435,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_messenger",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "messenger"
     },
     {
@@ -9237,8 +9446,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_tmp",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "tmp"
     },
     {
@@ -9248,8 +9457,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_storage_service_test_main",
-      "community": 43,
-      "community_name": "storage_service_test.dart",
+      "community": 22,
+      "community_name": "config.dart",
       "norm_label": "main"
     },
     {
@@ -9303,8 +9512,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "ytdlp_extractor_test.dart"
     },
     {
@@ -9314,8 +9523,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test_channel",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "channel"
     },
     {
@@ -9325,8 +9534,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test_messenger",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "messenger"
     },
     {
@@ -9336,8 +9545,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test_main",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "main"
     },
     {
@@ -9347,8 +9556,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test_mockchannel",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "mockchannel"
     },
     {
@@ -9358,8 +9567,8 @@
       "source_location": null,
       "_origin": "ast",
       "id": "app_test_ytdlp_extractor_test_extractor",
-      "community": 40,
-      "community_name": "ytdlp_extractor_test.dart",
+      "community": 4,
+      "community_name": "formats_screen.dart",
       "norm_label": "extractor"
     },
     {
@@ -9471,6 +9680,138 @@
       "community": 44,
       "community_name": "library_tab.dart",
       "norm_label": "state / open items"
+    },
+    {
+      "label": "PROJECT_TODO.md",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "project_todo",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "project_todo.md"
+    },
+    {
+      "label": "WOOFER Project To-Do",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "project_todo_woofer_project_to_do",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "woofer project to-do"
+    },
+    {
+      "label": "P0 \u2014 Correctness and lifecycle safety",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "project_todo_p0_correctness_and_lifecycle_safety",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p0 \u2014 correctness and lifecycle safety"
+    },
+    {
+      "label": "P1 \u2014 Media selection and download behavior",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L37",
+      "_origin": "ast",
+      "id": "project_todo_p1_media_selection_and_download_behavior",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p1 \u2014 media selection and download behavior"
+    },
+    {
+      "label": "P1 \u2014 Android integration review",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L69",
+      "_origin": "ast",
+      "id": "project_todo_p1_android_integration_review",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p1 \u2014 android integration review"
+    },
+    {
+      "label": "P1 \u2014 Release blockers",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L107",
+      "_origin": "ast",
+      "id": "project_todo_p1_release_blockers",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p1 \u2014 release blockers"
+    },
+    {
+      "label": "P2 \u2014 Dependency and build maintenance",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L141",
+      "_origin": "ast",
+      "id": "project_todo_p2_dependency_and_build_maintenance",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p2 \u2014 dependency and build maintenance"
+    },
+    {
+      "label": "P2 \u2014 CI and quality gates",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L168",
+      "_origin": "ast",
+      "id": "project_todo_p2_ci_and_quality_gates",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p2 \u2014 ci and quality gates"
+    },
+    {
+      "label": "P2 \u2014 Documentation and repository hygiene",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L192",
+      "_origin": "ast",
+      "id": "project_todo_p2_documentation_and_repository_hygiene",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p2 \u2014 documentation and repository hygiene"
+    },
+    {
+      "label": "P3 \u2014 Product and UX review",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L225",
+      "_origin": "ast",
+      "id": "project_todo_p3_product_and_ux_review",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "p3 \u2014 product and ux review"
+    },
+    {
+      "label": "Verification commands",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L258",
+      "_origin": "ast",
+      "id": "project_todo_verification_commands",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "verification commands"
+    },
+    {
+      "label": "Current baseline",
+      "file_type": "document",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L284",
+      "_origin": "ast",
+      "id": "project_todo_current_baseline",
+      "community": 35,
+      "community_name": "aurora_background.dart",
+      "norm_label": "current baseline"
     },
     {
       "label": "CHAQUOPY.md",
@@ -11750,6 +12091,17 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "dart_async"
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
       "source_file": "app/test/ytdlp_extractor_test.dart",
       "source_location": null,
       "weight": 1.0,
@@ -12468,6 +12820,18 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "app_lib_services_storage_service",
+      "target": "bool_get"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
       "target": "bool_get"
     },
     {
@@ -14545,6 +14909,17 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_activedownload"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
       "target": "app_lib_state_download_controller_bestaudio"
     },
     {
@@ -14579,6 +14954,17 @@
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
       "target": "app_lib_state_download_controller_cancelled"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_canextract"
     },
     {
       "relation": "defines",
@@ -14669,6 +15055,18 @@
       "target": "app_lib_state_download_controller_downloadformat"
     },
     {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "context": "variable_type",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_downloadoperation"
+    },
+    {
       "relation": "defines",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
@@ -14689,6 +15087,17 @@
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
       "target": "app_lib_state_download_controller_extract"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_extractgeneration"
     },
     {
       "relation": "defines",
@@ -14722,6 +15131,17 @@
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
       "target": "app_lib_state_download_controller_foregroundserviceprovider"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_format"
     },
     {
       "relation": "defines",
@@ -14854,6 +15274,17 @@
       "_origin": "ast",
       "source": "app_lib_state_download_controller",
       "target": "app_lib_state_download_controller_selectformat"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/lib/state/download_controller.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_lib_state_download_controller",
+      "target": "app_lib_state_download_controller_shouldstop"
     },
     {
       "relation": "defines",
@@ -21632,6 +22063,28 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_blockingdownloadytdlp"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_blockingprocessor"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_cancel"
     },
     {
@@ -21654,7 +22107,29 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_controlledextractytdlp"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_download"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_downloadcalls"
     },
     {
       "relation": "defines",
@@ -21676,7 +22151,29 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_downloadurls"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_extractcalls"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_extractedurls"
     },
     {
       "relation": "defines",
@@ -21775,6 +22272,28 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_firstdownload"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_firststarted"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_hide"
     },
     {
@@ -21841,6 +22360,28 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_mergeresult"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_mergestarted"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_mergevideoaudio"
     },
     {
@@ -21875,6 +22416,17 @@
       "_origin": "ast",
       "source": "app_test_download_controller_test",
       "target": "app_test_download_controller_test_ops"
+    },
+    {
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "app_test_download_controller_test_pending"
     },
     {
       "relation": "defines",
@@ -21996,7 +22548,31 @@
       "context": "variable_type",
       "_origin": "ast",
       "source": "app_test_download_controller_test",
+      "target": "completer"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
       "target": "file"
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "context": "variable_type",
+      "_origin": "ast",
+      "source": "app_test_download_controller_test",
+      "target": "map"
     },
     {
       "relation": "imports",
@@ -22140,6 +22716,39 @@
       "_origin": "ast",
       "source": "app_test_download_controller_test",
       "target": "package_woofer_state_download_state_dart"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test_blockingdownloadytdlp",
+      "target": "app_test_download_controller_test_fakeytdlp"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test_controlledextractytdlp",
+      "target": "app_test_download_controller_test_fakeytdlp"
+    },
+    {
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "app/test/download_controller_test.dart",
+      "source_location": null,
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "app_test_download_controller_test_blockingprocessor",
+      "target": "app_test_download_controller_test_fakeprocessor"
     },
     {
       "relation": "references",
@@ -22948,6 +23557,127 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo",
+      "target": "project_todo_woofer_project_to_do",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L284",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_current_baseline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p0_correctness_and_lifecycle_safety",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L69",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p1_android_integration_review",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p1_media_selection_and_download_behavior",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p1_release_blockers",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L168",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p2_ci_and_quality_gates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L141",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p2_dependency_and_build_maintenance",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L192",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p2_documentation_and_repository_hygiene",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L225",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_p3_product_and_ux_review",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PROJECT_TODO.md",
+      "source_location": "L258",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "project_todo_woofer_project_to_do",
+      "target": "project_todo_verification_commands",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "app/android/CHAQUOPY.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -23121,5 +23851,5 @@
       "source_file": "android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"
     }
   ],
-  "built_at_commit": "26c4f5c4df40b81b63618dfda75701fbe3a55670"
+  "built_at_commit": "5b50aa339c570e444e5f04102ce42db083e99fa7"
 }
