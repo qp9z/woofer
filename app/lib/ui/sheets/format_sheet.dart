@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../models/media_format.dart';
+import '../../models/media_format_order.dart';
 import '../../models/video_info.dart';
 import '../../state/download_controller.dart';
 import '../format_utils.dart';
@@ -12,7 +13,11 @@ import '../widgets/glass_sheet.dart';
 /// Present the format/quality picker for [info]. Audio/Video segmented toggle,
 /// the real extracted formats as selectable rows, and a Download confirm.
 /// On confirm it selects the format and kicks off the download, then closes.
-Future<void> showFormatSheet(BuildContext context, WidgetRef ref, VideoInfo info) {
+Future<void> showFormatSheet(
+  BuildContext context,
+  WidgetRef ref,
+  VideoInfo info,
+) {
   return GlassSheet.present<void>(
     context,
     builder: (_) => _FormatSheet(info: info, ref: ref),
@@ -38,8 +43,8 @@ class _FormatSheetState extends State<_FormatSheet> {
   void initState() {
     super.initState();
     final formats = widget.info.formats;
-    _video = formats.where((f) => f.hasVideo).toList();
-    _audio = formats.where((f) => f.hasAudio && !f.hasVideo).toList();
+    _video = orderVideoFormats(formats.where((f) => f.hasVideo));
+    _audio = orderAudioFormats(formats.where((f) => f.hasAudio && !f.hasVideo));
     _isVideo = _video.isNotEmpty;
     _selected = _list.isEmpty ? null : _list.first;
   }
@@ -68,7 +73,8 @@ class _FormatSheetState extends State<_FormatSheet> {
     final info = widget.info;
     final meta = [
       if (info.uploader != null && info.uploader!.isNotEmpty) info.uploader!,
-      if (formatDuration(info.duration).isNotEmpty) formatDuration(info.duration),
+      if (formatDuration(info.duration).isNotEmpty)
+        formatDuration(info.duration),
     ].join(' · ');
 
     return Column(
@@ -81,7 +87,11 @@ class _FormatSheetState extends State<_FormatSheet> {
         // Media header.
         Row(
           children: [
-            _IconSquare(icon: _isVideo ? CupertinoIcons.film : CupertinoIcons.music_note_2),
+            _IconSquare(
+              icon: _isVideo
+                  ? CupertinoIcons.film
+                  : CupertinoIcons.music_note_2,
+            ),
             const SizedBox(width: AppSpacing.sm + 4),
             Expanded(
               child: Column(
@@ -93,14 +103,22 @@ class _FormatSheetState extends State<_FormatSheet> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(
-                        fontSize: AppType.title, fontWeight: FontWeight.w600, color: AppColors.text),
+                      fontSize: AppType.title,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
                   ),
                   if (meta.isNotEmpty) ...[
                     const SizedBox(height: 2),
-                    Text(meta,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                    Text(
+                      meta,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: AppType.meta,
+                        color: AppColors.n400,
+                      ),
+                    ),
                   ],
                 ],
               ),
@@ -111,7 +129,11 @@ class _FormatSheetState extends State<_FormatSheet> {
               onTap: () => Navigator.of(context).pop(),
               child: const Padding(
                 padding: EdgeInsets.all(8),
-                child: Icon(CupertinoIcons.xmark, size: 22, color: AppColors.n300),
+                child: Icon(
+                  CupertinoIcons.xmark,
+                  size: 22,
+                  color: AppColors.n300,
+                ),
               ),
             ),
           ],
@@ -154,21 +176,31 @@ class _FormatSheetState extends State<_FormatSheet> {
         // Quality list.
         const Padding(
           padding: EdgeInsets.only(left: 2, bottom: 6),
-          child: Text('AVAILABLE QUALITIES',
-              style: TextStyle(
-                  fontSize: AppType.label,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1.4,
-                  color: AppColors.n500)),
+          child: Text(
+            'AVAILABLE QUALITIES',
+            style: TextStyle(
+              fontSize: AppType.label,
+              fontWeight: FontWeight.w600,
+              letterSpacing: 1.4,
+              color: AppColors.n500,
+            ),
+          ),
         ),
         ConstrainedBox(
-          constraints: const BoxConstraints(maxHeight: 300), // taller rows need more room
+          constraints: const BoxConstraints(
+            maxHeight: 300,
+          ), // taller rows need more room
           child: _list.isEmpty
               ? const Padding(
                   padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
-                  child: Text('No formats of this type were found.',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontSize: AppType.body, color: AppColors.n500)),
+                  child: Text(
+                    'No formats of this type were found.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: AppType.body,
+                      color: AppColors.n500,
+                    ),
+                  ),
                 )
               : ListView.separated(
                   shrinkWrap: true,
@@ -189,7 +221,9 @@ class _FormatSheetState extends State<_FormatSheet> {
         const SizedBox(height: AppSpacing.md),
 
         FetchButton(
-          label: _selected == null ? 'Download' : 'Download · ${formatLabel(_selected!)}',
+          label: _selected == null
+              ? 'Download'
+              : 'Download · ${formatLabel(_selected!)}',
           icon: CupertinoIcons.cloud_download,
           onPressed: _selected == null ? null : _confirm,
         ),
@@ -204,15 +238,15 @@ class _IconSquare extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Container(
-        width: 52,
-        height: 52,
-        decoration: BoxDecoration(
-          color: CupertinoColors.white.withValues(alpha: 0.05),
-          borderRadius: BorderRadius.circular(12),
-          border: AppGlass.hairline(0.10),
-        ),
-        child: Icon(icon, size: 25, color: AppColors.a200),
-      );
+    width: 52,
+    height: 52,
+    decoration: BoxDecoration(
+      color: CupertinoColors.white.withValues(alpha: 0.05),
+      borderRadius: BorderRadius.circular(12),
+      border: AppGlass.hairline(0.10),
+    ),
+    child: Icon(icon, size: 25, color: AppColors.a200),
+  );
 }
 
 class _KindChip extends StatelessWidget {
@@ -246,7 +280,8 @@ class _KindChip extends StatelessWidget {
               ? const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFFC3BAFF), AppColors.a500])
+                  colors: [Color(0xFFC3BAFF), AppColors.a500],
+                )
               : null,
         ),
         child: Row(
@@ -255,8 +290,14 @@ class _KindChip extends StatelessWidget {
           children: [
             Icon(icon, size: 21, color: color),
             const SizedBox(width: AppSpacing.sm),
-            Text(label,
-                style: TextStyle(fontSize: AppType.bodyStrong, fontWeight: FontWeight.w700, color: color)),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: AppType.bodyStrong,
+                fontWeight: FontWeight.w700,
+                color: color,
+              ),
+            ),
           ],
         ),
       ),
@@ -301,18 +342,33 @@ class _QualityRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(label,
-                      style: const TextStyle(
-                          fontSize: AppType.bodyStrong, fontWeight: FontWeight.w600, color: AppColors.text)),
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: AppType.bodyStrong,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.text,
+                    ),
+                  ),
                   const SizedBox(height: 2),
-                  Text(meta, style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                  Text(
+                    meta,
+                    style: const TextStyle(
+                      fontSize: AppType.meta,
+                      color: AppColors.n400,
+                    ),
+                  ),
                 ],
               ),
             ),
             Icon(
-              selected ? CupertinoIcons.checkmark_circle_fill : CupertinoIcons.circle,
+              selected
+                  ? CupertinoIcons.checkmark_circle_fill
+                  : CupertinoIcons.circle,
               size: 24,
-              color: selected ? AppColors.a400 : CupertinoColors.white.withValues(alpha: 0.22),
+              color: selected
+                  ? AppColors.a400
+                  : CupertinoColors.white.withValues(alpha: 0.22),
             ),
           ],
         ),

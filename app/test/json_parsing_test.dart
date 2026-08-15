@@ -61,12 +61,22 @@ void main() {
   group('MediaFormat.fromJson', () {
     test('parses all fields', () {
       const raw =
-          '{"format_id":"18","ext":"mp4","resolution":"640x360","filesize":8000000,"has_audio":true,"has_video":true,"note":"360p"}';
+          '{"format_id":"18","ext":"mp4","resolution":"640x360","filesize":8000000,"width":640,"height":360,"fps":30,"tbr":750.5,"vbr":650,"abr":96,"asr":48000,"audio_channels":2,"vcodec":"avc1","acodec":"mp4a","has_audio":true,"has_video":true,"note":"360p"}';
       final f = MediaFormat.fromJson(jsonDecode(raw) as Map<String, dynamic>);
       expect(f.formatId, '18');
       expect(f.ext, 'mp4');
       expect(f.resolution, '640x360');
       expect(f.filesize, 8000000);
+      expect(f.width, 640);
+      expect(f.height, 360);
+      expect(f.fps, 30);
+      expect(f.totalBitrate, 750.5);
+      expect(f.videoBitrate, 650);
+      expect(f.audioBitrate, 96);
+      expect(f.sampleRate, 48000);
+      expect(f.audioChannels, 2);
+      expect(f.videoCodec, 'avc1');
+      expect(f.audioCodec, 'mp4a');
       expect(f.hasAudio, isTrue);
       expect(f.hasVideo, isTrue);
       expect(f.note, '360p');
@@ -85,7 +95,8 @@ void main() {
 
   group('ApiError / ApiException', () {
     test('parses the error scheme', () {
-      const raw = '{"error_code":"PRIVATE","message":"Private video. Sign in to view."}';
+      const raw =
+          '{"error_code":"PRIVATE","message":"Private video. Sign in to view."}';
       final err = ApiError.fromJson(jsonDecode(raw) as Map<String, dynamic>);
       expect(err.errorCode, 'PRIVATE');
       expect(err.message, contains('Private'));
@@ -111,7 +122,8 @@ void main() {
     });
 
     test('413 TOO_LARGE maps through fromError', () {
-      const raw = '{"error_code":"TOO_LARGE","message":"Download is ~big bytes."}';
+      const raw =
+          '{"error_code":"TOO_LARGE","message":"Download is ~big bytes."}';
       final e = ApiException.fromError(
         ApiError.fromJson(jsonDecode(raw) as Map<String, dynamic>),
         statusCode: 413,

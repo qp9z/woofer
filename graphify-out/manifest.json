@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "app/lib/models/media_format.dart": {
-    "mtime": 1784761390.8282237,
-    "ast_hash": "d9d2de10bf926b7d00bcaae311e33909",
+    "mtime": 1786783692.3186274,
+    "ast_hash": "12f4972587b5741bb6aaf85582239e13",
     "semantic_hash": ""
   },
   "app/lib/models/video_info.dart": {
@@ -90,8 +90,8 @@
     "semantic_hash": ""
   },
   "app/test/json_parsing_test.dart": {
-    "mtime": 1784721189.2079275,
-    "ast_hash": "6e88324fe1376db26f0b7faf888eb5f3",
+    "mtime": 1786783692.3383994,
+    "ast_hash": "9b1262f5a3c561cd24d4d3ad8110f31f",
     "semantic_hash": ""
   },
   "app/lib/services/storage_service.dart": {
@@ -200,8 +200,8 @@
     "semantic_hash": ""
   },
   "app/android/app/src/main/python/ytdlp_bridge.py": {
-    "mtime": 1784947701.8484328,
-    "ast_hash": "ce1dbb7e5e47a708b0ed5f579536c1ca",
+    "mtime": 1786783656.4268663,
+    "ast_hash": "064785cfa2f1668368c6a5e76690e2d3",
     "semantic_hash": ""
   },
   "app/android/CHAQUOPY.md": {
@@ -350,8 +350,8 @@
     "semantic_hash": ""
   },
   "app/lib/ui/sheets/format_sheet.dart": {
-    "mtime": 1784899456.701411,
-    "ast_hash": "be91cf30a3b38c26b87d1712f7ec9705",
+    "mtime": 1786783692.331395,
+    "ast_hash": "7917d44df602bcdf09f6a522b34a9053",
     "semantic_hash": ""
   },
   "app/lib/ui/screens/download_tab.dart": {
@@ -485,8 +485,8 @@
     "semantic_hash": ""
   },
   "PROJECT_TODO.md": {
-    "mtime": 1786783377.6016603,
-    "ast_hash": "3ec310e36ed03c005dbd0174344cc2a3",
+    "mtime": 1786783702.7086349,
+    "ast_hash": "bc5e2c834f25577ab0edd5bcca9afdaa",
     "semantic_hash": ""
   },
   "app/android/app/src/main/kotlin/com/example/woofer/FailureCleanup.kt": {
@@ -497,6 +497,16 @@
   "app/android/app/src/test/kotlin/com/example/woofer/FailureCleanupTest.kt": {
     "mtime": 1786782878.2818892,
     "ast_hash": "b1974ca37ba12da2239164014e5af51b",
+    "semantic_hash": ""
+  },
+  "app/lib/models/media_format_order.dart": {
+    "mtime": 1786783692.3216276,
+    "ast_hash": "bc9eea9232df4b39d94904dc74594ca4",
+    "semantic_hash": ""
+  },
+  "app/test/media_format_order_test.dart": {
+    "mtime": 1786783692.3414006,
+    "ast_hash": "765740a45166e5e34fedbf2142a40e3d",
     "semantic_hash": ""
   }
 }

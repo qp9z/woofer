@@ -39,7 +39,8 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P1 — Media selection and download behavior
 
-- [ ] Define and implement deterministic format ordering.
+- [x] Define and implement deterministic format ordering. Completed 2026-08-15.
+  - Resolution: choices are ranked highest-quality-first from explicit yt-dlp metadata; video uses resolution, width, FPS, bitrate, and estimated size, while audio uses bitrate, sample rate, channels, and estimated size. Missing values sort behind known values at their tier, with deterministic text and format-ID tie-breakers.
   - Sort video choices by resolution/quality, codec/container, FPS, and estimated size as appropriate.
   - Sort audio choices by bitrate/quality rather than depending on yt-dlp's raw order.
   - Decide whether highest quality or a balanced option should appear first.
@@ -287,7 +288,7 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 85 Flutter tests pass (2026-08-15).
+- [x] All 90 Flutter tests pass (2026-08-15).
 - [x] Android `:app:testDebugUnitTest` passes, including all 3 MediaStore cleanup-helper tests (2026-08-15).
 - [ ] Native end-to-end verification is current; the configured Samsung is now authorized, but the full device matrix remains outstanding.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.
