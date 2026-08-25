@@ -76,6 +76,18 @@ class YtdlpExtractor {
     }
   }
 
+  /// Re-bind the process to the current active network. Needed after a Wi-Fi
+  /// ↔ cellular switch so Python's C sockets pick up the new network.
+  Future<void> rebindNetwork() async {
+    try {
+      await _channel.invokeMethod<bool>('rebind_network');
+    } on PlatformException {
+      // nothing to rebind
+    } on MissingPluginException {
+      // off-device (tests)
+    }
+  }
+
   /// Invoke [method], decode the JSON envelope, and translate every failure mode
   /// (error envelope, PlatformException, missing plugin) into an [ApiException].
   Future<Map<String, dynamic>> _invoke(

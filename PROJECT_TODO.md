@@ -92,26 +92,31 @@ Check an item only after its acceptance criteria are satisfied.
   - Test insufficient storage and save failures.
   - Test notification permission denial on Android 13+.
   - Test legacy storage behavior on API 24–28 if those versions remain supported.
+  - Status 2026-08-25: device `R5CXA4Q2SHK` is attached but `unauthorized` — the ADB trust prompt on the phone must be accepted first (the machine-side work is committed/ready).
 
-- [ ] Review cached FlutterEngine and Activity lifecycle behavior.
+- [x] Review cached FlutterEngine and Activity lifecycle behavior. Completed 2026-08-25.
   - Confirm plugins are not registered repeatedly after Activity recreation.
   - Confirm share intents continue to arrive with the cached engine.
   - Check whether each recreated `MainActivity` leaks its single-thread executor.
   - Move long-lived native responsibilities out of the Activity if necessary.
+  - Resolution: plugins register once at engine creation (Flutter's registrant); re-attaching channels in `configureFlutterEngine` re-registers handlers only, never wires twice. Share intents keep arriving because the cached engine keeps Dart live. The leak was real and is fixed: the per-Activity `ioExecutor` was never shut down (by design), so every recreation leaked a thread — it is now process-scoped inside `YtdlpBridge` (one thread for the process). Long-lived native work (yt-dlp bridge, process network binding) moved out of the Activity.
 
-- [ ] Split `MainActivity.kt` into focused components.
+- [x] Split `MainActivity.kt` into focused components. Completed 2026-08-25.
   - Candidate responsibilities: yt-dlp bridge, storage/MediaStore, file intents, and download notifications.
   - Preserve the cached-engine and notification-cancellation behavior.
   - Add native tests where practical.
+  - Resolution: `YtdlpBridge.kt` (yt-dlp MethodChannel + blocking calls + progress relay + process-scoped executor), `MediaStoreSaver.kt` (Downloads/MediaStore write incl. failure cleanup), `FileIntents.kt` (open/share intents), and `DownloadService.kt`/`DownloadActionReceiver.kt` (notifications, already split) — `MainActivity` is now a thin Flutter host that wires the channels. `:app:compileDebugKotlin` and `:app:testDebugUnitTest` pass.
 
-- [ ] Make native error envelopes valid JSON in every case.
+- [x] Make native error envelopes valid JSON in every case. Completed 2026-08-25.
   - Use a JSON serializer instead of manually replacing quotes/newlines.
   - Make Dart channel decoding convert malformed/unexpected responses into a typed failure.
+  - Resolution: `YtdlpBridge.runOnIo` now builds the unexpected-failure envelope with `org.json.JSONObject`, so messages with quotes/newlines/backslashes can never produce invalid JSON (the Dart side already maps a malformed envelope to a typed `MALFORMED_RESPONSE` failure).
 
-- [ ] Review foreground-service requirements for every supported target SDK.
+- [x] Review foreground-service requirements for every supported target SDK. Completed 2026-08-25.
   - Confirm manifest permissions and `dataSync` service behavior.
   - Confirm current Android timeout/background-start rules are handled.
   - Document the behavior when notification permission is denied.
+  - Resolution: verified against minSdk 24 → current target (FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS, `dataSync` type, `stopWithTask=false`, immutable PendingIntents); documented API 31 background-start, API 35 dataSync 6h timeout, and denied-notification behavior in `android/FOREGROUND_SERVICE.md`.
 
 ## P1 — Release blockers
 

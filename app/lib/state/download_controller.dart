@@ -208,16 +208,16 @@ class DownloadController extends Notifier<DownloadState> {
       final workDir = await _createTempDirectory();
       tmpDir = workDir;
 
-      // 1. Download the selected stream.
-      final primary = await _downloadFormat(
+      // 1. Download the selected stream (with one network-rebind retry on NETWORK
+      // error — a mid-download Wi-Fi ↔ cellular switch kills Python's bound
+      // socket; rebinding the process picks up the new network).
+      final primary = await _downloadFormatWithNetworkRetry(
         operation.url,
         fmt,
         workDir.path,
         onProgress: (received, total) {
           if (_shouldStop(operation)) return;
           state = Downloading(format: fmt, received: received, total: total);
-          // Only touch the notification when the whole percent changes — progress
-          // hooks fire far too often to cross the platform channel every time.
           final percent = total > 0 ? (received * 100) ~/ total : -1;
           if (percent != shownPercent) {
             shownPercent = percent;
@@ -245,7 +245,7 @@ class DownloadController extends Notifier<DownloadState> {
             message: 'No audio track available to merge.',
           );
         }
-        final audioPath = await _downloadFormat(
+        final audioPath = await _downloadFormatWithNetworkRetry(
           operation.url,
           audioFmt,
           workDir.path,
@@ -384,6 +384,27 @@ class DownloadController extends Notifier<DownloadState> {
     String dir, {
     void Function(int received, int total)? onProgress,
   }) => _ytdlp.download(url, format.formatId, onProgress: onProgress, dir: dir);
+
+  /// Wrapper around [_downloadFormat] that retries once after rebinding the
+  /// process network if yt-dlp returns a NETWORK error (mid-download Wi-Fi ↔
+  /// cellular switch). yt-dlp binds the socket to the active network at start;
+  /// a switch invalidates it. Rebinding the process picks up the new network,
+  /// then the same format is re-requested.
+  Future<String> _downloadFormatWithNetworkRetry(
+    String url,
+    MediaFormat format,
+    String dir, {
+    void Function(int received, int total)? onProgress,
+  }) async {
+    try {
+      return await _downloadFormat(url, format, dir, onProgress: onProgress);
+    } on ApiException catch (e) {
+      if (e.code != ApiErrorCode.network) rethrow;
+      // One shot: rebind, then retry the exact same download.
+      await _ytdlp.rebindNetwork();
+      return await _downloadFormat(url, format, dir, onProgress: onProgress);
+    }
+  }
 
   bool _shouldStop(_DownloadOperation operation) =>
       operation.cancelled || !identical(_activeDownload, operation);

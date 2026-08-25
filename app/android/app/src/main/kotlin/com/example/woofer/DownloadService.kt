@@ -125,6 +125,24 @@ class DownloadService : Service() {
         private const val REQUEST_CANCEL = 11
         private const val REQUEST_OPEN_FILE = 12
 
+        /** Start — or refresh — the foreground service with an updated progress
+         *  notification. The service lives for the whole download. */
+        fun showProgress(context: Context, title: String, text: String, percent: Int) {
+            val app = context.applicationContext
+            val intent = Intent(app, DownloadService::class.java)
+                .putExtra(EXTRA_TITLE, title)
+                .putExtra(EXTRA_TEXT, text)
+                .putExtra(EXTRA_PERCENT, percent)
+            ContextCompat.startForegroundService(app, intent)
+        }
+
+        /** Stop the foreground service, which tears down its progress notification. */
+        fun hide(context: Context) {
+            context.applicationContext.stopService(
+                Intent(context.applicationContext, DownloadService::class.java)
+            )
+        }
+
         /**
          * Post the outcome. [uri]/[mimeType] non-null makes tapping it open the saved
          * file; otherwise the tap just brings WOOFER back up (what a failure wants).

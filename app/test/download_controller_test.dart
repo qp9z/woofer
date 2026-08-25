@@ -72,9 +72,13 @@ class _FakeYtdlp extends YtdlpExtractor {
   final List<String> extractedUrls = [];
   int extractCalls = 0;
   int cancels = 0;
+  int rebinds = 0;
 
   @override
   Future<void> cancel() async => cancels++;
+
+  @override
+  Future<void> rebindNetwork() async => rebinds++;
 
   @override
   Future<VideoInfo> extractInfo(String url) async {
@@ -163,6 +167,28 @@ class _BlockingDownloadYtdlp extends _FakeYtdlp {
         const ApiException(code: ApiErrorCode.unknown, message: 'cancelled'),
       );
     }
+  }
+}
+
+/// Fails every download once with a NETWORK error, then succeeds. Mirrors a
+/// mid-download Wi-Fi ↔ cellular switch that yt-dlp surfaces as NETWORK.
+class _FlakyNetworkYtdlp extends _FakeYtdlp {
+  @override
+  Future<String> download(
+    String url,
+    String formatId, {
+    void Function(int received, int total)? onProgress,
+    String? dir,
+  }) {
+    if (downloaded.isEmpty) {
+      downloaded.add(formatId);
+      downloadUrls.add(url);
+      throw const ApiException(
+        code: ApiErrorCode.network,
+        message: 'Connection timed out.',
+      );
+    }
+    return super.download(url, formatId, onProgress: onProgress, dir: dir);
   }
 }
 
@@ -665,7 +691,22 @@ void main() {
     );
 
     test(
-      'temporary-directory failure becomes Failed and releases the lifecycle',
+      'a mid-download network switch retries after rebinding the network',
+      () async {
+        final ytdlp = _FlakyNetworkYtdlp();
+        final c = makeContainer(ytdlp: ytdlp);
+
+        await run(c, _muxed);
+
+        // It failed once (the switch), rebound the process, and retried to success.
+        expect(ytdlp.rebinds, 1);
+        expect(ytdlp.downloadUrls, hasLength(2));
+        expect(c.read(downloadControllerProvider), isA<Done>());
+      },
+    );
+
+    test(
+      'a temporary-directory failure becomes Failed and releases the lifecycle',
       () async {
         final foreground = _FakeForeground();
         final c = makeContainer(
