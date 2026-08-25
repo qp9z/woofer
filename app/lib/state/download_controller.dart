@@ -416,15 +416,90 @@ class DownloadController extends Notifier<DownloadState> {
     );
   }
 
-  /// Best audio-only format to pair with a video-only stream (largest = best).
+  /// Best audio-only format to pair with a video-only stream.
+  ///
+  /// yt-dlp's filesize is frequently unknown for adaptive formats (it requires a
+  /// range probe), so ranking by size alone picks arbitrarily. Instead we prefer,
+  /// in order: (1) a codec compatible with the video's container so the merge
+  /// stays a cheap stream-copy into mp4/webm rather than falling back to mkv,
+  /// (2) the highest audio bitrate, (3) highest sample rate, (4) most channels,
+  /// (5) preferred codec (opus > aac), (6) largest filesize as a final tiebreak.
   MediaFormat? _bestAudio(VideoInfo info) {
     final audios = info.formats
         .where((f) => f.hasAudio && !f.hasVideo)
         .toList();
     if (audios.isEmpty) return null;
-    audios.sort((a, b) => (b.filesize ?? 0).compareTo(a.filesize ?? 0));
+
+    // The video format we'll merge with — used to prefer a compatible codec.
+    final videoFmt = _selected;
+
+    int compare(MediaFormat a, MediaFormat b) {
+      // Compatible codec first: a compatible audio format outranks an
+      // incompatible one even at lower bitrate, because it avoids an mkv
+      // fallback that some players dislike.
+      final aCompat = videoFmt == null ? true : _isAudioCompatible(videoFmt, a);
+      final bCompat = videoFmt == null ? true : _isAudioCompatible(videoFmt, b);
+      if (aCompat != bCompat) return aCompat ? -1 : 1;
+
+      // Bitrate: the primary quality signal for audio.
+      final ab = _audioBitrate(a);
+      final bb = _audioBitrate(b);
+      final bitrateCmp = (bb ?? 0).compareTo(ab ?? 0);
+      if (bitrateCmp != 0) return bitrateCmp;
+
+      // Sample rate: higher is better (48kHz > 44.1kHz).
+      final aSr = a.sampleRate ?? 0;
+      final bSr = b.sampleRate ?? 0;
+      final srCmp = bSr.compareTo(aSr);
+      if (srCmp != 0) return srCmp;
+
+      // Channel count: more channels = richer audio (surround > stereo > mono).
+      final aCh = a.audioChannels ?? 0;
+      final bCh = b.audioChannels ?? 0;
+      final chCmp = bCh.compareTo(aCh);
+      if (chCmp != 0) return chCmp;
+
+      // Audio codec preference: opus is generally better than aac at same bitrate.
+      final aCodecPref = _audioCodecPreference(a.audioCodec);
+      final bCodecPref = _audioCodecPreference(b.audioCodec);
+      final codecCmp = bCodecPref.compareTo(aCodecPref);
+      if (codecCmp != 0) return codecCmp;
+
+      // Filesize as a final tiebreaker when all else matches.
+      return (b.filesize ?? 0).compareTo(a.filesize ?? 0);
+    }
+
+    audios.sort(compare);
     return audios.first;
   }
+
+  /// Numeric preference for audio codecs (higher = preferred).
+  /// Opus generally provides better quality than AAC at equivalent bitrates.
+  static int _audioCodecPreference(String? codec) {
+    final c = codec?.toLowerCase();
+    if (c == null || c.isEmpty) return 0;
+    if (c.contains('opus')) return 3;
+    if (c.contains('aac') || c.contains('mp4a')) return 2;
+    if (c.contains('vorbis') || c.contains('ogg')) return 1;
+    return 0;
+  }
+
+  /// Whether [audio] is a codec/extension family that stream-copies into the
+  /// same container family as [video] (avoiding an mkv fallback).
+  static bool _isAudioCompatible(MediaFormat video, MediaFormat audio) {
+    final v = (video.ext ?? '').toLowerCase();
+    final a = (audio.ext ?? '').toLowerCase();
+    const mp4V = {'mp4', 'm4v', 'mov'};
+    const mp4A = {'m4a', 'mp4', 'aac'};
+    if (mp4V.contains(v) && mp4A.contains(a)) return true;
+    if (v == 'webm' && {'webm', 'opus', 'ogg'}.contains(a)) return true;
+    return false;
+  }
+
+  /// Effective audio bitrate, falling back to total bitrate when the stream is
+  /// audio-only (no separate video bitrate to subtract).
+  static double? _audioBitrate(MediaFormat f) =>
+      f.audioBitrate ?? f.totalBitrate;
 
   Future<void> _recordHistory(
     VideoInfo info,

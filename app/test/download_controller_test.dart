@@ -117,6 +117,20 @@ class _UnexpectedExtractYtdlp extends _FakeYtdlp {
   }
 }
 
+/// Fake extractor that returns a caller-supplied [VideoInfo], for tests that
+/// need formats beyond the static [_info].
+class _CustomInfoYtdlp extends _FakeYtdlp {
+  _CustomInfoYtdlp(this.customInfo);
+  final VideoInfo customInfo;
+
+  @override
+  Future<VideoInfo> extractInfo(String url) async {
+    extractCalls++;
+    extractedUrls.add(url);
+    return customInfo;
+  }
+}
+
 /// Holds the first transfer open so callers can attempt conflicting work.
 class _BlockingDownloadYtdlp extends _FakeYtdlp {
   final Completer<void> firstStarted = Completer<void>();
@@ -738,6 +752,351 @@ void main() {
         expect(s, isA<Failed>());
         expect((s as Failed).code, ApiErrorCode.unknown);
         expect(await history.getAll(), isEmpty);
+      },
+    );
+  });
+
+  group('best-audio selection', () {
+    test(
+      'picks highest bitrate even when filesize is unknown',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'webm',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              filesize: 5000,
+            ),
+            MediaFormat(
+              formatId: '251',
+              ext: 'webm',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 160,
+              // No filesize — the old code couldn't rank this.
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // The 160kbps opus (no filesize) should win over the 128kbps m4a.
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '251']));
+        expect(ytdlp.downloaded, isNot(contains('140')));
+      },
+    );
+
+    test(
+      'prefers a codec compatible with the video container',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'webm',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        // Two audios: m4a (incompatible with webm video → mkv fallback) but
+        // higher bitrate, and opus (compatible → webm) but lower bitrate.
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 256,
+            ),
+            MediaFormat(
+              formatId: '251',
+              ext: 'webm',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // The compatible opus (128k) wins over the incompatible m4a (256k).
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '251']));
+        expect(ytdlp.downloaded, isNot(contains('140')));
+      },
+    );
+
+    test(
+      'breaks ties with sample rate when bitrate and compatibility match',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'mp4',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        // Two m4a audios with same bitrate, different sample rates
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 44100,
+            ),
+            MediaFormat(
+              formatId: '141',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000, // higher sample rate wins
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // The 48kHz sample rate wins over 44.1kHz at same bitrate.
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '141']));
+        expect(ytdlp.downloaded, isNot(contains('140')));
+      },
+    );
+
+    test(
+      'breaks ties with channel count when bitrate and sample rate match',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'mp4',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        // Two m4a audios with same bitrate and sample rate, different channels
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000,
+              audioChannels: 2, // stereo
+            ),
+            MediaFormat(
+              formatId: '141',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000,
+              audioChannels: 6, // 5.1 surround wins
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // 5.1 surround (6 channels) wins over stereo (2 channels).
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '141']));
+        expect(ytdlp.downloaded, isNot(contains('140')));
+      },
+    );
+
+    test(
+      'prefers audio codec when other quality signals are equal',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'mp4',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        // Two m4a audios with same bitrate, sample rate, channels - different codecs
+        // opus is generally better quality than aac at same bitrate
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000,
+              audioChannels: 2,
+              audioCodec: 'mp4a.40.2', // AAC
+            ),
+            MediaFormat(
+              formatId: '141',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000,
+              audioChannels: 2,
+              audioCodec: 'opus', // Opus preferred
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // Opus is preferred over AAC at same bitrate.
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '141']));
+        expect(ytdlp.downloaded, isNot(contains('140')));
+      },
+    );
+
+    test(
+      'handles missing audio metadata gracefully (unknown sample rate, channels, codec)',
+      () async {
+        const videoOnly = MediaFormat(
+          formatId: '137',
+          ext: 'mp4',
+          resolution: '1080p',
+          hasAudio: false,
+          hasVideo: true,
+        );
+        // One audio has full metadata, other is missing metadata
+        const info = VideoInfo(
+          title: 'Clip',
+          formats: [
+            videoOnly,
+            MediaFormat(
+              formatId: '140',
+              ext: 'm4a',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              sampleRate: 48000,
+              audioChannels: 2,
+              audioCodec: 'mp4a.40.2',
+            ),
+            MediaFormat(
+              formatId: '251',
+              ext: 'webm',
+              hasAudio: true,
+              hasVideo: false,
+              audioBitrate: 128,
+              // No sampleRate, channels, or codec - missing metadata should rank behind known
+            ),
+          ],
+        );
+        final ytdlp = _CustomInfoYtdlp(info);
+        final c = ProviderContainer(
+          overrides: [
+            ytdlpExtractorProvider.overrideWithValue(ytdlp),
+            mediaProcessorProvider.overrideWithValue(_FakeProcessor()),
+            storageServiceProvider.overrideWithValue(_FakeStorage()),
+            foregroundServiceProvider.overrideWithValue(_FakeForeground()),
+            coverFetcherProvider.overrideWithValue(_FakeCover()),
+            historyServiceProvider.overrideWith((ref) async => history),
+          ],
+        );
+        addTearDown(c.dispose);
+        final ctrl = c.read(downloadControllerProvider.notifier);
+        await ctrl.extract('https://example.com/v');
+        ctrl.selectFormat(videoOnly);
+        await ctrl.download();
+
+        // The one with full metadata wins over the one with missing metadata.
+        expect(ytdlp.downloaded, containsAllInOrder(['137', '140']));
+        expect(ytdlp.downloaded, isNot(contains('251')));
       },
     );
   });

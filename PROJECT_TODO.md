@@ -52,10 +52,11 @@ Check an item only after its acceptance criteria are satisfied.
   - Make the default agree with the behavior advertised in Settings.
   - Confirm that selecting Download without touching the list produces the intended quality.
 
-- [ ] Improve best-audio selection for video merges.
+- [x] Improve best-audio selection for video merges. Completed 2026-08-25.
   - Do not rank solely by filesize, especially when sizes are unknown.
   - Prefer a compatible, high-quality audio codec/bitrate for the selected video container.
   - Test ties and formats with no size metadata.
+  - Resolution: best-audio selection now uses bitrate > sample rate > channels > codec > filesize as tiebreakers, with missing metadata sorted behind known values.
 
 - [ ] Decide how ffmpeg cancellation should behave.
   - Evaluate calling FFmpegKit cancellation during merge/transcode.
