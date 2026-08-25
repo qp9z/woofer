@@ -29,7 +29,7 @@ val keystoreProperties = rootProject.file("key.properties").let { f ->
 
 android {
     namespace = "dev.koulei.woofer"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 35
     ndkVersion = flutter.ndkVersion
 
     signingConfigs {
