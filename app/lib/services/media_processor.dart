@@ -9,20 +9,31 @@ import 'api_exception.dart';
 /// failure. Injectable so the cleanup/error logic is testable without a device.
 typedef FfmpegRun = Future<String?> Function(List<String> args);
 
+/// Aborts any in-flight ffmpeg run. Injectable so the controller's cancel logic
+/// is testable without a device.
+typedef FfmpegCancel = Future<void> Function();
+
 /// On-device replacement for what the server's ffmpeg used to do: mux a
 /// video-only stream with an audio stream into an MP4, and transcode audio to
 /// MP3. Uses ffmpeg_kit_flutter.
 ///
 /// Both operations clean up after themselves: a failed run never leaves a
 /// half-written output behind, and a successful run deletes the (now redundant)
-/// source files unless `deleteInputs: false`.
+/// source files unless `deleteInputs: false`. A cancelled run behaves like any
+/// failure: the partial output is deleted and an [ApiException] is thrown, so
+/// the caller can't hand a half-muxed file to MediaStore.
 class MediaProcessor {
-  MediaProcessor({FfmpegRun? runner, Directory? workDir})
+  MediaProcessor({FfmpegRun? runner, FfmpegCancel? canceller, Directory? workDir})
       : _run = runner ?? _runFfmpeg,
+        _cancel = canceller ?? _cancelFfmpeg,
         _dir = workDir ?? Directory.systemTemp;
 
   final FfmpegRun _run;
+  final FfmpegCancel _cancel;
   final Directory _dir;
+
+  /// Abort any ffmpeg session currently running through this processor.
+  Future<void> cancel() => _cancel();
 
   /// Mux [video] (video-only) and [audio] into one file, returning its path. The
   /// container is chosen to fit the streams by *stream-copy* (no re-encode): MP4
@@ -160,8 +171,8 @@ class MediaProcessor {
   ///
   /// With [cover], the image becomes an ID3 attached picture instead: it is
   /// re-encoded to MJPEG because an APIC frame must be JPEG or PNG and YouTube
-  /// commonly serves thumbnails as WebP, and centre-cropped to a square because
-  /// a 16:9 thumbnail gets letterboxed by players that expect album art.
+  /// commonly serves thumbnails as WebP, and it is centre-cropped to a square
+  /// because a 16:9 thumbnail gets letterboxed by players that expect album art.
   /// [title] and [artist] become the ID3 text frames, so the file reads as a
   /// track rather than as its filename. ID3v2.3 is the version players are most
   /// consistent about.
@@ -219,5 +230,14 @@ Future<String?> _runFfmpeg(List<String> args) async {
   if (ReturnCode.isCancel(rc)) return 'cancelled';
   final detail = await session.getFailStackTrace() ?? await session.getOutput();
   final trimmed = detail?.trim();
-  return (trimmed != null && trimmed.isNotEmpty) ? trimmed : 'ffmpeg exited with code ${rc?.getValue()}';
+  return (trimmed != null && trimmed.isNotEmpty)
+      ? trimmed
+      : 'ffmpeg exited with code ${rc?.getValue()}';
+}
+
+/// Default canceller: abort every running ffmpeg session. We only ever run one
+/// operation at a time, so a global cancel is exactly our in-flight merge or
+/// transcode.
+Future<void> _cancelFfmpeg() async {
+  await FFmpegKit.cancel();
 }

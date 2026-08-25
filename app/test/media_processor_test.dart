@@ -167,6 +167,39 @@ void main() {
   });
 
   group('failure handling', () {
+    test('cancel() delegates to the injected canceller', () async {
+      var cancelled = 0;
+      final proc = MediaProcessor(
+        workDir: dir,
+        canceller: () async => cancelled++,
+      );
+
+      await proc.cancel();
+
+      expect(cancelled, 1);
+    });
+
+    test('a cancelled run throws unknown, drops the partial output, keeps inputs', () async {
+      final input = touch('in.m4a');
+      // Runner writes a partial file then reports the ffmpeg cancel return code.
+      // The corrupt output must not survive, but the input must, so a retry is
+      // possible — mirroring the real FFmpegKit.cancel() path.
+      final proc = MediaProcessor(
+        workDir: dir,
+        runner: (args) async {
+          File(args.last).writeAsStringSync('half');
+          return 'cancelled';
+        },
+      );
+
+      await expectLater(
+        () => proc.toMp3(input.path),
+        throwsA(isA<ApiException>().having((e) => e.code, 'code', ApiErrorCode.unknown)),
+      );
+      expect(input.existsSync(), isTrue);
+      expect(dir.listSync().where((e) => e.path.endsWith('.mp3')), isEmpty);
+    });
+
     test('a failed run throws unknown, drops the partial output, keeps inputs', () async {
       final input = touch('in.m4a');
       // Runner writes a partial file then reports failure — the corrupt output

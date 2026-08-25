@@ -58,19 +58,22 @@ Check an item only after its acceptance criteria are satisfied.
   - Test ties and formats with no size metadata.
   - Resolution: best-audio selection now uses bitrate > sample rate > channels > codec > filesize as tiebreakers, with missing metadata sorted behind known values.
 
-- [ ] Decide how ffmpeg cancellation should behave.
+- [x] Decide how ffmpeg cancellation should behave. Completed 2026-08-25.
   - Evaluate calling FFmpegKit cancellation during merge/transcode.
   - Ensure cancelled output is deleted and no result notification is posted.
+  - Resolution: `MediaProcessor.cancel()` now calls `FFmpegKit.cancel()` (injectable for tests), the controller's `cancel()` aborts an in-flight merge/transcode as well as the transfer, the partial output is deleted by the normal failure path, and a cancelled operation returns to format selection without posting a success or failure notification.
 
-- [ ] Harden output filenames.
+- [x] Harden output filenames. Completed 2026-08-25.
   - Add a maximum byte/character length suitable for Android filesystems and MediaStore.
   - Preserve the extension when truncating.
   - Test invalid characters, blank titles, Unicode, and very long titles.
+  - Resolution: `safeMediaFileName()` in `lib/services/filename.dart` sanitizes control/invalid characters, trims ambiguous trailing dots/spaces, truncates multi-byte titles to Android's 255-byte component limit without splitting a codepoint, preserves the extension, and falls back to a timestamped name for blank titles.
 
-- [ ] Bound thumbnail downloads.
+- [x] Bound thumbnail downloads. Completed 2026-08-25.
   - Set a maximum accepted response size.
   - Optionally reject clearly invalid content types.
   - Keep artwork best-effort so it can never fail the media download.
+  - Resolution: `CoverFetcher` now streams the body with a 5 MB cap (`maxBytes`, injectable) and rejects responses whose content type is clearly not an image, still returning null (never an error) so artwork can't fail a download.
 
 ## P1 — Android integration review
 

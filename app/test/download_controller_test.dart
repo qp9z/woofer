@@ -168,6 +168,10 @@ class _BlockingDownloadYtdlp extends _FakeYtdlp {
 
 class _FakeProcessor extends MediaProcessor {
   final List<String> ops = [];
+  int cancels = 0;
+
+  @override
+  Future<void> cancel() async => cancels++;
 
   @override
   Future<String> mergeVideoAudio(
@@ -212,12 +216,28 @@ class _BlockingProcessor extends _FakeProcessor {
     mergeStarted.complete();
     return mergeResult.future;
   }
+
+  @override
+  Future<void> cancel() async {
+    cancels++;
+    // FFmpegKit.cancel() makes the in-flight run return 'cancelled', which the
+    // processor turns into an ApiException. Mirror that so the pipeline's catch
+    // unwinds the blocked merge.
+    if (!mergeResult.isCompleted) {
+      mergeResult.completeError(
+        const ApiException(code: ApiErrorCode.unknown, message: 'cancelled'),
+      );
+    }
+  }
 }
 
 class _FakeCover implements CoverFetcher {
   _FakeCover({this.result = '/tmp/cover.jpg'});
   final String? result;
   String? requestedUrl;
+
+  @override
+  int get maxBytes => 5 * 1024 * 1024;
 
   @override
   Future<String?> fetch(String? url, String dir) async {
@@ -676,6 +696,40 @@ void main() {
         );
         expect(ctrl.canExtract, isTrue);
         expect(await history.getAll(), isEmpty);
+      },
+    );
+
+    test(
+      'cancelling during a merge aborts ffmpeg and returns to selection silently',
+      () async {
+        final fg = _FakeForeground();
+        final ytdlp = _FakeYtdlp();
+        final processor = _BlockingProcessor();
+        final c = makeContainer(
+          foreground: fg,
+          ytdlp: ytdlp,
+          processor: processor,
+        );
+        final ctrl = c.read(downloadControllerProvider.notifier);
+
+        await ctrl.extract('https://example.com/original');
+        ctrl.selectFormat(_videoOnly);
+        final pending = ctrl.download();
+        await processor.mergeStarted.future;
+        expect(c.read(downloadControllerProvider), isA<Processing>());
+
+        ctrl.cancel(); // the notification's Cancel button mid-merge
+
+        // ffmpeg itself is aborted, not just flagged — a 4K re-encode otherwise
+        // runs out another few minutes before the user gets their formats back.
+        expect(processor.cancels, 1);
+        await pending;
+
+        expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+        expect(await history.getAll(), isEmpty);
+        // No "it failed", no "it's saved" — the user asked to stop.
+        expect(fg.results, isEmpty);
+        expect(fg.hides, 1);
       },
     );
 

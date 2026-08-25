@@ -8,6 +8,7 @@ import '../models/media_format.dart';
 import '../models/video_info.dart';
 import '../services/api_exception.dart';
 import '../services/cover_fetcher.dart';
+import '../services/filename.dart';
 import '../services/foreground_service.dart';
 import '../services/history_service.dart';
 import '../services/media_processor.dart';
@@ -148,17 +149,17 @@ class DownloadController extends Notifier<DownloadState> {
   /// Abort the flow and return to format selection.
   ///
   /// The operation's cancellation flag stops the pipeline at the next step
-  /// boundary, and the extractor
-  /// is told to abort the transfer itself — otherwise cancelling a 4K download
-  /// only registered once its last byte had arrived, minutes later, which made
-  /// the notification's Cancel button look broken.
-  // ponytail: an ffmpeg merge already under way still runs to completion (its
-  // output is then discarded). FFmpegKit.cancel() if that ever matters.
+  /// boundary, the extractor is told to abort the transfer itself — otherwise
+  /// cancelling a 4K download only registered once its last byte had arrived,
+  /// minutes later, which made the notification's Cancel button look broken —
+  /// and an in-flight ffmpeg merge/transcode is cancelled too, so the user isn't
+  /// left waiting out minutes of re-encoding they already asked to stop.
   void cancel() {
     final operation = _activeDownload;
     if (operation == null || operation.cancelled) return;
     operation.cancelled = true;
     unawaited(_ytdlp.cancel());
+    unawaited(_processor.cancel());
     // Keep the active state until the native call has actually unwound. This
     // prevents an immediate retry from sharing YtdlpExtractor's one progress
     // callback with the cancelled transfer. The finally block restores the
@@ -526,13 +527,7 @@ class DownloadController extends Notifier<DownloadState> {
     }
   }
 
-  String _fileName(String? title, String ext) {
-    final raw = (title == null || title.trim().isEmpty)
-        ? 'woofer_${DateTime.now().millisecondsSinceEpoch}'
-        : title.trim();
-    final safe = raw.replaceAll(RegExp(r'[\\/:*?"<>|]'), '_');
-    return '$safe.$ext';
-  }
+  String _fileName(String? title, String ext) => safeMediaFileName(title, ext);
 
   Future<void> _deleteQuietly(String path) async {
     try {
