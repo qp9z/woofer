@@ -1,0 +1,44 @@
+WOOFER — Proprietary License
+
+Copyright © 2026 Koulei Labs. All rights reserved.
+
+This software ("WOOFER") is proprietary and confidential. It is owned by
+Koulei Labs and licensed for distribution exclusively by and through its
+owner at the domain koulei.dev.
+
+You are NOT granted permission to:
+
+  - copy, reproduce, publish, sell, sublicense, or otherwise distribute this
+    software, in whole or in part, in any form, except with the owner's
+    explicit written permission;
+  - modify, adapt, translate, reverse-engineer, decompile, or disassemble it;
+  - remove or alter any copyright, trademark, or other proprietary notices.
+
+No right to use the WOOFER name, the koulei.dev domain, or any associated
+brand identity is granted under this license.
+
+HOW TO USE WITH PERMISSION
+--------------------------
+Distribution rights are granted exclusively by the owner (koulei.dev). If you
+have received a copy of this software, you have been authorized by the owner;
+you may use and install it for personal, non-redistributable purposes.
+
+THIRD-PARTY COMPONENTS
+WOOFER integrates third-party open-source components, each governed by its own
+license:
+
+  - yt-dlp — Unlicense (public domain)
+  - FFmpegKit full-gpl build — GPL-2.0-or-later (see NOTICE/THIRD_PARTY)
+  - Chaquopy (Chaquopy) — proprietary but free to use
+
+Distribution of the GPL-licensed FFmpeg binary imposes GPL obligations. Before
+public distribution, review THIRD_PARTY and confirm the FFmpeg build variant
+(GPL vs LGPL) satisfies your obligations.
+
+THIS SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

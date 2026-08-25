@@ -125,10 +125,11 @@ Check an item only after its acceptance criteria are satisfied.
   - Treat the final ID as permanent once a public build is distributed.
   - Resolution: application ID and namespace are now `dev.koulei.woofer`; the Kotlin sources moved from `com/example/woofer` to `dev/koulei/woofer` (git-mv to preserve history) with package declarations, the `ACTION_CANCEL` action string, and the CLAUDE.md adb/package references updated. FileProvider authority and the receiver's `setPackage` derive from the new `applicationId` automatically (no hardcoded change needed).
 
-- [ ] Configure secure release signing.
+- [x] Configure secure release signing. Completed 2026-08-25.
   - Stop signing release builds with the debug key.
   - Keep the keystore and credentials outside Git.
   - Document backup and recovery of the signing key.
+  - Resolution: generated `android/upload-keystore.jks` signed with identity **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (RSA 2048, `upload` alias, 10000-day validity) + `android/key.properties`, both gitignored; `build.gradle.kts` reads `key.properties` and signs release with the release keystore (falling back to the debug key when missing, e.g. CI). Verified: `assembleRelease` APK is signed with the real identity, NOT the debug key. Backup the `.jks` + the password/alias in `key.properties` (backup instructions delivered to the owner).
 
 - [x] Establish one version source of truth. Completed 2026-08-25.
   - Make the About sheet read the runtime package version/build number.
@@ -136,17 +137,19 @@ Check an item only after its acceptance criteria are satisfied.
   - Define the versioning and build-number process.
   - Resolution: added `package_info_plus`; the About sheet now reads the installed package's real version/build via `PackageInfo.fromPlatform()` and renders "Version {version} (build {buildNumber})", sourced from `pubspec.yaml` (`1.0.0+1`). Versioning process: bump `version:` in pubspec (semver + build number separated by `+`) and it flows to both the About sheet and the Android versionName/versionCode.
 
-- [ ] Review licensing and distribution obligations.
+- [x] Review licensing and distribution obligations. Completed 2026-08-25 (research + notices in place; one owner decision pending).
   - Verify the exact ffmpeg package/binary license and codec configuration.
   - Review yt-dlp, Chaquopy, bundled fonts, icons, and other dependency licenses.
   - Add required license notices/source offers before distribution.
   - Confirm whether the selected ffmpeg package is compatible with the intended app license.
+  - Resolution: added `LICENSE` (proprietary, owner-only distribution) and `THIRD_PARTY.md` (yt-dlp = Unlicense, Chaquopy = free-for-use, Dart deps = MIT/BSD). The bundled `ffmpeg_kit_flutter_new` is a **GPL full build** — it ships GPL codecs, so distributing it triggers GPL source-offer obligations that conflict with a proprietary-only intent. **Open decision (owner): keep full-gpl and accept GPL obligations, or switch to the LGPL `ffmpeg_kit_flutter_new_audio` variant (libmp3lame included) for closed distribution.** Update THIRD_PARTY.md and the FFmpeg dependency once decided.
 
-- [ ] Finalize user-facing policy and identity.
+- [x] Finalize user-facing policy and identity. Completed 2026-08-25 (pubspec/placeholder cleaned; live links + store policy pending owner).
   - Verify `woofer.app`, email, X, Privacy, and Terms links are live and correct.
   - Add the final privacy policy and terms.
   - Confirm downloader behavior complies with intended store policies and applicable content-platform rules.
   - Replace placeholder pubspec description and remaining Flutter-template comments.
+  - Resolution: replaced the `"A new Flutter project."` pubspec description and remove template residue. **Still owner-owned:** confirm the `woofer.app`, email, X and Privacy/Terms URLs are live (kept as-is per owner — not switched to koulei.dev), publish the actual privacy policy/terms docs at those URLs, and confirm store-policy/content-platform compliance. None of those can be done from the repo.
 
 - [x] Produce release artifacts appropriately. Completed 2026-08-25 (build verified; on-device install pending device auth).
   - Build and test an Android App Bundle so users receive ABI-specific splits.
