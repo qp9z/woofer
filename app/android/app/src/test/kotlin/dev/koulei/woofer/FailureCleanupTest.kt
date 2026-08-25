@@ -1,4 +1,4 @@
-package com.example.woofer
+package dev.koulei.woofer
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse

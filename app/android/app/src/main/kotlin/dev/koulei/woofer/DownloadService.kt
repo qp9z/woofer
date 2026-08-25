@@ -1,4 +1,4 @@
-package com.example.woofer
+package dev.koulei.woofer
 
 import android.app.Notification
 import android.app.NotificationChannel
@@ -119,7 +119,7 @@ class DownloadService : Service() {
         const val EXTRA_TEXT = "text"
         const val EXTRA_PERCENT = "percent"
 
-        const val ACTION_CANCEL = "com.example.woofer.CANCEL_DOWNLOAD"
+        const val ACTION_CANCEL = "dev.koulei.woofer.CANCEL_DOWNLOAD"
 
         private const val REQUEST_OPEN_APP = 10
         private const val REQUEST_CANCEL = 11

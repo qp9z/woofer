@@ -26,9 +26,9 @@ flutter install --profile -d R5CXA4Q2SHK  # SM A556E, Android 16
 
 Test device is a Samsung SM A556E (`R5CXA4Q2SHK`). `adb` is **not on PATH**:
 `C:/Users/Pc/AppData/Local/Android/Sdk/platform-tools/adb.exe`. Package id is
-`com.example.woofer`.
+`dev.koulei.woofer`.
 
-Screenshot loop: `adb shell monkey -p com.example.woofer -c android.intent.category.LAUNCHER 1`
+Screenshot loop: `adb shell monkey -p dev.koulei.woofer -c android.intent.category.LAUNCHER 1`
 then `adb exec-out screencap -p > out.png`. If the phone is locked or asleep the
 framebuffer is black — nothing to debug, just ask for it to be unlocked.
 

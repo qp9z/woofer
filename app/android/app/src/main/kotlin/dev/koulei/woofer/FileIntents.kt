@@ -1,4 +1,4 @@
-package com.example.woofer
+package dev.koulei.woofer
 
 import android.app.Activity
 import android.content.ActivityNotFoundException

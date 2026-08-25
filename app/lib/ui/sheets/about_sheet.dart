@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../theme/app_theme.dart';
@@ -7,7 +8,9 @@ import '../widgets/woofer_mark.dart';
 import '../widgets/wordmark.dart';
 
 /// App & developer info — identity, Koulei Labs, contact links, legal. Static
-/// brand content from the design handoff (THEME.md → App identity).
+/// brand content from the design handoff (THEME.md → App identity). The version
+/// text reads the installed package's real version/build (pubspec.yaml), not a
+/// hardcoded string that drifts out of sync.
 Future<void> showAboutSheet(BuildContext context) {
   return GlassSheet.present<void>(context, builder: (_) => const _AboutSheet());
 }
@@ -19,8 +22,29 @@ Future<void> _open(String url) async {
   }
 }
 
-class _AboutSheet extends StatelessWidget {
+class _AboutSheet extends StatefulWidget {
   const _AboutSheet();
+
+  @override
+  State<_AboutSheet> createState() => _AboutSheetState();
+}
+
+class _AboutSheetState extends State<_AboutSheet> {
+  String _versionLabel = '';
+
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((info) {
+      if (!mounted) return;
+      final name = info.version;
+      final build = info.buildNumber;
+      setState(() => _versionLabel = 'Version $name (build $build) · made quiet');
+    }).catchError((_) {
+      // Best-effort: if the version can't be read (tests, odd host), fall back
+      // to nothing rather than a wrong-looking hardcoded number.
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,18 +59,18 @@ class _AboutSheet extends StatelessWidget {
             const SizedBox(height: AppSpacing.md),
 
             // Identity.
-            const Center(
-              child: Column(
-                children: [
-                  WooferMark(size: 84, tile: WooferTile.accent, bars: WooferBars.light),
-                  SizedBox(height: AppSpacing.sm + 4),
-                  Wordmark(fontSize: 30),
-                  SizedBox(height: 4),
-                  Text('Version 1.0 (build 118) · made quiet',
-                      style: TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
-                ],
-              ),
-            ),
+                        Center(
+                          child: Column(
+                            children: [
+                              const WooferMark(size: 84, tile: WooferTile.accent, bars: WooferBars.light),
+                              const SizedBox(height: AppSpacing.sm + 4),
+                              const Wordmark(fontSize: 30),
+                              const SizedBox(height: 4),
+                              Text(_versionLabel,
+                                  style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                            ],
+                          ),
+                        ),
             const SizedBox(height: AppSpacing.lg),
 
             _SectionLabel('Developer'),

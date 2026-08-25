@@ -1,4 +1,4 @@
-package com.example.woofer
+package dev.koulei.woofer
 
 import android.content.Context
 import android.net.ConnectivityManager

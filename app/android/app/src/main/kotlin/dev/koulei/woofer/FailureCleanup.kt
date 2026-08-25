@@ -1,4 +1,4 @@
-package com.example.woofer
+package dev.koulei.woofer
 
 /**
  * Run [operation], invoking [cleanup] only if it fails. Cleanup failure is kept

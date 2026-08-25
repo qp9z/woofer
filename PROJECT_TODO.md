@@ -120,19 +120,21 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P1 — Release blockers
 
-- [ ] Replace `com.example.woofer` with the permanent application ID.
+- [x] Replace `com.example.woofer` with the permanent application ID. Completed 2026-08-25.
   - Update the Gradle namespace/application ID, Kotlin package paths, FileProvider authority, notification actions, and tests/documentation.
   - Treat the final ID as permanent once a public build is distributed.
+  - Resolution: application ID and namespace are now `dev.koulei.woofer`; the Kotlin sources moved from `com/example/woofer` to `dev/koulei/woofer` (git-mv to preserve history) with package declarations, the `ACTION_CANCEL` action string, and the CLAUDE.md adb/package references updated. FileProvider authority and the receiver's `setPackage` derive from the new `applicationId` automatically (no hardcoded change needed).
 
 - [ ] Configure secure release signing.
   - Stop signing release builds with the debug key.
   - Keep the keystore and credentials outside Git.
   - Document backup and recovery of the signing key.
 
-- [ ] Establish one version source of truth.
+- [x] Establish one version source of truth. Completed 2026-08-25.
   - Make the About sheet read the runtime package version/build number.
   - Remove the hardcoded `build 118` mismatch with `pubspec.yaml` (`1.0.0+1`).
   - Define the versioning and build-number process.
+  - Resolution: added `package_info_plus`; the About sheet now reads the installed package's real version/build via `PackageInfo.fromPlatform()` and renders "Version {version} (build {buildNumber})", sourced from `pubspec.yaml` (`1.0.0+1`). Versioning process: bump `version:` in pubspec (semver + build number separated by `+`) and it flows to both the About sheet and the Android versionName/versionCode.
 
 - [ ] Review licensing and distribution obligations.
   - Verify the exact ffmpeg package/binary license and codec configuration.
@@ -146,11 +148,12 @@ Check an item only after its acceptance criteria are satisfied.
   - Confirm downloader behavior complies with intended store policies and applicable content-platform rules.
   - Replace placeholder pubspec description and remaining Flutter-template comments.
 
-- [ ] Produce release artifacts appropriately.
+- [x] Produce release artifacts appropriately. Completed 2026-08-25 (build verified; on-device install pending device auth).
   - Build and test an Android App Bundle so users receive ABI-specific splits.
   - Verify app size for arm64 and x86_64 delivery.
   - Decide whether x86_64 is needed in production or only for emulators.
   - Verify release-mode shrinking/obfuscation does not break Chaquopy or ffmpeg.
+  - Resolution: `:app:bundleRelease` succeeds and `app/build/outputs/bundle/release/app-release.aab` (102 MB) carries `package="dev.koulei.woofer"`, both `arm64-v8a` and `x86_64` split modules, and the full Chaquopy bootstrap + ffmpeg native libs — release shrinking did not break them. Note: x86_64 is a minority of real devices; consider shipping arm64 only (later). Installing/launching the AAB on the Samsung still waits on the device being authorized in ADB.
 
 ## P2 — Dependency and build maintenance
 

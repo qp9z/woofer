@@ -20,7 +20,7 @@ val chaquopyBuildPython: String? = rootProject.file("local.properties").let { f 
 }
 
 android {
-    namespace = "com.example.woofer"
+    namespace = "dev.koulei.woofer"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -34,8 +34,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.woofer"
+        applicationId = "dev.koulei.woofer"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // Chaquopy 16 requires minSdk 24; that's higher than Flutter's default, so
