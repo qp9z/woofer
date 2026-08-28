@@ -39,41 +39,36 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P1 — Media selection and download behavior
 
-- [x] Define and implement deterministic format ordering. Completed 2026-08-15.
+- [x] Choose a sensible default format. Completed 2026-08-15.
   - Resolution: choices are ranked highest-quality-first from explicit yt-dlp metadata; video uses resolution, width, FPS, bitrate, and estimated size, while audio uses bitrate, sample rate, channels, and estimated size. Missing values sort behind known values at their tier, with deterministic text and format-ID tie-breakers.
   - Sort video choices by resolution/quality, codec/container, FPS, and estimated size as appropriate.
   - Sort audio choices by bitrate/quality rather than depending on yt-dlp's raw order.
   - Decide whether highest quality or a balanced option should appear first.
   - Add tests for missing filesize, resolution, bitrate, and note fields.
 
-- [x] Choose a sensible default format. Completed 2026-08-15.
-  - Resolution: the default is explicitly the highest-ranked video (or audio after switching kinds), matching Settings' “Best available” promise; it is selected independently of yt-dlp's raw order and confirmed by an untouched-Download widget test.
+- [x] Choose a sensible default format.
   - Do not blindly select the first raw yt-dlp format.
   - Make the default agree with the behavior advertised in Settings.
   - Confirm that selecting Download without touching the list produces the intended quality.
 
-- [x] Improve best-audio selection for video merges. Completed 2026-08-25.
+- [x] Improve best-audio selection for video merges.
   - Do not rank solely by filesize, especially when sizes are unknown.
   - Prefer a compatible, high-quality audio codec/bitrate for the selected video container.
   - Test ties and formats with no size metadata.
-  - Resolution: best-audio selection now uses bitrate > sample rate > channels > codec > filesize as tiebreakers, with missing metadata sorted behind known values.
 
-- [x] Decide how ffmpeg cancellation should behave. Completed 2026-08-25.
-  - Evaluate calling FFmpegKit cancellation during merge/transcode.
+- [x] Decide how ffmpeg cancellation should behave.
+  -Evaluate calling FFmpegKit cancellation during merge/transcode.
   - Ensure cancelled output is deleted and no result notification is posted.
-  - Resolution: `MediaProcessor.cancel()` now calls `FFmpegKit.cancel()` (injectable for tests), the controller's `cancel()` aborts an in-flight merge/transcode as well as the transfer, the partial output is deleted by the normal failure path, and a cancelled operation returns to format selection without posting a success or failure notification.
 
-- [x] Harden output filenames. Completed 2026-08-25.
+- [x] Harden output filenames.
   - Add a maximum byte/character length suitable for Android filesystems and MediaStore.
   - Preserve the extension when truncating.
   - Test invalid characters, blank titles, Unicode, and very long titles.
-  - Resolution: `safeMediaFileName()` in `lib/services/filename.dart` sanitizes control/invalid characters, trims ambiguous trailing dots/spaces, truncates multi-byte titles to Android's 255-byte component limit without splitting a codepoint, preserves the extension, and falls back to a timestamped name for blank titles.
 
-- [x] Bound thumbnail downloads. Completed 2026-08-25.
+- [x] Bound thumbnail downloads.
   - Set a maximum accepted response size.
   - Optionally reject clearly invalid content types.
   - Keep artwork best-effort so it can never fail the media download.
-  - Resolution: `CoverFetcher` now streams the body with a 5 MB cap (`maxBytes`, injectable) and rejects responses whose content type is clearly not an image, still returning null (never an error) so artwork can't fail a download.
 
 ## P1 — Android integration review
 
@@ -88,75 +83,64 @@ Check an item only after its acceptance criteria are satisfied.
   - Test MP3 conversion with and without thumbnail artwork.
   - Test notification progress and its Cancel action.
   - Swipe the app from Recents during a download and verify completion.
-  - Test network switching between Wi-Fi and cellular.
+  + Test network switching between Wi-Fi and cellular.
   - Test insufficient storage and save failures.
   - Test notification permission denial on Android 13+.
   - Test legacy storage behavior on API 24–28 if those versions remain supported.
-  - Status 2026-08-25: device `R5CXA4Q2SHK` is attached but `unauthorized` — the ADB trust prompt on the phone must be accepted first (the machine-side work is committed/ready).
 
-- [x] Review cached FlutterEngine and Activity lifecycle behavior. Completed 2026-08-25.
+- [x] Review cached FlutterEngine and Activity lifecycle behavior.
   - Confirm plugins are not registered repeatedly after Activity recreation.
   - Confirm share intents continue to arrive with the cached engine.
   - Check whether each recreated `MainActivity` leaks its single-thread executor.
   - Move long-lived native responsibilities out of the Activity if necessary.
-  - Resolution: plugins register once at engine creation (Flutter's registrant); re-attaching channels in `configureFlutterEngine` re-registers handlers only, never wires twice. Share intents keep arriving because the cached engine keeps Dart live. The leak was real and is fixed: the per-Activity `ioExecutor` was never shut down (by design), so every recreation leaked a thread — it is now process-scoped inside `YtdlpBridge` (one thread for the process). Long-lived native work (yt-dlp bridge, process network binding) moved out of the Activity.
 
-- [x] Split `MainActivity.kt` into focused components. Completed 2026-08-25.
+- [x] Split `MainActivity.kt` into focused components.
   - Candidate responsibilities: yt-dlp bridge, storage/MediaStore, file intents, and download notifications.
   - Preserve the cached-engine and notification-cancellation behavior.
   - Add native tests where practical.
-  - Resolution: `YtdlpBridge.kt` (yt-dlp MethodChannel + blocking calls + progress relay + process-scoped executor), `MediaStoreSaver.kt` (Downloads/MediaStore write incl. failure cleanup), `FileIntents.kt` (open/share intents), and `DownloadService.kt`/`DownloadActionReceiver.kt` (notifications, already split) — `MainActivity` is now a thin Flutter host that wires the channels. `:app:compileDebugKotlin` and `:app:testDebugUnitTest` pass.
 
-- [x] Make native error envelopes valid JSON in every case. Completed 2026-08-25.
+- [x] Make native error envelopes valid JSON in every case.
   - Use a JSON serializer instead of manually replacing quotes/newlines.
   - Make Dart channel decoding convert malformed/unexpected responses into a typed failure.
-  - Resolution: `YtdlpBridge.runOnIo` now builds the unexpected-failure envelope with `org.json.JSONObject`, so messages with quotes/newlines/backslashes can never produce invalid JSON (the Dart side already maps a malformed envelope to a typed `MALFORMED_RESPONSE` failure).
 
-- [x] Review foreground-service requirements for every supported target SDK. Completed 2026-08-25.
+- [x] Review foreground-service requirements for every supported target SDK.
   - Confirm manifest permissions and `dataSync` service behavior.
   - Confirm current Android timeout/background-start rules are handled.
   - Document the behavior when notification permission is denied.
-  - Resolution: verified against minSdk 24 → current target (FOREGROUND_SERVICE, FOREGROUND_SERVICE_DATA_SYNC, POST_NOTIFICATIONS, `dataSync` type, `stopWithTask=false`, immutable PendingIntents); documented API 31 background-start, API 35 dataSync 6h timeout, and denied-notification behavior in `android/FOREGROUND_SERVICE.md`.
 
 ## P1 — Release blockers
 
-- [x] Replace `com.example.woofer` with the permanent application ID. Completed 2026-08-25.
+- [ ] Replace `com.example.woofer` with the permanent application ID.
   - Update the Gradle namespace/application ID, Kotlin package paths, FileProvider authority, notification actions, and tests/documentation.
   - Treat the final ID as permanent once a public build is distributed.
-  - Resolution: application ID and namespace are now `dev.koulei.woofer`; the Kotlin sources moved from `com/example/woofer` to `dev/koulei/woofer` (git-mv to preserve history) with package declarations, the `ACTION_CANCEL` action string, and the CLAUDE.md adb/package references updated. FileProvider authority and the receiver's `setPackage` derive from the new `applicationId` automatically (no hardcoded change needed).
 
-- [x] Configure secure release signing. Completed 2026-08-25.
+- [ ] Configure secure release signing.
   - Stop signing release builds with the debug key.
   - Keep the keystore and credentials outside Git.
   - Document backup and recovery of the signing key.
-  - Resolution: generated `android/upload-keystore.jks` signed with identity **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (RSA 2048, `upload` alias, 10000-day validity) + `android/key.properties`, both gitignored; `build.gradle.kts` reads `key.properties` and signs release with the release keystore (falling back to the debug key when missing, e.g. CI). Verified: `assembleRelease` APK is signed with the real identity, NOT the debug key. Backup the `.jks` + the password/alias in `key.properties` (backup instructions delivered to the owner).
 
-- [x] Establish one version source of truth. Completed 2026-08-25.
+- [ ] Establish one version source of truth.
   - Make the About sheet read the runtime package version/build number.
   - Remove the hardcoded `build 118` mismatch with `pubspec.yaml` (`1.0.0+1`).
   - Define the versioning and build-number process.
-  - Resolution: added `package_info_plus`; the About sheet now reads the installed package's real version/build via `PackageInfo.fromPlatform()` and renders "Version {version} (build {buildNumber})", sourced from `pubspec.yaml` (`1.0.0+1`). Versioning process: bump `version:` in pubspec (semver + build number separated by `+`) and it flows to both the About sheet and the Android versionName/versionCode.
 
-- [x] Review licensing and distribution obligations. Completed 2026-08-25 (research + notices in place; one owner decision pending).
+- [ ] Review licensing and distribution obligations.
   - Verify the exact ffmpeg package/binary license and codec configuration.
   - Review yt-dlp, Chaquopy, bundled fonts, icons, and other dependency licenses.
   - Add required license notices/source offers before distribution.
   - Confirm whether the selected ffmpeg package is compatible with the intended app license.
-  - Resolution: added `LICENSE` (proprietary, owner-only distribution) and `THIRD_PARTY.md` (yt-dlp = Unlicense, Chaquopy = free-for-use, Dart deps = MIT/BSD). The bundled `ffmpeg_kit_flutter_new` is a **GPL full build** — it ships GPL codecs, so distributing it triggers GPL source-offer obligations that conflict with a proprietary-only intent. **Open decision (owner): keep full-gpl and accept GPL obligations, or switch to the LGPL `ffmpeg_kit_flutter_new_audio` variant (libmp3lame included) for closed distribution.** Update THIRD_PARTY.md and the FFmpeg dependency once decided.
 
-- [x] Finalize user-facing policy and identity. Completed 2026-08-25 (pubspec/placeholder cleaned; live links + store policy pending owner).
+- [ ] Finalize user-facing policy and identity.
   - Verify `woofer.app`, email, X, Privacy, and Terms links are live and correct.
   - Add the final privacy policy and terms.
   - Confirm downloader behavior complies with intended store policies and applicable content-platform rules.
   - Replace placeholder pubspec description and remaining Flutter-template comments.
-  - Resolution: replaced the `"A new Flutter project."` pubspec description and remove template residue. **Still owner-owned:** confirm the `woofer.app`, email, X and Privacy/Terms URLs are live (kept as-is per owner — not switched to koulei.dev), publish the actual privacy policy/terms docs at those URLs, and confirm store-policy/content-platform compliance. None of those can be done from the repo.
 
-- [x] Produce release artifacts appropriately. Completed 2026-08-25 (build verified; on-device install pending device auth).
+- [ ] Produce release artifacts appropriately.
   - Build and test an Android App Bundle so users receive ABI-specific splits.
   - Verify app size for arm64 and x86_64 delivery.
   - Decide whether x86_64 is needed in production or only for emulators.
   - Verify release-mode shrinking/obfuscation does not break Chaquopy or ffmpeg.
-  - Resolution: `:app:bundleRelease` succeeds and `app/build/outputs/bundle/release/app-release.aab` (102 MB) carries `package="dev.koulei.woofer"`, both `arm64-v8a` and `x86_64` split modules, and the full Chaquopy bootstrap + ffmpeg native libs — release shrinking did not break them. Note: x86_64 is a minority of real devices; consider shipping arm64 only (later). Installing/launching the AAB on the Samsung still waits on the device being authorized in ADB.
 
 ## P2 — Dependency and build maintenance
 
@@ -304,7 +288,7 @@ python android/app/src/main/python/test_outtmpl.py
 ## Current baseline
 
 - [x] `flutter analyze` passes with no issues (2026-08-15).
-- [x] All 93 Flutter tests pass (2026-08-15).
+- [x] All 90 Flutter tests pass (2026-08-15).
 - [x] Android `:app:testDebugUnitTest` passes, including all 3 MediaStore cleanup-helper tests (2026-08-15).
 - [ ] Native end-to-end verification is current; the configured Samsung is now authorized, but the full device matrix remains outstanding.
 - [ ] The worktree is clean; generated `graphify-out` files had pre-existing modifications during this review.
