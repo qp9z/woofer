@@ -19,9 +19,11 @@ graphify-out/           generated knowledge graph, not source
 
 ```bash
 cd app
-flutter analyze && flutter test          # 65 tests, keep them green
+flutter analyze && flutter test          # 118 tests, keep them green
 flutter build apk --profile
-flutter install --profile -d R5CXA4Q2SHK  # SM A556E, Android 16
+flutter build apk --release
+flutter build appbundle --release
+flutter install --release -d R5CXA4Q2SHK  # SM A556E, Android 16
 ```
 
 Test device is a Samsung SM A556E (`R5CXA4Q2SHK`). `adb` is **not on PATH**:
@@ -44,6 +46,11 @@ Idle → Loading → FormatsReady → Downloading → Processing → Done | Fail
 `extract(url)` resolves formats through yt-dlp; `download()` fetches the chosen
 stream, merges/transcodes, saves to public Downloads (MediaStore), records history.
 Video-only formats get merged with the best audio; audio-only transcodes to MP3 192k.
+
+**Network-switch retry** — `_downloadFormatWithNetworkRetry` wraps yt-dlp downloads:
+on `ApiErrorCode.network` (mid-download Wi-Fi ↔ cellular switch), it rebinds the
+process to the new active network via `bindProcessToActiveNetwork()` and retries
+once. Applies to both the primary stream and the merged-audio stream.
 
 **UI** — a tab shell, not push navigation. `HomeShell` (aurora background +
 `IndexedStack` of Download/Library/Settings + floating nav pill + toast) drives
