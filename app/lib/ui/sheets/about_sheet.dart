@@ -38,7 +38,6 @@ class _AboutSheetState extends State<_AboutSheet> {
     PackageInfo.fromPlatform().then((info) {
       if (!mounted) return;
       final name = info.version;
-      final build = info.buildNumber;
       setState(() => _versionLabel = 'Version $name · made quiet');
     }).catchError((_) {
       // Best-effort: if the version can't be read (tests, odd host), fall back
@@ -59,66 +58,66 @@ class _AboutSheetState extends State<_AboutSheet> {
             const SizedBox(height: AppSpacing.md),
 
             // Identity.
-                        Center(
-                          child: Column(
-                            children: [
-                              const WooferMark(size: 84, tile: WooferTile.accent, bars: WooferBars.light),
-                              const SizedBox(height: AppSpacing.sm + 4),
-                              const Wordmark(fontSize: 30),
-                              const SizedBox(height: 4),
-                              Text(_versionLabel,
-                                  style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
-                            ],
-                          ),
-                        ),
+            Center(
+              child: Column(
+                children: [
+                  const WooferMark(size: 84, tile: WooferTile.accent, bars: WooferBars.light),
+                  const SizedBox(height: AppSpacing.sm + 4),
+                  const Wordmark(fontSize: 30),
+                  const SizedBox(height: 4),
+                  Text(_versionLabel,
+                      style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                ],
+              ),
+            ),
             const SizedBox(height: AppSpacing.lg),
 
             _SectionLabel('Developer'),
-                        const SizedBox(height: AppSpacing.sm),
-                        const _SoftRow(
-                          icon: CupertinoIcons.chevron_left_slash_chevron_right,
-                          title: 'koulei',
-                          subtitle: 'Independent studio · Est. 2025',
-                        ),
+            const SizedBox(height: AppSpacing.sm),
+            const _SoftRow(
+              icon: CupertinoIcons.chevron_left_slash_chevron_right,
+              title: 'koulei',
+              subtitle: 'Independent studio · Est. 2025',
+            ),
             const SizedBox(height: AppSpacing.lg),
 
             _SectionLabel('Contact'),
             const SizedBox(height: AppSpacing.sm),
             _LinkRow(
-                          icon: CupertinoIcons.mail,
-                          title: 'Email',
-                          subtitle: 'woofer@koulei.dev',
-                          onTap: () => _open('mailto:woofer@koulei.dev'),
-                        ),
+              icon: CupertinoIcons.mail,
+              title: 'Email',
+              subtitle: 'woofer@koulei.dev',
+              onTap: () => _open('mailto:woofer@koulei.dev'),
+            ),
             const SizedBox(height: 6),
             _LinkRow(
-                          icon: CupertinoIcons.globe,
-                          title: 'Website',
-                          subtitle: 'koulei.dev',
-                          onTap: () => _open('https://koulei.dev'),
-                        ),
+              icon: CupertinoIcons.globe,
+              title: 'Website',
+              subtitle: 'koulei.dev',
+              onTap: () => _open('https://koulei.dev'),
+            ),
             const SizedBox(height: 6),
             _LinkRow(
-                          icon: CupertinoIcons.at,
-                          title: 'Follow',
-                          subtitle: 'qp9z',
-                          onTap: () => _open('https://github.com/qp9z'),
-                        ),
+              icon: CupertinoIcons.at,
+              title: 'Follow',
+              subtitle: 'qp9z',
+              onTap: () => _open('https://github.com/qp9z'),
+            ),
             const SizedBox(height: AppSpacing.lg),
 
             Row(
-                          children: [
-                            Expanded(child: _LegalButton(label: 'Privacy', onTap: () => _open('https://koulei.dev/privacy'))),
-                            const SizedBox(width: 6),
-                            Expanded(child: _LegalButton(label: 'Terms', onTap: () => _open('https://koulei.dev/terms'))),
-                          ],
-                        ),
+              children: [
+                Expanded(child: _LegalButton(label: 'Privacy', onTap: () => _open('https://koulei.dev/privacy'))),
+                const SizedBox(width: 6),
+                Expanded(child: _LegalButton(label: 'Terms', onTap: () => _open('https://koulei.dev/terms'))),
+              ],
+            ),
             const SizedBox(height: AppSpacing.md),
             const Text(
-                          '© 2026 koulei. Not affiliated with any content platform.',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(fontSize: AppType.label, color: AppColors.n500),
-                        ),
+              '© 2026 koulei. Not affiliated with any content platform.',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: AppType.label, color: AppColors.n500),
+            ),
           ],
         ),
       ),

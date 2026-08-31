@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../sheets/about_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/woofer_mark.dart';
+import '../widgets/wordmark.dart';
 
 /// Settings tab. Informational rows reflecting the app's real behaviour — the
 /// downloader has no preferences store yet, so these show the fixed defaults
@@ -15,9 +16,20 @@ class SettingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 4, 20, 100), // clear the floating nav pill
+      padding: const EdgeInsets.fromLTRB(20, 4, 20, 100),
       physics: const BouncingScrollPhysics(),
       children: [
+        // Title row matching DownloadTab.
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Expanded(
+              child: Wordmark(fontSize: AppType.display, height: 0.95),
+            ),
+            _InfoCircle(onTap: () => showAboutSheet(context)),
+          ],
+        ),
+        const SizedBox(height: AppSpacing.md),
         _Group(
           name: 'Downloads',
           rows: [
@@ -110,6 +122,29 @@ class _Row extends StatelessWidget {
               ],
             ],
           ),
+        ),
+      );
+}
+
+/// Copied from DownloadTab for consistent header.
+class _InfoCircle extends StatelessWidget {
+  final VoidCallback onTap;
+  const _InfoCircle({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) => GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: onTap,
+        child: Container(
+          width: AppTouch.min,
+          height: AppTouch.min,
+          margin: const EdgeInsets.only(top: 1),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: CupertinoColors.white.withValues(alpha: 0.05),
+            border: AppGlass.hairline(0.10),
+          ),
+          child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
         ),
       );
 }

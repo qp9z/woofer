@@ -8,7 +8,6 @@ import '../../state/download_state.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/aurora_background.dart';
-import '../widgets/woofer_mark.dart';
 import 'download_tab.dart';
 import 'library_tab.dart';
 import 'settings_tab.dart';
@@ -74,7 +73,6 @@ class _HomeShellState extends ConsumerState<HomeShell> {
             children: [
               Column(
                 children: [
-                  if (_tab != _Tab.download) _Header(tab: _tab, onGear: () => _select(_Tab.settings)),
                   Expanded(
                     child: IndexedStack(
                       index: _tab.index,
@@ -99,47 +97,6 @@ class _HomeShellState extends ConsumerState<HomeShell> {
   }
 
   void _select(_Tab t) => setState(() => _tab = t);
-}
-
-/// Header for the non-home tabs: mark + uppercase title + gear.
-class _Header extends StatelessWidget {
-  final _Tab tab;
-  final VoidCallback onGear;
-  const _Header({required this.tab, required this.onGear});
-
-  @override
-  Widget build(BuildContext context) {
-    final title = tab == _Tab.library ? 'Library' : 'Settings';
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 8, 20, 14),
-      child: Row(
-        children: [
-          const WooferMark(size: 30, tile: WooferTile.accent, bars: WooferBars.light),
-          const SizedBox(width: 10),
-          Text(
-            title.toUpperCase(),
-            style: const TextStyle(
-              fontFamily: AppTheme.fontFamily,
-              fontSize: AppType.header,
-              fontWeight: FontWeight.w700,
-              letterSpacing: -0.2,
-              color: AppColors.text,
-            ),
-          ),
-          const Spacer(),
-          if (tab != _Tab.settings)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: onGear,
-              child: const Padding(
-                padding: EdgeInsets.all(6),
-                child: Icon(CupertinoIcons.gear_alt, size: 26, color: AppColors.n400),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
 }
 
 class _Toast extends StatelessWidget {
