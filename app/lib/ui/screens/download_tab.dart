@@ -73,16 +73,19 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
       ), // clear the floating nav pill
       physics: const BouncingScrollPhysics(),
       children: [
-        // Title row.
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Expanded(
-              child: Wordmark(fontSize: AppType.display, height: 0.95),
-            ),
-            _InfoCircle(onTap: () => showAboutSheet(context)),
-          ],
-        ),
+              // Title row.
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(top: 6),
+                      child: Wordmark(fontSize: AppType.display, height: 0.95),
+                    ),
+                  ),
+                  _InfoCircle(onTap: () => showAboutSheet(context)),
+                ],
+              ),
         const SizedBox(height: AppSpacing.md),
 
         const _CaptionLabel('Video link'),
