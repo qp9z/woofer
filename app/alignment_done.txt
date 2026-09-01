@@ -1,0 +1,1 @@
+DONE: Vertical center alignment of WOOFER. header with InfoButton achieved in all tabs (Download, Library, Settings) using CrossAxisAlignment.center. Verified by tests, analysis, and build.

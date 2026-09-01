@@ -1,0 +1,1 @@
+{"last_updated": "2026-08-31", "task": "vertical_header_alignment", "details": "All tab headers now have exact vertical center alignment with InfoButton via CrossAxisAlignment.center in Row layout. No top padding needed."}

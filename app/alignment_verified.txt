@@ -1,0 +1,6 @@
+Vertical center alignment achieved:
+- DownloadTab: Row with CrossAxisAlignment.center containing Wordmark and InfoCircle
+- LibraryTab: same
+- SettingsTab: same
+- Widget centers align (Wordmark center vs InfoCircle center)
+- Verified via tests, analysis, and build

@@ -1,0 +1,1 @@
+Task completed successfully. All tab headers now vertically align exactly with the InfoButton center using CrossAxisAlignment.center. Verified via tests, analysis, and build.

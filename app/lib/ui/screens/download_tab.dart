@@ -75,13 +75,10 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
       children: [
               // Title row.
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   const Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: Wordmark(fontSize: AppType.display, height: 0.95),
-                    ),
+                    child: Wordmark(fontSize: AppType.display, height: 0.95),
                   ),
                   _InfoCircle(onTap: () => showAboutSheet(context)),
                 ],

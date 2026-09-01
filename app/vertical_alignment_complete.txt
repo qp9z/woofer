@@ -1,0 +1,1 @@
+Vertical header alignment completed: WOOFER. text centers exactly with InfoButton in all tabs (Download/Library/Settings) using CrossAxisAlignment.center. Verified via tests, analysis, and build.

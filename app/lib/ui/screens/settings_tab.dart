@@ -21,17 +21,14 @@ class SettingsTab extends StatelessWidget {
       children: [
               // Title row matching DownloadTab.
               Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 6),
-                      child: Wordmark(fontSize: AppType.display, height: 0.95),
-                    ),
-                  ),
-                  _InfoCircle(onTap: () => showAboutSheet(context)),
-                ],
-              ),
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            const Expanded(
+                              child: Wordmark(fontSize: AppType.display, height: 0.95),
+                            ),
+                            _InfoCircle(onTap: () => showAboutSheet(context)),
+                          ],
+                        ),
         const SizedBox(height: AppSpacing.md),
         _Group(
           name: 'Downloads',
