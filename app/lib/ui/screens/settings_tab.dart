@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 import '../motion.dart';
 import '../sheets/about_sheet.dart';
@@ -13,8 +14,21 @@ import '../widgets/wordmark.dart';
 /// (audio transcodes to MP3 192k, files land in Downloads, dark theme).
 // ponytail: static values, honest to what the app does. Wire real preferences
 // when a settings store exists — don't fake toggles that do nothing.
-class SettingsTab extends StatelessWidget {
+class SettingsTab extends StatefulWidget {
   const SettingsTab({super.key});
+
+  @override
+  State<SettingsTab> createState() => _SettingsTabState();
+}
+
+class _SettingsTabState extends State<SettingsTab> {
+  /// The installed version, read once. The footer used to hardcode "1.0", a
+  /// second copy of the version that drifts from pubspec.yaml. Null when it
+  /// can't be read (tests, odd host) — the footer then just omits it.
+  late final Future<String?> _version = PackageInfo.fromPlatform().then<String?>(
+    (info) => info.version,
+    onError: (_) => null,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +52,17 @@ class SettingsTab extends StatelessWidget {
           rows: [
             _Row(icon: CupertinoIcons.music_note_2, label: 'Audio format', value: 'MP3 · 192 kbps'),
             _Row(icon: CupertinoIcons.film, label: 'Video quality', value: 'Best available'),
-            _Row(icon: CupertinoIcons.folder, label: 'Save location', value: 'Downloads'),
+            _Row(icon: CupertinoIcons.folder, label: 'Save location', value: 'Downloads/woofer'),
           ],
+        ),
+        const Padding(
+          padding: EdgeInsets.fromLTRB(2, AppSpacing.sm, 2, 0),
+          child: Text(
+            'Every download starts on the best quality available, marked Best in '
+            'the format sheet — you can pick another there. Audio-only picks are '
+            'saved as MP3.',
+            style: TextStyle(fontSize: AppType.meta, height: 1.4, color: AppColors.n400),
+          ),
         ),
         const SizedBox(height: AppSpacing.lg),
         _Group(
@@ -56,14 +79,21 @@ class SettingsTab extends StatelessWidget {
         const SizedBox(height: AppSpacing.xl),
         // Only the mark is dimmed: dimming the text too took it to 2.8:1.
         Column(
-          children: const [
-            Opacity(
+          children: [
+            const Opacity(
               opacity: 0.6,
               child: WooferMark(size: 34, tile: WooferTile.dark, bars: WooferBars.accent),
             ),
-            SizedBox(height: 10),
-            Text('Woofer 1.0 · made quiet',
-                style: TextStyle(fontSize: AppType.label, color: AppColors.n500)),
+            const SizedBox(height: 10),
+            FutureBuilder<String?>(
+              future: _version,
+              builder: (context, snap) => Text(
+                snap.data == null
+                    ? 'Woofer · made quiet'
+                    : 'Woofer ${snap.data} · made quiet',
+                style: const TextStyle(fontSize: AppType.label, color: AppColors.n500),
+              ),
+            ),
           ],
         ),
       ],
@@ -124,7 +154,20 @@ class _Row extends StatelessWidget {
                   ],
                 ),
               ),
-              if (value != null && !stacked) Text(value!, style: valueStyle),
+              if (value != null && !stacked)
+                // Capped so a long value ellipsizes instead of overflowing.
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.sizeOf(context).width * 0.45,
+                  ),
+                  child: Text(
+                    value!,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: valueStyle,
+                  ),
+                ),
               if (onTap != null) ...[
                 const SizedBox(width: 6),
                 const Icon(CupertinoIcons.chevron_right, size: 16, color: AppColors.n600),

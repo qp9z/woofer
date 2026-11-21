@@ -18,6 +18,7 @@ import 'package:woofer/ui/screens/library_tab.dart';
 import 'package:woofer/ui/sheets/about_sheet.dart';
 import 'package:woofer/ui/sheets/format_sheet.dart';
 import 'package:woofer/ui/theme/app_theme.dart';
+import 'package:woofer/ui/widgets/tap_target.dart';
 
 Widget _app(Widget home, {List<Override> overrides = const []}) =>
     ProviderScope(
@@ -201,6 +202,43 @@ void main() {
     expect(find.text('1080p · MP4'), findsOneWidget);
     expect(find.text('Download · 1080p · MP4'), findsOneWidget);
     // Note: don't pumpAndSettle — the confirm button's sheen loops forever.
+  });
+
+  // "Best" is what an untouched Download fetches; the sheet should say so, and
+  // follow the Audio/Video toggle.
+  testWidgets('the format sheet marks exactly one Best: the default pick', (
+    t,
+  ) async {
+    await t.pumpWidget(
+      _app(
+        Consumer(
+          builder: (context, ref, _) => CupertinoButton(
+            onPressed: () => showFormatSheet(context, ref, _info),
+            child: const Text('open'),
+          ),
+        ),
+      ),
+    );
+    await t.tap(find.text('open'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 400));
+
+    Finder bestIn(String rowLabel) => find.descendant(
+      of: find
+          .ancestor(of: find.text(rowLabel), matching: find.byType(TapTarget))
+          .first,
+      matching: find.text('Best'),
+    );
+
+    expect(find.text('Best'), findsOneWidget);
+    expect(bestIn('1080p · MP4'), findsOneWidget); // top video row
+    expect(bestIn('360p · MP4'), findsNothing);
+
+    await t.tap(find.text('Audio'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 200));
+    expect(find.text('Best'), findsOneWidget);
+    expect(bestIn('Audio · M4A'), findsOneWidget);
   });
 
   testWidgets('untouched Download confirms the advertised best video', (

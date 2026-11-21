@@ -75,6 +75,8 @@ class _FormatSheetState extends State<_FormatSheet> {
   @override
   Widget build(BuildContext context) {
     final info = widget.info;
+    // The format an untouched Download would fetch; marked so "best" is visible.
+    final best = chooseDefaultFormat(_list, video: _isVideo);
     final meta = [
       if (info.uploader != null && info.uploader!.isNotEmpty) info.uploader!,
       if (formatDuration(info.duration).isNotEmpty)
@@ -216,6 +218,7 @@ class _FormatSheetState extends State<_FormatSheet> {
                     return _QualityRow(
                       label: formatLabel(f),
                       meta: formatSubtitle(f),
+                      best: f == best,
                       selected: f == _selected,
                       onTap: () => setState(() => _selected = f),
                     );
@@ -318,11 +321,13 @@ class _KindChip extends StatelessWidget {
 class _QualityRow extends StatelessWidget {
   final String label;
   final String meta;
+  final bool best;
   final bool selected;
   final VoidCallback onTap;
   const _QualityRow({
     required this.label,
     required this.meta,
+    required this.best,
     required this.selected,
     required this.onTap,
   });
@@ -352,13 +357,20 @@ class _QualityRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: AppType.bodyStrong,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
-                    ),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: AppSpacing.sm,
+                    children: [
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          fontSize: AppType.bodyStrong,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      if (best) const _BestBadge(),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -385,4 +397,26 @@ class _QualityRow extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Small "Best" pill on the format an untouched Download would fetch.
+class _BestBadge extends StatelessWidget {
+  const _BestBadge();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+    decoration: BoxDecoration(
+      color: AppColors.a500.withValues(alpha: 0.16),
+      borderRadius: BorderRadius.circular(AppRadius.chip),
+    ),
+    child: const Text(
+      'Best',
+      style: TextStyle(
+        fontSize: AppType.label,
+        fontWeight: FontWeight.w600,
+        color: AppColors.a300,
+      ),
+    ),
+  );
 }
