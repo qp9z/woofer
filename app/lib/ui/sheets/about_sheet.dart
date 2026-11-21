@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../state/download_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_sheet.dart';
 import '../widgets/woofer_mark.dart';
@@ -22,26 +24,34 @@ Future<void> _open(String url) async {
   }
 }
 
-class _AboutSheet extends StatefulWidget {
+class _AboutSheet extends ConsumerStatefulWidget {
   const _AboutSheet();
 
   @override
-  State<_AboutSheet> createState() => _AboutSheetState();
+  ConsumerState<_AboutSheet> createState() => _AboutSheetState();
 }
 
-class _AboutSheetState extends State<_AboutSheet> {
+class _AboutSheetState extends ConsumerState<_AboutSheet> {
   String _versionLabel = '';
+  String _engineLabel = '';
 
   @override
   void initState() {
     super.initState();
     PackageInfo.fromPlatform().then((info) {
       if (!mounted) return;
-      final name = info.version;
-      setState(() => _versionLabel = 'Version $name · made quiet');
+      setState(() => _versionLabel =
+          'Version ${info.version} (build ${info.buildNumber}) · made quiet');
     }).catchError((_) {
       // Best-effort: if the version can't be read (tests, odd host), fall back
       // to nothing rather than a wrong-looking hardcoded number.
+    });
+    // The bundled yt-dlp release, so a bug report says which extractor it came
+    // from. Read through the shared provider: a second YtdlpExtractor would
+    // replace the channel's one method-call handler and break progress updates.
+    ref.read(ytdlpExtractorProvider).version().then((v) {
+      if (!mounted || v == null) return;
+      setState(() => _engineLabel = 'yt-dlp $v');
     });
   }
 
@@ -67,6 +77,12 @@ class _AboutSheetState extends State<_AboutSheet> {
                   const SizedBox(height: 4),
                   Text(_versionLabel,
                       style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400)),
+                  if (_engineLabel.isNotEmpty)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: Text(_engineLabel,
+                          style: const TextStyle(fontSize: AppType.label, color: AppColors.n500)),
+                    ),
                 ],
               ),
             ),

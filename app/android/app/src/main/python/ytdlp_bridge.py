@@ -26,6 +26,15 @@ def request_cancel():
     _cancel.set()
     return True
 
+
+def version():
+    """The bundled yt-dlp release, e.g. "2026.10.26" — shown in Settings -> About
+    so a bug report says which extractor build it came from. A plain string, not an
+    envelope: there is nothing here that can fail in an interesting way."""
+    from yt_dlp.version import __version__
+
+    return __version__
+
 # YouTube's default web clients frequently hit "Sign in to confirm you're not a
 # bot" on mobile/residential IPs. These extra player clients need no cookies and
 # aren't gated that way; yt-dlp merges formats across all of them and downgrades a

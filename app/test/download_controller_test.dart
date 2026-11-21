@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:receive_sharing_intent/receive_sharing_intent.dart';
 import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
@@ -16,6 +17,7 @@ import 'package:woofer/services/storage_service.dart';
 import 'package:woofer/services/ytdlp_extractor.dart';
 import 'package:woofer/state/download_controller.dart';
 import 'package:woofer/state/download_state.dart';
+import 'package:woofer/state/share_intent.dart';
 
 const _muxed = MediaFormat(
   formatId: '18',
@@ -255,6 +257,26 @@ class _BlockingProcessor extends _FakeProcessor {
       );
     }
   }
+}
+
+/// Blows up the way a real platform bug would: not an ApiException, and with a
+/// message the user must never see.
+class _ThrowingProcessor extends _FakeProcessor {
+  @override
+  Future<String> mergeVideoAudio(
+    String video,
+    String audio, {
+    bool deleteInputs = true,
+  }) async => throw StateError('ffmpeg internal detail');
+}
+
+class _ThrowingStorage extends _FakeStorage {
+  @override
+  Future<StorageResult> saveToDownloads(
+    File source, {
+    String? fileName,
+    String mimeType = 'application/octet-stream',
+  }) async => throw StateError('mediastore internal detail');
 }
 
 class _FakeCover implements CoverFetcher {
@@ -849,6 +871,125 @@ void main() {
         expect(await history.getAll(), isEmpty);
       },
     );
+
+    // An unexpected exception (not an ApiException) from a collaborator must still
+    // end in a sanitized Failed, release the foreground service, delete the scratch
+    // dir and leave the controller usable — never strand it in Processing/Saving.
+    Future<void> expectSanitizedFailure({
+      required ProviderContainer c,
+      required _FakeForeground foreground,
+      required Directory? Function() workDir,
+      required MediaFormat format,
+      required String leakedDetail,
+    }) async {
+      final ctrl = c.read(downloadControllerProvider.notifier);
+      await ctrl.extract('https://example.com/original');
+      ctrl.selectFormat(format);
+      await ctrl.download();
+
+      final failed = c.read(downloadControllerProvider) as Failed;
+      expect(failed.code, ApiErrorCode.unknown);
+      expect(
+        failed.message,
+        'The download could not be completed. Please try again.',
+      );
+      expect(failed.message, isNot(contains(leakedDetail)));
+      expect(foreground.hides, 1);
+      expect(
+        foreground.results.single,
+        'Something went wrong|${failed.message}|null',
+      );
+      expect(ctrl.canExtract, isTrue);
+      expect(await history.getAll(), isEmpty);
+      expect(workDir(), isNotNull, reason: 'the scratch dir was created');
+      expect(await workDir()!.exists(), isFalse, reason: 'and removed');
+    }
+
+    test('an unexpected processor exception is sanitized and unwinds', () async {
+      final foreground = _FakeForeground();
+      Directory? work;
+      final c = makeContainer(
+        foreground: foreground,
+        processor: _ThrowingProcessor(),
+        tempDirectoryFactory: () async =>
+            work = await Directory.systemTemp.createTemp('woofer_test_'),
+      );
+
+      await expectSanitizedFailure(
+        c: c,
+        foreground: foreground,
+        workDir: () => work,
+        format: _videoOnly, // video-only: the merge is what throws
+        leakedDetail: 'ffmpeg internal detail',
+      );
+    });
+
+    test('an unexpected storage exception is sanitized and unwinds', () async {
+      final foreground = _FakeForeground();
+      Directory? work;
+      final c = makeContainer(
+        foreground: foreground,
+        storage: _ThrowingStorage(),
+        tempDirectoryFactory: () async =>
+            work = await Directory.systemTemp.createTemp('woofer_test_'),
+      );
+
+      await expectSanitizedFailure(
+        c: c,
+        foreground: foreground,
+        workDir: () => work,
+        format: _muxed,
+        leakedDetail: 'mediastore internal detail',
+      );
+    });
+
+    test('a link shared while a download runs is ignored, not queued', () async {
+      final ytdlp = _BlockingDownloadYtdlp();
+      final shares = StreamController<List<SharedMediaFile>>();
+      addTearDown(shares.close);
+      ReceiveSharingIntent.setMockValues(
+        initialMedia: const [],
+        mediaStream: shares.stream,
+      );
+      SharedMediaFile text(String s) =>
+          SharedMediaFile(path: s, type: SharedMediaType.text);
+      Future<void> settle() => Future<void>.delayed(
+        const Duration(milliseconds: 20),
+      );
+
+      final c = makeContainer(ytdlp: ytdlp);
+      final ctrl = c.read(downloadControllerProvider.notifier);
+      // Subscribed the way HomeShell keeps it: routing only runs while listened to.
+      final sub = c.listen(sharedUrlProvider, (_, _) {});
+      addTearDown(sub.close);
+      await settle();
+
+      // Control: with nothing running, a share is routed like a pasted link.
+      shares.add([text('Look at this https://youtu.be/first')]);
+      await settle();
+      expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
+      expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+
+      ctrl.selectFormat(_muxed);
+      final download = ctrl.download();
+      await ytdlp.firstStarted.future;
+      expect(c.read(downloadControllerProvider), isA<Downloading>());
+
+      // The point: the download owns yt-dlp, so this share must be dropped. Two
+      // layers enforce it — extract() refuses, and the provider must not even
+      // *emit* the link, or the Download tab would mirror a URL into its field
+      // that was never fetched. Asserting the emission is what pins the second.
+      shares.add([text('https://youtu.be/second')]);
+      await settle();
+      expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
+      expect(c.read(sharedUrlProvider).value, 'https://youtu.be/first');
+      expect(c.read(downloadControllerProvider), isA<Downloading>());
+
+      ytdlp.firstDownload.complete('/tmp/woofer_18.bin');
+      await download;
+      expect(c.read(downloadControllerProvider), isA<Done>());
+      expect(ytdlp.downloadUrls, ['https://youtu.be/first']);
+    });
   });
 
   group('best-audio selection', () {

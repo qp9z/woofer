@@ -19,10 +19,29 @@ val chaquopyBuildPython: String? = rootProject.file("local.properties").let { f 
         .getProperty("chaquopy.buildPython")
 }
 
+// Release signing. key.properties is gitignored and must not be shared — it holds
+// the keystore password. If it's missing (fresh clone, CI), release builds fall
+// back to the debug key so `flutter build` still works locally.
+val keystoreProperties = rootProject.file("key.properties").let { f ->
+    if (!f.exists()) return@let null
+    Properties().apply { f.inputStream().use { load(it) } }
+}
+
 android {
     namespace = "dev.koulei.woofer"
-    compileSdk = flutter.compileSdkVersion
+    compileSdk = 37
     ndkVersion = flutter.ndkVersion
+
+    signingConfigs {
+        if (keystoreProperties != null) {
+            create("release") {
+                keyAlias = keystoreProperties["keyAlias"] as String
+                keyPassword = keystoreProperties["keyPassword"] as String
+                storeFile = file(keystoreProperties["storeFile"] as String)
+                storePassword = keystoreProperties["storePassword"] as String
+            }
+        }
+    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -34,11 +53,9 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // Permanent application ID: changing it makes a new app on every device.
         applicationId = "dev.koulei.woofer"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
-        // Chaquopy 16 requires minSdk 24; that's higher than Flutter's default, so
+        // Chaquopy requires minSdk 24; that's higher than Flutter's default, so
         // it's pinned here rather than read from flutter.minSdkVersion.
         minSdk = 24
         targetSdk = flutter.targetSdkVersion
@@ -53,7 +70,8 @@ android {
         }
     }
 
-    // yt-dlp is pure Python, so pip resolves it with no native build step.
+    // yt-dlp is pure Python, so pip resolves it with no native build step. Its
+    // version is pinned in requirements.txt (module dir), not floated here.
     chaquopy {
         defaultConfig {
             version = "3.12"
@@ -63,16 +81,27 @@ android {
             // local.properties (gitignored, per-machine). Auto-detected from PATH otherwise.
             chaquopyBuildPython?.let { buildPython(it) }
             pip {
-                install("yt-dlp")
+                install("-r", "requirements.txt")
             }
+        }
+    }
+
+    testOptions {
+        unitTests {
+            // Robolectric needs the merged manifest + resources (FileProvider paths,
+            // the receiver) to run the intent tests on the JVM.
+            isIncludeAndroidResources = true
         }
     }
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Sign with the release keystore when key.properties exists; fall back
+            // to the debug key if it doesn't (fresh clone/CI) so builds still work.
+            signingConfig = if (keystoreProperties != null)
+                signingConfigs.getByName("release")
+            else
+                signingConfigs.getByName("debug")
         }
     }
 }
@@ -83,4 +112,8 @@ flutter {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
+    // Test-only: lets the JVM unit tests drive Intents, FileProvider and the
+    // notification Cancel receiver without a device. Never packaged in the APK.
+    testImplementation("org.robolectric:robolectric:4.18.1")
+    testImplementation("androidx.test:core:1.7.0")
 }

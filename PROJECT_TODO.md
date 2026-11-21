@@ -1,6 +1,6 @@
 # WOOFER Project To-Do
 
-Last reviewed: 2026-08-25
+Last reviewed: 2026-11-21 (P2 pass, branch `p2-maintenance`)
 
 This is the working backlog for stabilizing and preparing WOOFER for release.
 Check an item only after its acceptance criteria are satisfied.
@@ -129,6 +129,7 @@ Check an item only after its acceptance criteria are satisfied.
   - Keep the keystore and credentials outside Git.
   - Document backup and recovery of the signing key.
   - Resolution: generated `android/upload-keystore.jks` signed with identity **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (RSA 2048, `upload` alias, 10000-day validity) + `android/key.properties`, both gitignored; `build.gradle.kts` reads `key.properties` and signs release with the release keystore (falling back to the debug key when missing, e.g. CI). Verified: `assembleRelease` APK is signed with the real identity, NOT the debug key. Backup the `.jks` + the password/alias in `key.properties` (backup instructions delivered to the owner).
+  - **Regression found and fixed 2026-11-21:** commit `998a375` ("Project tdl saved", 2026-08-28) had silently replaced this config with the Flutter template's debug-key fallback, so release builds were debug-signed while this item still read "completed". Restored; re-verified with `apksigner verify --print-certs` (upload identity, not the debug cert). CLAUDE.md now says to re-check the signer after touching `build.gradle.kts`.
 
 - [x] Establish one version source of truth. Completed 2026-08-25.
   - Make the About sheet read the runtime package version/build number.
@@ -159,42 +160,59 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P2 — Dependency and build maintenance
 
-- [ ] Define a reproducible yt-dlp update policy.
+- [x] Define a reproducible yt-dlp update policy. Completed 2026-11-21.
   - Avoid an unconstrained package silently changing between identical builds.
   - Pin a tested version for releases or inject a controlled version during CI.
   - Schedule frequent compatibility updates because supported sites change often.
   - Record the bundled yt-dlp version in build metadata/About diagnostics.
+  - Resolution: pinned to `yt-dlp==2026.10.26` in the single file `app/android/app/requirements.txt` (the APK had been bundling an unpinned `2026.08.19`). Chaquopy installs it via `pip { install("-r", "requirements.txt") }` and CI's Python job installs the same file. The policy (when/how to bump, what to verify) is in `android/CHAQUOPY.md`. About now shows the bundled version through a new `version` channel method (`YtdlpBridge` → `ytdlp_bridge.version()`), so a bug report says which extractor it came from. Verified: the built APK's `yt_dlp/version.py` reports `2026.10.26`. The *schedule* is a process, not automation — nothing bumps it for you.
 
-- [ ] Review available Flutter dependency updates individually.
+- [x] Review available Flutter dependency updates individually. Completed 2026-11-21 (device smoke tests pending; ffmpeg_kit 5.0 deferred).
   - `ffmpeg_kit_flutter_new`: 4.5.2 → 4.6.2.
   - `flutter_riverpod`: 2.6.1 → 3.4.2 (major migration).
   - `permission_handler`: 12.0.3 → 13.0.1 (major migration).
   - Run analyze, tests, Android builds, and device smoke tests after each upgrade group.
+  - Resolution (one commit per group; analyze + tests green and an Android debug build after each native one): in-range bumps incl. `ffmpeg_kit_flutter_new` **4.7.2**, `sqflite`, `url_launcher`, `package_info_plus`; `flutter_riverpod` **3.5.0**; `cupertino_icons` **2.0.0**; `permission_handler` **13.0.2** (needs `compileSdk 37`, now in place).
+  - Riverpod 3 pauses listeners of offstage widgets, which would have silently stopped routing shared links while Library/Settings was showing (`DownloadTab` was the only subscriber). Fixed by moving the always-on listener into `HomeShell` and having `DownloadTab` watch the value; guarded by a widget test that was mutation-checked. Provider auto-retry is disabled (`ProviderScope(retry: null)`) so failures stay honest.
+  - **Deferred: `ffmpeg_kit_flutter_new` 5.0.0** (FFmpeg 8.1; changes rotation handling and leaves untagged video untagged). Revisit after the device E2E pass and the GPL-vs-LGPL variant decision.
+  - Device smoke tests are **not done** — the phone is unauthorized in ADB. Cover them in the P1 E2E item, especially the share flow, notification permission, and the `cupertino_icons` 2 glyphs.
 
-- [ ] Remove or document the compile-SDK workaround.
+- [x] Remove or document the compile-SDK workaround. Completed 2026-11-21.
   - Recheck whether `receive_sharing_intent` or current Android tooling still requires forcing plugin modules to SDK 36.
   - Delete the workaround once AGP correctly resolves minor-versioned platforms.
+  - Resolution: no longer needed. With `compileSdk = 37` and the `afterEvaluate { compileSdkVersion(36) }` pin removed, AGP 8.11.1 resolves the installed `android-37.0` platform and everything builds (debug, profile and release). No AGP bump was required.
 
-- [ ] Track Gradle/Chaquopy compatibility.
+- [x] Track Gradle/Chaquopy compatibility. Completed 2026-11-21 (a Gradle 9 migration is a new follow-up below).
   - Resolve Chaquopy deprecation warnings before moving to Gradle 9.
   - Verify future AGP, Kotlin, Flutter, and Chaquopy upgrades as a tested set.
+  - Resolution: Chaquopy 17.0.0 → 17.2.0. A `--warning-mode all` pass found **no** deprecations from our scripts or Chaquopy; every one is in third-party plugin build files (`jni`, `jni_flutter`, `permission_handler_android`, `receive_sharing_intent`, `sqflite_android`). The tested set is recorded in the "Tested toolchain" table in `android/CHAQUOPY.md` (with the upgrade-as-a-set rule).
+  - Found while doing it: bare `./gradlew` fails with just `25.0.2` because Gradle 8.14 can't run on JDK 25 (documented; Flutter uses Android Studio's JDK so `flutter build` is unaffected).
 
-- [ ] Add native/Python automated checks.
+- [ ] **New:** migrate to the toolchain Flutter now asks for.
+  - Flutter 3.47 warns on every build that it "will soon drop" support for Gradle < 9.1.0, AGP < 9.0.1 and Kotlin < 2.3.20 (we are on 8.14 / 8.11.1 / 2.2.20). `--android-skip-build-dependency-validation` silences it meanwhile.
+  - Chaquopy 17.2 lists AGP 9.x as supported. Needs the `android.builtInKotlin` / `android.newDsl` opt-outs revisited, a full build, and an on-device test. Not attempted in the P2 pass: it is a migration, not maintenance.
+
+- [x] Add native/Python automated checks. Completed 2026-11-21 (MediaStoreSaver itself is still untested; the FileProvider cases are unverified locally).
   - Integrate `test_outtmpl.py` into an executable test environment with yt-dlp installed.
   - Add tests for Python error classification and JSON output.
   - Add Android tests for MediaStore cleanup, open/share intents, and notification cancellation where feasible.
+  - Resolution, Python: `app/android/app/src/test/python` (pytest, offline, against the pinned yt-dlp) covers every `_classify` code, valid-JSON envelopes for hostile messages, the `VideoInfo` shape, playlist flattening, progress, the `CANCELLED` envelope, stale-cancel clearing and `version()` — 28 tests. `test_outtmpl.py` moved there from `src/main/python`, where Chaquopy had been **packaging it into the APK**.
+  - Resolution, native: test-only Robolectric 4.18.1 + androidx.test core 1.7.0. `FileIntentsTest` (deleted row → false and nothing launched; live row opens with its real type and a read grant; share chooser carries `EXTRA_STREAM`) and `DownloadActionReceiverTest` (Cancel reaches Dart as `cancelDownload` over the cached engine's channel; other actions ignored; no engine is a no-op). Run: 12 tests, 9 pass, 3 skipped.
+  - **Gaps, stated plainly:** the 3 skipped cases exercise `FileProvider` wrapping of a plain file path. androidx matches a file to its root with a literal `/` (`belongsToRoot`) and a Windows JVM produces `\`, so they cannot pass on this machine; they are guarded to run on a POSIX host and are **unverified until the first Linux CI run**. `MediaStoreSaver` itself has no test (only the `withFailureCleanup` helper it uses does, 3 tests): it needs a real `ContentResolver`, which Robolectric only fakes.
 
 ## P2 — CI and quality gates
 
-- [ ] Add CI for the current on-device architecture.
+- [x] Add CI for the current on-device architecture. Completed 2026-11-21 (written and linted; **has not run on GitHub yet**).
   - Run `flutter pub get` with the lockfile.
   - Run `flutter analyze`.
   - Run `flutter test`.
   - Run the Python bridge tests in a pinned Python/yt-dlp environment.
   - Build at least one Android profile or release artifact to exercise Gradle, Chaquopy, and ffmpeg integration.
   - Cache dependencies without weakening reproducibility.
+  - Resolution: `.github/workflows/ci.yml`, three jobs. `flutter` (`pub get --enforce-lockfile`, analyze, `test --coverage`); `python` (pytest against the same `requirements.txt` Chaquopy bundles); `android` (`flutter build apk --profile`, then `:app:testDebugUnitTest`). Flutter 3.47.1 / JDK 17 / Python 3.12 pinned; caches keyed on lockfiles/requirements; superseded runs cancelled. `actionlint` clean and the Flutter job's commands were run locally.
+  - Unverified until the first push: the `android` job installs `platforms;android-37.0` explicitly (the runner image may not ship it) and relies on AGP fetching the NDK; it is also where the 3 POSIX-only Robolectric cases first run. Expect to fix something on the first run.
 
-- [ ] Add regression tests for uncovered state-machine behavior.
+- [x] Add regression tests for uncovered state-machine behavior. Completed 2026-11-21.
   - Concurrent and out-of-order extraction.
   - Extract/share intent while downloading.
   - Cancel followed immediately by restart.
@@ -203,43 +221,52 @@ Check an item only after its acceptance criteria are satisfied.
   - Unexpected processor/storage exception.
   - Muxed WebM MIME.
   - Missing/deleted history files.
+  - Resolution: an audit found most of this list **already covered** (out-of-order extraction, extract while downloading/processing, cancel + immediate restart, malformed channel JSON, temp-dir failure, MP4/WebM/Matroska MIME). Added the real gaps: an unexpected processor exception and an unexpected storage exception each end in a sanitized `Failed` (no leaked detail, notification hidden, scratch dir removed, history untouched, controller usable); a share while a download runs is ignored (with a positive control that an idle share routes); a Library row whose file was deleted shows the "couldn't open" dialog. The share test was **mutation-checked** — and the first draft passed vacuously, because `extract()` has its own guard; it now asserts what `sharedUrlProvider` emits.
+  - "Missing/deleted history files" is covered in two halves rather than end to end: native `FileIntents.openFile` returns false for a dead MediaStore row (Robolectric), and the Library shows the dialog when opening fails (widget test, storage faked). The legacy `file://` rows (API ≤ 28) go through the POSIX-only cases noted above.
 
-- [ ] Decide whether to collect code coverage.
+- [x] Decide whether to collect code coverage. Completed 2026-11-21.
   - Use coverage as a signal, not a target percentage.
   - Prioritize state transitions and platform-boundary failure cases.
+  - Decision: yes, as a signal. CI runs `flutter test --coverage` and uploads `lcov.info` as an artifact; there is **no threshold** and nothing gates on it. Dart only — there is no Python or Kotlin coverage.
 
 ## P2 — Documentation and repository hygiene
 
-- [ ] Rewrite the root README for the current architecture.
+- [x] Rewrite the root README for the current architecture. Completed 2026-11-21.
   - Remove the nonexistent FastAPI/backend instructions and stale CI claims.
   - Explain Flutter + Chaquopy + yt-dlp + ffmpeg_kit.
   - Document build prerequisites, Android-only scope, supported ABIs, and common setup failures.
   - Include accurate analyze/test/build commands.
+  - Resolution: rewritten from scratch. Includes the JDK-25-vs-Gradle-8.14 trap found during this pass. The analyze/test/build/pytest/Gradle commands were run; `flutter run` was not (needs the unauthorized device).
 
-- [ ] Reconcile project documentation.
+- [x] Reconcile project documentation. Completed 2026-11-21.
   - Update the documented test count from 65 to 75, or avoid hardcoding the count.
   - Keep `CLAUDE.md`, `android/CHAQUOPY.md`, and README consistent.
   - Move historical debugging notes into an architecture decision record if the main guide becomes too dense.
+  - Resolution: hardcoded test counts removed from CLAUDE.md (they had drifted to 65 vs 118 in one file); `MainActivity.kt` network-binding reference corrected to `YtdlpBridge.kt`; CHAQUOPY.md's stale `MainActivity` / `YoutubeExtractor` / `youtube_explode` references fixed, and it gained the yt-dlp update policy, the tested toolchain table and the test commands. **No ADR split**: CLAUDE.md is not dense enough yet to justify it.
 
-- [ ] Stop tracking generated Graphify output.
+- [x] Stop tracking generated Graphify output. Completed 2026-11-21.
   - Preserve or commit any generated report intentionally needed first.
   - Remove `graphify-out` files from Git's index while keeping the directory ignored.
   - Confirm future graph generation no longer dirties the worktree.
+  - Resolution: `git rm --cached` — files stay on disk, the directory was already in `.gitignore`. Nothing was preserved: the report was stale (built at `640cb282`) and referenced files that no longer exist. Regenerate it with `graphify update .` if wanted.
 
-- [ ] Remove the tracked Gradle problems report.
+- [x] Remove the tracked Gradle problems report. Completed 2026-11-21.
   - Untrack `app/android/build/reports/problems/problems-report.html`.
   - Confirm all build directories remain ignored.
+  - Resolution: untracked, and `/build/` added to `app/android/.gitignore` (the report was being written under `app/android/build/`, which wasn't ignored). Also removed 8 stray agent "task done" marker files and a `pubspec.yaml.patch` fragment from `app/`, and the dead `backend/` rules from the root `.gitignore`.
 
-- [ ] Review large design assets.
+- [x] Review large design assets. Completed 2026-11-21.
   - Keep the six app font files required at runtime.
   - Decide whether all 54 source font files and the embedded brand-guideline HTML belong in Git, Git LFS, or external design storage.
   - Do not remove brand source assets without confirming their archival value.
+  - Decision: **keep `design/` in Git, no LFS.** ~22 MB on disk / ~10 MB packed for the whole repo, it is the brand source of truth with archival value, and LFS adds tooling cost to a solo repo. Revisit only if the repo size becomes a problem. Documented in the README.
 
-- [ ] Add standard repository metadata as appropriate.
+- [x] Add standard repository metadata as appropriate. Completed 2026-11-21 (CONTRIBUTING skipped).
   - License file.
   - Contribution/development notes.
   - Security/reporting contact if distributing publicly.
   - Changelog or release-notes process.
+  - Resolution: `LICENSE` already existed. Added `SECURITY.md` (reporting contact `woofer@koulei.dev`, the address already public in About) and `CHANGELOG.md` (Unreleased section plus the release/bump process). Development notes live in the README rather than a separate `CONTRIBUTING.md`, which is skipped: the repo is proprietary and owner-only.
 
 ## P3 — Product and UX review
 
@@ -293,19 +320,34 @@ Device check:
 & 'C:/Users/Pc/AppData/Local/Android/Sdk/platform-tools/adb.exe' devices -l
 ```
 
-Python regression test, from `app/`, in an environment containing the release's pinned yt-dlp version:
+Python bridge tests, from `app/android/app/`, against the pinned yt-dlp (`requirements.txt`):
 
 ```powershell
-python android/app/src/main/python/test_outtmpl.py
+uv run --python 3.12 --with-requirements requirements.txt --with pytest python -m pytest src/test/python
 ```
 
-## Current baseline (2026-08-25)
+Native tests, from `app/android/` (needs `JAVA_HOME` on a JDK 17–24; Gradle 8.14 can't run on JDK 25):
+
+```powershell
+$env:JAVA_HOME = 'C:\Program Files\Android\Android Studio\jbr'; ./gradlew :app:testDebugUnitTest
+```
+
+Release signer check — must show the upload identity, not the Android debug cert:
+
+```powershell
+& 'C:/Users/Pc/AppData/Local/Android/Sdk/build-tools/36.1.0/apksigner.bat' verify --print-certs app/build/app/outputs/flutter-apk/app-release.apk
+```
+
+## Current baseline (2026-11-21, branch `p2-maintenance`)
 
 - [x] `flutter analyze` passes with no issues.
-- [x] All 118 Flutter tests pass.
-- [x] Android `:app:compileDebugKotlin` + `:app:testDebugUnitTest` pass (3 native unit tests).
-- [x] `:app:assembleRelease` builds signed APK (165 MB) with identity **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei**.
-- [x] `:app:bundleRelease` builds signed AAB (102 MB) with `package="dev.koulei.woofer"`, both ABIs.
+- [x] All 129 Flutter tests pass.
+- [x] Python bridge: 28 tests pass (pytest, yt-dlp 2026.10.26, offline).
+- [x] Native `:app:testDebugUnitTest`: 12 tests — 9 pass, 3 skipped on Windows (the POSIX-only FileProvider cases; first real run is Linux CI).
+- [x] `flutter build apk --release` → signed APK (168.4 MB), signer **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (`apksigner`); bundled `yt_dlp/version.py` = `2026.10.26`.
+- [x] `:app:bundleRelease` → AAB (98.9 MB), same upload signer (`keytool -printcert`), `arm64-v8a` + `x86_64`, no test modules packaged, all 22 arm64 native libraries stripped (no `.debug_info`).
+- [x] `flutter build appbundle --release` exits 0 (98.9 MB). It had exited 1 ("failed to strip debug symbols") because the Android SDK cmdline-tools component was missing; after installing it from Android Studio it passes. `flutter doctor` still reports "Android license status unknown" — run `flutter doctor --android-licenses` (not blocking the build).
+- [x] Release signing restored (it had silently regressed in `998a375`).
+- [x] Generated `graphify-out` files and the Gradle problems report are no longer tracked.
+- [ ] CI written and linted, but it has not run on GitHub yet (the branch is not pushed).
 - [ ] Native end-to-end verification is pending; the configured Samsung is still unauthorized — the ADB trust prompt must be accepted first.
-- [ ] The worktree has uncommitted P1 Release-blocker changes ready to commit.
-- [ ] Generated `graphify-out` files are still tracked (P2 item).

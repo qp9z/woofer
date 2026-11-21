@@ -1,8 +1,5 @@
-# Monorepo root — each part (app/, backend/) has its own .gitignore too.
+# Monorepo root — app/ has its own .gitignore too.
 graphify-out/
 .idea/
 
-# backend
-backend/.venv/
-backend/__pycache__/
 *.pyc

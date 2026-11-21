@@ -28,9 +28,10 @@ String? _pickUrl(List<SharedMediaFile> items) {
 /// Watching this also routes each URL into [downloadControllerProvider] as if
 /// the user pasted it — so your screen just needs to `ref.watch`/`ref.listen`
 /// this to both display the URL and see the controller advance.
-// ponytail: routing is lazy — it activates when a screen watches this provider
-// (there's no UI to route to otherwise). Keep it alive in your root if you want
-// it always-on regardless of which screen is mounted.
+// ponytail: routing is lazy — it starts when something first listens. HomeShell
+// holds the always-on listener (it is never offstage); a tab must NOT be the
+// only subscriber, because Riverpod 3 pauses listeners of offstage widgets and a
+// paused stream stops routing shared links.
 final sharedUrlProvider = StreamProvider<String>((ref) async* {
   final controller = ref.read(downloadControllerProvider.notifier);
 
