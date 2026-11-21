@@ -346,7 +346,7 @@ Release signer check — must show the upload identity, not the Android debug ce
 - [x] Native `:app:testDebugUnitTest`: 12 tests — 9 pass, 3 skipped on Windows (the POSIX-only FileProvider cases; first real run is Linux CI).
 - [x] `flutter build apk --release` → signed APK (168.4 MB), signer **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (`apksigner`); bundled `yt_dlp/version.py` = `2026.10.26`.
 - [x] `:app:bundleRelease` → AAB (98.9 MB), same upload signer (`keytool -printcert`), `arm64-v8a` + `x86_64`, no test modules packaged, all 22 arm64 native libraries stripped (no `.debug_info`).
-- [ ] **`flutter build appbundle --release` exits 1 on this machine** ("failed to strip debug symbols") even though the AAB above is produced and verified stripped. Cause: the Android SDK **cmdline-tools component is missing** (`flutter doctor` flags it, plus unknown license status), and Flutter's post-build symbol check needs it. Fix: Android Studio → SDK Manager → SDK Tools → "Android SDK Command-line Tools", then `flutter doctor --android-licenses`. Pre-existing environment issue, not a code change.
+- [x] `flutter build appbundle --release` exits 0 (98.9 MB). It had exited 1 ("failed to strip debug symbols") because the Android SDK cmdline-tools component was missing; after installing it from Android Studio it passes. `flutter doctor` still reports "Android license status unknown" — run `flutter doctor --android-licenses` (not blocking the build).
 - [x] Release signing restored (it had silently regressed in `998a375`).
 - [x] Generated `graphify-out` files and the Gradle problems report are no longer tracked.
 - [ ] CI written and linted, but it has not run on GitHub yet (the branch is not pushed).

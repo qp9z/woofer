@@ -86,7 +86,8 @@ also shows the bundled yt-dlp version.
 - **`flutter build appbundle` says "failed to strip debug symbols"** — the Android
   SDK *cmdline-tools* component is missing (`flutter doctor` reports it); Flutter's
   post-build check needs it. Install it from Android Studio's SDK Manager (SDK
-  Tools), then run `flutter doctor --android-licenses`. The `.aab` itself is built.
+  Tools), then run `flutter doctor --android-licenses`. (The `.aab` itself is still
+  built, but the command exits 1.)
 - **`adb devices` shows `unauthorized`** — `adb kill-server && adb start-server`, then
   accept the prompt on the phone.
 
