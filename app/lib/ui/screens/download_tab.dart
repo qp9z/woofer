@@ -11,6 +11,7 @@ import '../sheets/about_sheet.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
+import '../widgets/info_button.dart';
 import '../widgets/wordmark.dart';
 
 /// The Download (home) tab: paste/share a link, Fetch, then pick a format in the
@@ -90,7 +91,7 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
                   const Expanded(
                     child: Wordmark(fontSize: AppType.display, height: 0.95),
                   ),
-                  _InfoCircle(onTap: () => showAboutSheet(context)),
+                  InfoButton(onTap: () => showAboutSheet(context)),
                 ],
               ),
         const SizedBox(height: AppSpacing.md),
@@ -152,28 +153,6 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
       ],
     );
   }
-}
-
-class _InfoCircle extends StatelessWidget {
-  final VoidCallback onTap;
-  const _InfoCircle({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    behavior: HitTestBehavior.opaque,
-    onTap: onTap,
-    child: Container(
-      width: AppTouch.min,
-      height: AppTouch.min,
-      margin: const EdgeInsets.only(top: 1),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: CupertinoColors.white.withValues(alpha: 0.05),
-        border: AppGlass.hairline(0.10),
-      ),
-      child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
-    ),
-  );
 }
 
 /// Uppercase section label with letter-spacing (VIDEO LINK / NOW DOWNLOADING).

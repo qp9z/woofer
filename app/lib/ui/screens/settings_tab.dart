@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../sheets/about_sheet.dart';
 import '../theme/app_theme.dart';
+import '../widgets/info_button.dart';
 import '../widgets/woofer_mark.dart';
 import '../widgets/wordmark.dart';
 
@@ -26,7 +27,7 @@ class SettingsTab extends StatelessWidget {
                             const Expanded(
                               child: Wordmark(fontSize: AppType.display, height: 0.95),
                             ),
-                            _InfoCircle(onTap: () => showAboutSheet(context)),
+                            InfoButton(onTap: () => showAboutSheet(context)),
                           ],
                         ),
         const SizedBox(height: AppSpacing.md),
@@ -122,29 +123,6 @@ class _Row extends StatelessWidget {
               ],
             ],
           ),
-        ),
-      );
-}
-
-/// Copied from DownloadTab for consistent header.
-class _InfoCircle extends StatelessWidget {
-  final VoidCallback onTap;
-  const _InfoCircle({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          width: AppTouch.min,
-          height: AppTouch.min,
-          margin: const EdgeInsets.only(top: 1),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: CupertinoColors.white.withValues(alpha: 0.05),
-            border: AppGlass.hairline(0.10),
-          ),
-          child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
         ),
       );
 }
