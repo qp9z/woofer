@@ -86,6 +86,14 @@ android {
         }
     }
 
+    testOptions {
+        unitTests {
+            // Robolectric needs the merged manifest + resources (FileProvider paths,
+            // the receiver) to run the intent tests on the JVM.
+            isIncludeAndroidResources = true
+        }
+    }
+
     buildTypes {
         release {
             // Sign with the release keystore when key.properties exists; fall back
@@ -104,4 +112,8 @@ flutter {
 
 dependencies {
     testImplementation("junit:junit:4.13.2")
+    // Test-only: lets the JVM unit tests drive Intents, FileProvider and the
+    // notification Cancel receiver without a device. Never packaged in the APK.
+    testImplementation("org.robolectric:robolectric:4.18.1")
+    testImplementation("androidx.test:core:1.7.0")
 }

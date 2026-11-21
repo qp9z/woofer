@@ -1,8 +1,10 @@
 """Guards the download filename template in ytdlp_bridge.
 
-Run with any interpreter that has yt-dlp (the app's own Python dependency):
+Run from app/android/app with yt-dlp and pytest installed (see test_bridge.py), or
+directly with any interpreter that has yt-dlp:
 
-    python test_outtmpl.py
+    python -m pytest src/test/python
+    python src/test/python/test_outtmpl.py
 
 A merge downloads two formats into one directory. YouTube's VP9/AV1 tiers pair a
 .webm video with a .webm (Opus) audio, and both carry the same title — so a
@@ -26,7 +28,9 @@ AUDIO = {"title": TITLE, "format_id": "251", "ext": "webm"}  # Opus, audio only
 
 def _live_template():
     """The outtmpl ytdlp_bridge actually uses, so this can't drift from the source."""
-    source = (Path(__file__).parent / "ytdlp_bridge.py").read_text(encoding="utf-8")
+    # The bridge lives in src/main/python (what ships); this test lives in src/test.
+    bridge = Path(__file__).resolve().parents[2] / "main" / "python" / "ytdlp_bridge.py"
+    source = bridge.read_text(encoding="utf-8")
     match = re.search(r'"outtmpl":\s*os\.path\.join\(out_dir,\s*"([^"]+)"\)', source)
     assert match, "could not find the outtmpl in ytdlp_bridge.py"
     return "/out/" + match.group(1)
