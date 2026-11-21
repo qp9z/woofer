@@ -77,15 +77,34 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
               style: const TextStyle(color: AppColors.n400)),
           data: (rows) {
             final filtered = rows.where(_matches).toList();
-            if (filtered.isEmpty) return const _Empty();
             return Column(
               children: [
-                for (final entry in filtered)
-                  _LibraryRow(
-                    entry: entry,
-                    onTap: () => _open(context, ref, entry),
-                    onActions: () => _openActions(context, ref, entry),
+                if (filtered.isEmpty)
+                  const _Empty()
+                else
+                  for (final entry in filtered)
+                    _LibraryRow(
+                      entry: entry,
+                      onTap: () => _open(context, ref, entry),
+                      onActions: () => _openActions(context, ref, entry),
+                    ),
+                if (rows.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  TapTarget(
+                    onTap: () => _confirmClear(context, ref, rows.length),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                      child: Text(
+                        'Clear library',
+                        style: TextStyle(
+                          fontSize: AppType.body,
+                          fontWeight: FontWeight.w600,
+                          color: CupertinoColors.systemRed.resolveFrom(context),
+                        ),
+                      ),
+                    ),
                   ),
+                ],
               ],
             );
           },
@@ -101,17 +120,81 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
         context,
         ref.read(storageServiceProvider).openFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'),
         "Couldn't open this file. It may have been moved or deleted.",
+        onRemove: () => _remove(ref, entry),
       );
 
-  static Future<void> _guard(BuildContext context, Future<bool> action, String failure) async {
+  /// Forget [entry]. The file itself is never touched: the library is only an
+  /// index, the user may have moved the file, and deleting from MediaStore needs
+  /// a system consent dialog.
+  static Future<void> _remove(WidgetRef ref, HistoryEntry entry) async {
+    final id = entry.id;
+    if (id == null) return;
+    final history = await ref.read(historyServiceProvider.future);
+    await history.delete(id);
+    ref.invalidate(historyListProvider);
+  }
+
+  /// Run [action]; if it reports failure, say so. With [onRemove] the dialog
+  /// also offers to drop the (probably stale) row.
+  static Future<void> _guard(
+    BuildContext context,
+    Future<bool> action,
+    String failure, {
+    VoidCallback? onRemove,
+  }) async {
     if (await action) return;
     if (!context.mounted) return;
     await showCupertinoDialog<void>(
       context: context,
       builder: (c) => CupertinoAlertDialog(
         title: Text(failure),
+        content: onRemove == null
+            ? null
+            : const Text('Removing only forgets it here — nothing else is deleted.'),
+        actions: onRemove == null
+            ? [CupertinoDialogAction(onPressed: () => Navigator.pop(c), child: const Text('OK'))]
+            : [
+                CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(c);
+                    onRemove();
+                  },
+                  child: const Text('Remove from library'),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(c),
+                  child: const Text('Keep'),
+                ),
+              ],
+      ),
+    );
+  }
+
+  static Future<void> _confirmClear(BuildContext context, WidgetRef ref, int count) {
+    return showCupertinoDialog<void>(
+      context: context,
+      builder: (c) => CupertinoAlertDialog(
+        title: const Text('Clear your library?'),
+        content: Text(
+          'This removes all $count ${count == 1 ? 'entry' : 'entries'} from Woofer. '
+          'Your downloaded files stay in Downloads.',
+        ),
         actions: [
-          CupertinoDialogAction(onPressed: () => Navigator.pop(c), child: const Text('OK')),
+          CupertinoDialogAction(
+            onPressed: () => Navigator.pop(c),
+            child: const Text('Cancel'),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.pop(c);
+              final history = await ref.read(historyServiceProvider.future);
+              await history.clear();
+              ref.invalidate(historyListProvider);
+            },
+            child: const Text('Clear'),
+          ),
         ],
       ),
     );
@@ -142,7 +225,12 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             icon: CupertinoIcons.share,
             onPressed: () {
               Navigator.pop(sheetContext);
-              _guard(context, storage.shareFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'), "Couldn't share this file.");
+              _guard(
+                context,
+                storage.shareFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'),
+                "Couldn't share this file.",
+                onRemove: () => _remove(ref, entry),
+              );
             },
             child: const Text('Share'),
           ),
@@ -152,15 +240,17 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             enableBlur: false,
             tint: CupertinoColors.systemRed.resolveFrom(context).withValues(alpha: 0.18),
             icon: CupertinoIcons.delete,
-            onPressed: () async {
+            onPressed: () {
               Navigator.pop(sheetContext);
-              final id = entry.id;
-              if (id == null) return;
-              final history = await ref.read(historyServiceProvider.future);
-              await history.delete(id);
-              ref.invalidate(historyListProvider);
+              _remove(ref, entry);
             },
             child: const Text('Remove from library'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Only removes it from this list — the file stays in Downloads.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: AppType.meta, height: 1.4, color: AppColors.n400),
           ),
         ],
       ),

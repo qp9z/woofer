@@ -124,19 +124,30 @@ class _GlassSheetPanel extends StatelessWidget {
                       borderRadius: BorderRadius.circular(3),
                     ),
                   ),
-                  if (title != null) ...[
-                    Text(
-                      title!,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                        letterSpacing: -0.2,
-                        color: CupertinoColors.label.resolveFrom(context),
+                  // Scrolls instead of overflowing on a short screen or at 200% text.
+                  Flexible(
+                    child: SingleChildScrollView(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          if (title != null) ...[
+                            Text(
+                              title!,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.2,
+                                color: CupertinoColors.label.resolveFrom(context),
+                              ),
+                            ),
+                            const SizedBox(height: AppSpacing.md),
+                          ],
+                          child,
+                        ],
                       ),
                     ),
-                    const SizedBox(height: AppSpacing.md),
-                  ],
-                  child,
+                  ),
                 ],
               ),
             ),
