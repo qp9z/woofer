@@ -11,20 +11,40 @@ app/                    Flutter app (the whole product)
   lib/state/            Riverpod controller + state machine
   lib/services/         yt-dlp bridge, ffmpeg, storage, history
   android/app/src/main/python/ytdlp_bridge.py   Python side of the MethodChannel
-design/                 brand identity + Inter font (source of truth: see below)
-graphify-out/           generated knowledge graph, not source
+  android/app/requirements.txt                  the ONE place yt-dlp is pinned
+  android/app/src/test/{kotlin,python}          native + bridge tests (never shipped)
+design/                 brand identity + Inter font (kept in Git on purpose, ~10 MB)
+.github/workflows/      CI: flutter, python, android jobs
+graphify-out/           generated knowledge graph, gitignored, not source
 ```
 
 ## Build & run
 
 ```bash
 cd app
-flutter analyze && flutter test          # 118 tests, keep them green
+flutter analyze && flutter test          # keep both green (no hardcoded counts here)
 flutter build apk --profile
 flutter build apk --release
 flutter build appbundle --release
 flutter install --release -d R5CXA4Q2SHK  # SM A556E, Android 16
 ```
+
+The other two suites (CI runs all three):
+
+```bash
+# Kotlin + Robolectric. Needs JAVA_HOME on a JDK 17-24: Gradle 8.14 cannot run on
+# JDK 25 (error is just "25.0.2"). Android Studio's jbr works.
+cd app/android && JAVA_HOME="C:\Program Files\Android\Android Studio\jbr" ./gradlew :app:testDebugUnitTest
+
+# Python bridge, offline, against the pinned yt-dlp:
+cd app/android/app && uv run --python 3.12 --with-requirements requirements.txt \
+  --with pytest python -m pytest src/test/python
+```
+
+Release builds sign with `android/key.properties` + `upload-keystore.jks` (both
+gitignored) and fall back to the debug key when they're absent. After touching
+`build.gradle.kts`, check with `apksigner verify --print-certs` that a release APK
+still carries the upload identity — a past commit silently reverted this.
 
 Test device is a Samsung SM A556E (`R5CXA4Q2SHK`). `adb` is **not on PATH**:
 `C:/Users/Pc/AppData/Local/Android/Sdk/platform-tools/adb.exe`. Package id is
@@ -57,6 +77,15 @@ once. Applies to both the primary stream and the merged-audio stream.
 two bottom sheets: the format picker and About. The shell watches the controller:
 `FormatsReady` opens the format sheet, `Done` toasts and resets.
 
+**Shared links** — `sharedUrlProvider` (`lib/state/share_intent.dart`) routes links
+shared from other apps into `extract()`. Riverpod 3 **pauses listeners of offstage
+widgets**, and `DownloadTab` sits in the `IndexedStack`, so the always-on
+`ref.listen` lives in `HomeShell` (which also brings the Download tab forward);
+`DownloadTab` only *watches* the value to mirror it into the field. Never make a
+tab the sole subscriber. `ProviderScope(retry: null)` turns off Riverpod 3's
+automatic provider retries on purpose — failures should surface, not be retried
+silently.
+
 ## Design system
 
 The UI is a high-fidelity implementation of a **Claude Design** handoff, not
@@ -80,9 +109,17 @@ the project id and how to read it with the DesignSync tool.
 - **`android/local.properties` is gitignored** and must contain
   `chaquopy.buildPython=<path to a real Python 3.12>` (installed via `uv python
   install 3.12`). Without it the build can't find a 3.12 interpreter.
-- **Python's sockets need the network bound explicitly.** `MainActivity.kt` calls
+- **Python's sockets need the network bound explicitly.** `YtdlpBridge.kt` calls
   `ConnectivityManager.bindProcessToNetwork()` before each Python network call —
   without it Dart has connectivity but Python DNS fails.
+- **yt-dlp is pinned in `android/app/requirements.txt`**, nowhere else (Gradle and
+  CI both read that file; About shows the bundled version). Bump it deliberately —
+  see "yt-dlp update policy" in `android/CHAQUOPY.md`. Never float it.
+- **Python tests live in `src/test/python`, never `src/main/python`** — Chaquopy
+  packages everything under `main` into the APK.
+- **Only `YtdlpBridge` may own the `ytdlp` channel's handler.** `YtdlpExtractor`'s
+  constructor calls `setMethodCallHandler`, so a second instance silently steals
+  progress callbacks. Read it via `ytdlpExtractorProvider`, never `YtdlpExtractor()`.
 - **Downloads get a fresh temp dir per attempt.** yt-dlp names files by title only,
   so a shared temp let a leftover `.part` be *resumed* (a range past EOF ⇒ HTTP 416)
   or a stale file of the wrong resolution be silently reused. Don't reintroduce a
@@ -111,18 +148,38 @@ Keep errors honest — say what actually happened, never fake success.
 
 ## Testing
 
-`flutter test` — 65 tests. Note: the aurora, the equalizer and the Fetch sheen
-animate **forever**, so `pumpAndSettle()` will hang on any screen containing them.
-Use fixed `pump(Duration)` calls instead.
+Three suites — `flutter test`, the Kotlin/Robolectric tests, and the Python bridge
+tests (commands above; CI runs all three). Note: the aurora, the equalizer and the
+Fetch sheen animate **forever**, so `pumpAndSettle()` will hang on any screen
+containing them. Use fixed `pump(Duration)` calls instead.
+
+Two things worth knowing when writing tests:
+
+- A guard test should be **mutation-checked**: remove the code it claims to protect
+  and confirm it fails. Two passed vacuously on first draft because a second layer
+  enforced the same rule.
+- Robolectric's `FileProvider` cases only run on a POSIX host: androidx matches a
+  file to its root with a literal `/` and a Windows JVM yields `\`. They are
+  skipped on Windows and run on the Linux CI job — so a green local run doesn't
+  prove them.
 
 ## State / open items
 
-All work is committed on `main`. Outstanding:
+The P2 maintenance work (toolchain, dependency upgrades, tests, CI, docs) lives on
+branch `p2-maintenance`; `main` is the last released state. Outstanding:
 
-1. **Retest a 4K YouTube download** — the 416 and ffmpeg-merge fixes are in but were
-   never confirmed end-to-end (the test IP was blocked at the time).
-2. **Eyeball the launcher icon and the animated intro on-device** — both verified by
-   asset inspection and tests, never seen running (phone was locked).
-3. Settings rows are informational only — they reflect real fixed behaviour
+1. **The whole device E2E pass** (`PROJECT_TODO.md`, P1) — the phone is unauthorized
+   in ADB, so nothing from the 2026-11 upgrade (Chaquopy 17.2, Riverpod 3,
+   permission_handler 13, ffmpeg_kit 4.7, compileSdk 37, cupertino_icons 2) has run
+   on hardware. That includes the share-from-another-tab fix, the notification
+   permission flow, and a **4K YouTube download** (the 416 and ffmpeg-merge fixes
+   were never confirmed end-to-end; the test IP was blocked at the time).
+2. **Eyeball the launcher icon, the animated intro and the cupertino_icons 2 glyphs
+   on-device** — verified by asset inspection and tests, never seen running.
+3. **ffmpeg_kit 5.0 is deferred** (FFmpeg 8.1: rotation/colour-tag changes) until
+   the device pass and the GPL-vs-LGPL variant decision (`THIRD_PARTY.md`).
+4. **Flutter says it will soon drop Gradle < 9.1, AGP < 9.0.1, Kotlin < 2.3.20** —
+   a toolchain migration of its own; see `android/CHAQUOPY.md`.
+5. Settings rows are informational only — they reflect real fixed behaviour
    (MP3 192k, saves to Downloads, dark theme). There is no preferences store; don't
    add toggles that silently do nothing.

@@ -1,137 +1,114 @@
-# woofer
+# WOOFER
 
-Monorepo for an Android social / YouTube downloader.
+An Android media downloader. **Everything runs on the device — there is no
+backend, account, or telemetry.** Paste a link (or share one into the app), pick a
+quality, and the file lands in `Downloads/woofer`.
 
-- **`backend/`** — Python FastAPI service using `yt-dlp` + `ffmpeg`.
-- **`app/`** — Flutter Android app (targets Android only).
+| Piece | What it does |
+| --- | --- |
+| Flutter (`app/lib`) | UI, the download state machine ([Riverpod](https://riverpod.dev)), history (sqflite) |
+| [yt-dlp](https://github.com/yt-dlp/yt-dlp) via [Chaquopy](https://chaquo.com/chaquopy/) | Extracts formats and downloads the chosen stream, in-process on an embedded CPython 3.12 |
+| [ffmpeg_kit](https://pub.dev/packages/ffmpeg_kit_flutter_new) | Merges video-only + audio streams, transcodes audio to MP3 192k |
+| Kotlin (`app/android/.../dev/koulei/woofer`) | Channel host, foreground service + notifications, MediaStore saving, open/share intents |
 
-CI builds and smoke-tests the backend image on every change to `backend/`.
+Video-only formats are merged with the best audio track (container chosen from the
+codecs — a 4K YouTube download legitimately saves as `.webm`); audio-only choices
+transcode to MP3 with the thumbnail embedded as cover art.
 
-## backend
+## Scope
 
-FastAPI service. Requires Python 3.10+ (and `ffmpeg` on PATH for real downloads).
+- **Android only**, `minSdk 24` (Chaquopy's floor), ABIs `arm64-v8a` and `x86_64`
+  (Python 3.12 has no 32-bit ARM build).
+- Package id `dev.koulei.woofer`. Proprietary — see [LICENSE](LICENSE) and
+  [THIRD_PARTY.md](THIRD_PARTY.md).
 
-```bash
-cd backend
-python -m venv .venv
-# Windows:  .venv\Scripts\activate
-# Unix:     source .venv/bin/activate
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
+## Prerequisites
 
-Health check: `GET http://127.0.0.1:8000/ping` → `{"status": "ok"}`
+| Need | Notes |
+| --- | --- |
+| Flutter | 3.47.1 stable (Dart 3.13) |
+| JDK 17–24 | Java/Kotlin targets are 17 (CI uses Temurin 17). **Gradle 8.14 cannot run on JDK 25** — see below |
+| Android SDK | Platform `android-37.0` (`compileSdk 37`) and build-tools; `adb` is not on PATH on the dev machine |
+| Python 3.12 | **Chaquopy's build toolchain requires exactly 3.12.** `uv python install 3.12` is the easy way |
+| `app/android/local.properties` | Gitignored. Flutter writes `sdk.dir` and `flutter.sdk`; you add `chaquopy.buildPython=<path to a Python 3.12>` (`uv python find 3.12`) if 3.12 isn't your default `python` |
 
-### Configuration
+## Build, test, run
 
-Every setting is an environment variable with a working default — see
-[`backend/.env.example`](backend/.env.example).
-
-| Variable | Default | Meaning |
-| --- | --- | --- |
-| `PORT` | `8000` | Port the API listens on. |
-| `ALLOWED_ORIGIN` | `http://localhost:8080` | CORS origin. Only matters for browser/Flutter-web clients; native apps send no `Origin`. |
-| `MAX_FILE_SIZE` | `0` | Hard per-download byte cap. `0` = no fixed cap. |
-| `RATE_LIMIT` / `RATE_WINDOW` | `10` / `60` | Requests per client IP per window; over it returns `429 RATE_LIMITED`. |
-| `DISK_HEADROOM_BYTES` | `268435456` | Free space reserved on the temp disk for merges. |
-| `FORWARDED_ALLOW_IPS` | `127.0.0.1` | Upstreams trusted to set `X-Forwarded-For`. Must name your reverse proxy. |
-
-With `MAX_FILE_SIZE=0` the only size limit is free disk space: a download is
-rejected with `413 TOO_LARGE` when its estimated size exceeds free space minus
-`DISK_HEADROOM_BYTES`.
-
-### Docker (bundles ffmpeg)
+All from `app/`:
 
 ```bash
-cd backend
-cp .env.example .env       # edit ALLOWED_ORIGIN at minimum
-docker compose up -d --build
-curl http://127.0.0.1:8000/ping
-```
-
-The image runs as a non-root user (`woofer`, uid 10001) and has a healthcheck on
-`/ping`. Without compose: `docker build -t woofer-backend . && docker run -p 8000:8000 --env-file .env woofer-backend`.
-
-## Deploying to a VPS
-
-Any box with Docker works (Ubuntu shown). Nothing is stored on disk between
-requests — downloads are staged in the container's `/tmp` and deleted after each
-response — so there is no volume or database to back up.
-
-**1. Install Docker**
-
-```bash
-curl -fsSL https://get.docker.com | sh
-sudo usermod -aG docker "$USER"   # log out and back in
-```
-
-**2. Get the code and configure**
-
-```bash
-git clone <your-repo-url> woofer && cd woofer/backend
-cp .env.example .env
-nano .env          # set ALLOWED_ORIGIN; consider MAX_FILE_SIZE and RATE_LIMIT
-```
-
-**3. Run it**
-
-```bash
-docker compose up -d --build
-docker compose ps          # should show "healthy"
-curl http://127.0.0.1:8000/ping
-```
-
-`restart: unless-stopped` brings the service back after a reboot or crash.
-
-**4. Put TLS in front of it**
-
-The API speaks plain HTTP and binds the port on the host. Expose it through a
-reverse proxy rather than opening 8000 to the internet — with Caddy, two lines
-gets you an automatic certificate:
-
-```caddy
-api.example.com {
-    reverse_proxy 127.0.0.1:8000
-}
-```
-
-Then restrict the firewall to the proxy: `sudo ufw allow 80,443/tcp && sudo ufw deny 8000/tcp`.
-
-Point the Flutter app at the result by setting `baseUrl` in
-[`app/lib/config.dart`](app/lib/config.dart) to `https://api.example.com`.
-
-**5. Updating**
-
-```bash
-cd woofer && git pull
-docker compose up -d --build
-```
-
-Rebuild periodically even without code changes: `yt-dlp` is intentionally
-unpinned in `requirements.txt` because it breaks whenever sites change, and a
-rebuild picks up the newest release. `GET /version` reports the running `yt-dlp`
-version and whether a newer one exists.
-
-**Operational notes**
-
-- Rate limiting is per-IP and in-process. The container runs uvicorn with
-  `--proxy-headers`, so behind a proxy you **must** set `FORWARDED_ALLOW_IPS` to
-  the proxy's address — otherwise every request appears to come from the proxy,
-  all clients share one bucket, and legitimate traffic gets `429`d.
-- Running more than one replica splits the rate-limit counters per process; the
-  effective limit is `RATE_LIMIT × replicas`.
-- Logs are capped at 3 × 10 MB by the compose `logging` block.
-
-## app
-
-Flutter app, Android only. Requires the Flutter SDK.
-
-```bash
-cd app
 flutter pub get
-flutter run          # on a connected Android device/emulator
-flutter build apk    # release APK
+flutter analyze && flutter test                  # Dart tests + analyzer
+flutter run                                      # connected device/emulator
+flutter build apk --profile
+flutter build apk --release                      # signed with key.properties if present
+flutter build appbundle --release                # Play Store bundle
 ```
 
-Dependencies: `dio` (HTTP), `permission_handler` (storage/permissions),
-`path_provider` (download paths), `sqflite` (local download history).
+Native and Python tests:
+
+```bash
+cd app/android && ./gradlew :app:testDebugUnitTest   # Kotlin (incl. Robolectric)
+# Windows hosts skip the 3 FileProvider file-path cases (androidx matches roots
+# with a literal '/'); they run on the Linux CI job.
+
+cd app/android/app                                   # Python bridge, offline
+uv run --python 3.12 --with-requirements requirements.txt --with pytest \
+  python -m pytest src/test/python
+```
+
+CI (`.github/workflows/ci.yml`) runs the same three suites plus a profile build.
+
+### Release signing
+
+`app/android/key.properties` + `upload-keystore.jks` are gitignored. With them,
+`flutter build … --release` signs with the upload key; without them (fresh clone,
+CI) it falls back to the debug key so the build still works. Back both files up —
+losing the keystore means losing the ability to update the published app.
+
+### Versioning
+
+Bump `version:` in `app/pubspec.yaml` (`1.0.0+1` = semver `+` build number). It
+flows to the Android `versionName`/`versionCode` and to Settings → About, which
+also shows the bundled yt-dlp version.
+
+## Common setup failures
+
+- **A bare `./gradlew` fails with just `25.0.2`** — Gradle 8.14 can't run on JDK 25
+  (`JAVA_HOME` points at one). `flutter build` is unaffected because Flutter uses
+  Android Studio's bundled JDK; for direct Gradle runs set
+  `JAVA_HOME` to that (`…/Android Studio/jbr`) or any JDK 17–24.
+- **`Couldn't find Python 3.12`** — set `chaquopy.buildPython` in `local.properties`.
+- **`Python 3.12 is not available for the ABI 'armeabi-v7a'`** — `gradle.properties`
+  must keep `disable-abi-filtering=true`.
+- **Python DNS fails ("No address associated with hostname")** — the process must be
+  bound to the active network; `YtdlpBridge` does this before each call.
+- **`flutter build appbundle` says "failed to strip debug symbols"** — the Android
+  SDK *cmdline-tools* component is missing (`flutter doctor` reports it); Flutter's
+  post-build check needs it. Install it from Android Studio's SDK Manager (SDK
+  Tools), then run `flutter doctor --android-licenses`. The `.aab` itself is built.
+- **`adb devices` shows `unauthorized`** — `adb kill-server && adb start-server`, then
+  accept the prompt on the phone.
+
+More detail: [app/android/CHAQUOPY.md](app/android/CHAQUOPY.md) (Chaquopy, the
+tested toolchain, the yt-dlp update policy) and
+[app/android/FOREGROUND_SERVICE.md](app/android/FOREGROUND_SERVICE.md) (how a
+download survives the app being backgrounded).
+
+## Repository layout
+
+```
+app/                    Flutter app (the whole product)
+  lib/{ui,state,services,models}
+  android/              Gradle project, Kotlin host, Python bridge (src/main/python)
+  android/app/src/test  Kotlin + Python tests (Python tests are not shipped in the APK)
+design/                 Brand source: identity assets, guidelines, Inter font files
+PROJECT_TODO.md         Working backlog
+CLAUDE.md               Contributor/agent guide (architecture, gotchas)
+```
+
+`design/` is kept in Git deliberately (~10 MB packed): it is the brand source of
+truth and only the six Inter weights in `app/fonts/` ship in the app.
+
+Report security issues per [SECURITY.md](SECURITY.md); release history is in
+[CHANGELOG.md](CHANGELOG.md).
