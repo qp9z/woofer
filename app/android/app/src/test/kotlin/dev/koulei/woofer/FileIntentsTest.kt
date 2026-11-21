@@ -30,7 +30,8 @@ import java.io.File
  * dead URI.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35])
+// SDK 34, not 35: Robolectric runs SDK 35 only on Java 21+, and CI builds on JDK 17.
+@Config(sdk = [34])
 class FileIntentsTest {
 
     /** Stands in for MediaStore: serves a row whose real type is video/mp4. */
