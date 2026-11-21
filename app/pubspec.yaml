@@ -35,7 +35,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^2.0.0
   flutter_riverpod: ^3.5.0
-  permission_handler: ^12.0.3
+  permission_handler: ^13.0.2
   path_provider: ^2.1.6
   sqflite: ^2.4.3
   # Receives links shared into the app from other apps (Android share sheet).
