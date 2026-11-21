@@ -118,6 +118,16 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
           loading: loading,
           onPressed: busy ? null : _fetch,
         ),
+        // Fetch is greyed out; say why rather than leave it a mystery.
+        if (state is Downloading || state is Processing)
+          const Padding(
+            padding: EdgeInsets.only(top: AppSpacing.sm),
+            child: Text(
+              busyFetchMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: AppType.meta, color: AppColors.n400),
+            ),
+          ),
 
         // Detected media (formats resolved, sheet may be closed).
         if (state is FormatsReady) ...[
@@ -538,7 +548,7 @@ class _ActiveCard extends ConsumerWidget {
         d.progress,
         d.total > 0
             ? '${((d.progress ?? 0) * 100).toStringAsFixed(0)}% · ${formatBytes(d.received)} of ${formatBytes(d.total)}'
-            : '${formatBytes(d.received)} downloaded',
+            : '${formatBytes(d.received)} downloaded · size unknown',
       ),
       Processing p => (
         formatLabel(p.format),

@@ -3,6 +3,9 @@ import '../services/api_exception.dart';
 
 /// Display helpers shared by the screens. Pure functions — no widgets.
 
+/// Shown while a download owns yt-dlp and Fetch (or a shared link) must wait.
+const busyFetchMessage = 'A download is in progress — cancel it to fetch another link.';
+
 /// Row title for a format: "1080p · MP4", "Audio · M4A".
 String formatLabel(MediaFormat f) {
   final res = f.resolution ?? (f.hasVideo ? 'Video' : 'Audio');

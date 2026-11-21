@@ -981,6 +981,7 @@ void main() {
       await settle();
       expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
       expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+      expect(c.read(shareRejectedProvider), 0); // nothing was turned away
 
       ctrl.selectFormat(_muxed);
       final download = ctrl.download();
@@ -996,6 +997,8 @@ void main() {
       expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
       expect(c.read(sharedUrlProvider).value, 'https://youtu.be/first');
       expect(c.read(downloadControllerProvider), isA<Downloading>());
+      // ...and the shell is told, so the user hears why nothing happened.
+      expect(c.read(shareRejectedProvider), 1);
 
       ytdlp.firstDownload.complete('/tmp/woofer_18.bin');
       await download;

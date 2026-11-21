@@ -22,6 +22,18 @@ String? _pickUrl(List<SharedMediaFile> items) {
   return null;
 }
 
+/// Bumped each time a shared link is dropped because a download owns yt-dlp, so
+/// the shell can tell the user instead of the share vanishing silently.
+final shareRejectedProvider = NotifierProvider<ShareRejections, int>(
+  ShareRejections.new,
+);
+
+class ShareRejections extends Notifier<int> {
+  @override
+  int build() => 0;
+  void bump() => state++;
+}
+
 /// URLs shared into the app from other apps (text/plain): the cold-start share
 /// first, then live shares while the app runs.
 ///
@@ -34,23 +46,33 @@ String? _pickUrl(List<SharedMediaFile> items) {
 // paused stream stops routing shared links.
 final sharedUrlProvider = StreamProvider<String>((ref) async* {
   final controller = ref.read(downloadControllerProvider.notifier);
+  // Read up front: `ref` must not be touched again once this stream is running.
+  final rejected = ref.read(shareRejectedProvider.notifier);
 
   // Cold start: the share that launched the app. reset() so a provider rebuild
   // doesn't replay it.
   final initial = await ReceiveSharingIntent.instance.getInitialMedia();
   ReceiveSharingIntent.instance.reset();
   final initialUrl = _pickUrl(initial);
-  if (initialUrl != null && controller.canExtract) {
-    unawaited(controller.extract(initialUrl));
-    yield initialUrl;
+  if (initialUrl != null) {
+    if (controller.canExtract) {
+      unawaited(controller.extract(initialUrl));
+      yield initialUrl;
+    } else {
+      rejected.bump();
+    }
   }
 
   // Live shares while the app is already running.
   await for (final items in ReceiveSharingIntent.instance.getMediaStream()) {
     final url = _pickUrl(items);
-    if (url != null && controller.canExtract) {
-      unawaited(controller.extract(url));
-      yield url;
+    if (url != null) {
+      if (controller.canExtract) {
+        unawaited(controller.extract(url));
+        yield url;
+      } else {
+        rejected.bump();
+      }
     }
   }
 });
