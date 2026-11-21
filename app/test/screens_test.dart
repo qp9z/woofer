@@ -9,6 +9,8 @@ import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
 import 'package:woofer/state/download_controller.dart';
 import 'package:woofer/state/download_state.dart';
+import 'package:woofer/services/history_service.dart';
+import 'package:woofer/services/storage_service.dart';
 import 'package:woofer/services/ytdlp_extractor.dart';
 import 'package:woofer/state/share_intent.dart';
 import 'package:woofer/ui/screens/home_shell.dart';
@@ -69,7 +71,65 @@ class _VersionedYtdlp extends YtdlpExtractor {
   Future<String?> version() async => _version;
 }
 
+/// Records what the Library tried to open and whether anything could handle it.
+class _OpenStorage extends StorageService {
+  _OpenStorage({required this.opens});
+  final bool opens;
+  String? opened;
+
+  @override
+  Future<bool> openFile(String pathOrUri, {String mimeType = '*/*'}) async {
+    opened = pathOrUri;
+    return opens;
+  }
+}
+
+final _libraryEntry = HistoryEntry(
+  title: 'Gone Clip',
+  sourceUrl: 'https://youtu.be/abc',
+  filePath: 'content://media/external/downloads/9',
+  format: '1920x1080',
+);
+
 void main() {
+  Future<_OpenStorage> tapLibraryRow(WidgetTester t, {required bool opens}) async {
+    final storage = _OpenStorage(opens: opens);
+    await t.pumpWidget(
+      _app(
+        const LibraryTab(),
+        overrides: [
+          historyListProvider.overrideWith((ref) async => [_libraryEntry]),
+          storageServiceProvider.overrideWithValue(storage),
+        ],
+      ),
+    );
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 100));
+    await t.tap(find.text('Gone Clip'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 300));
+    return storage;
+  }
+
+  // A tap that does nothing reads as a broken app, and a user who deleted the
+  // file from Downloads will hit exactly this.
+  testWidgets('tapping a Library row whose file is gone says so', (t) async {
+    final storage = await tapLibraryRow(t, opens: false);
+
+    expect(storage.opened, 'content://media/external/downloads/9');
+    expect(
+      find.text("Couldn't open this file. It may have been moved or deleted."),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('tapping a Library row that opens shows no error', (t) async {
+    final storage = await tapLibraryRow(t, opens: true);
+
+    expect(storage.opened, 'content://media/external/downloads/9');
+    expect(find.textContaining("Couldn't open"), findsNothing);
+  });
+
   testWidgets('format sheet lists real formats with an Audio/Video toggle', (
     t,
   ) async {
