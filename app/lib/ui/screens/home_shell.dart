@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../state/download_controller.dart';
 import '../../state/download_state.dart';
+import '../../state/share_intent.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/aurora_background.dart';
@@ -54,6 +55,16 @@ class _HomeShellState extends ConsumerState<HomeShell> {
 
   @override
   Widget build(BuildContext context) {
+    // The always-on subscription to shared links. It lives here, not in a tab:
+    // Riverpod 3 pauses listeners of offstage widgets, and a paused
+    // sharedUrlProvider would stop routing links shared while Library/Settings is
+    // showing. A share also brings the Download tab forward, where the link lands.
+    ref.listen<AsyncValue<String>>(sharedUrlProvider, (_, next) {
+      if (next.hasValue && _tab != _Tab.download) {
+        setState(() => _tab = _Tab.download);
+      }
+    });
+
     // Link resolved -> open the format sheet (after this frame, not mid-build).
     ref.listen<DownloadState>(downloadControllerProvider, (prev, next) {
       if (next is FormatsReady && prev is! FormatsReady) {

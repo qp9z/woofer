@@ -25,6 +25,10 @@ class DownloadTab extends ConsumerStatefulWidget {
 class _DownloadTabState extends ConsumerState<DownloadTab> {
   final _url = TextEditingController();
 
+  /// The last shared link already mirrored into the field, so a rebuild (or the
+  /// tab resuming) never overwrites what the user has since typed.
+  String? _appliedShared;
+
   @override
   void dispose() {
     _url.dispose();
@@ -52,13 +56,19 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
     final state = ref.watch(downloadControllerProvider);
 
     // A shared link mirrors into the field so it can be edited/re-fetched.
-    ref.listen(sharedUrlProvider, (_, next) {
-      final url = next.valueOrNull;
-      if (url != null) {
-        _url.text = url;
-        setState(() {});
-      }
-    });
+    // Watched, not listened to: Riverpod 3 pauses listeners while this tab is
+    // offstage, so a link shared from another tab would be missed. A watch simply
+    // rebuilds with the latest value when the tab is shown again. (HomeShell owns
+    // the always-on subscription and switches to this tab.)
+    final shared = ref.watch(sharedUrlProvider).value;
+    if (shared != null && shared != _appliedShared) {
+      _appliedShared = shared;
+      // After the frame: the controller must not change while building.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        setState(() => _url.text = shared);
+      });
+    }
 
     final loading = state is Loading;
     final busy = loading || state is Downloading || state is Processing;

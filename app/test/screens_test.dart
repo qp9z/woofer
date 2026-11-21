@@ -1,10 +1,15 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
 import 'package:woofer/state/download_controller.dart';
 import 'package:woofer/state/download_state.dart';
+import 'package:woofer/state/share_intent.dart';
+import 'package:woofer/ui/screens/home_shell.dart';
 import 'package:woofer/ui/screens/library_tab.dart';
 import 'package:woofer/ui/sheets/format_sheet.dart';
 import 'package:woofer/ui/theme/app_theme.dart';
@@ -126,5 +131,44 @@ void main() {
     await t.pumpAndSettle();
 
     expect(find.text('Nothing here yet.'), findsOneWidget);
+  });
+
+  // Riverpod 3 pauses listeners of offstage widgets. The Download tab sits in an
+  // IndexedStack, so a link shared while Library is showing must still be routed:
+  // the shell keeps the subscription alive and brings Download forward.
+  testWidgets('a link shared while another tab is showing lands on Download', (
+    t,
+  ) async {
+    final shares = StreamController<String>();
+    addTearDown(shares.close);
+    await t.pumpWidget(
+      _app(
+        const HomeShell(),
+        overrides: [
+          historyListProvider.overrideWith((ref) async => []),
+          sharedUrlProvider.overrideWith((ref) => shares.stream),
+        ],
+      ),
+    );
+    await t.pump();
+
+    // Library in front: Download is now offstage.
+    await t.tap(find.byIcon(CupertinoIcons.list_bullet));
+    await t.pump(const Duration(milliseconds: 300));
+    expect(find.text('Nothing here yet.'), findsOneWidget);
+    expect(find.text('VIDEO LINK'), findsNothing);
+
+    shares.add('https://youtu.be/abc123');
+    // Fixed pumps: the aurora animates forever, so pumpAndSettle would hang.
+    for (var i = 0; i < 4; i++) {
+      await t.pump(const Duration(milliseconds: 100));
+    }
+
+    expect(find.text('Nothing here yet.'), findsNothing);
+    expect(find.text('VIDEO LINK'), findsOneWidget);
+    expect(
+      find.widgetWithText(CupertinoTextField, 'https://youtu.be/abc123'),
+      findsOneWidget,
+    );
   });
 }

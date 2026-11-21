@@ -7,7 +7,12 @@ import 'ui/screens/home_shell.dart';
 import 'ui/screens/splash_screen.dart';
 import 'ui/theme/app_theme.dart';
 
-void main() => runApp(const ProviderScope(child: WooferApp()));
+void main() => runApp(
+  // Riverpod 3 retries a failed provider up to 10 times with backoff. Failures
+  // here are real and should surface at once (a history DB that can't open, a
+  // share stream error), never be silently retried behind the user's back.
+  ProviderScope(retry: (_, _) => null, child: const WooferApp()),
+);
 
 class WooferApp extends StatelessWidget {
   const WooferApp({super.key});
