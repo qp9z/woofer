@@ -46,7 +46,6 @@ class SettingsTab extends StatelessWidget {
             _Row(
               icon: CupertinoIcons.info_circle,
               label: 'About Woofer',
-              value: 'v1.0',
               onTap: () => showAboutSheet(context),
             ),
           ],
@@ -94,9 +93,9 @@ class _Group extends StatelessWidget {
 class _Row extends StatelessWidget {
   final IconData icon;
   final String label;
-  final String value;
+  final String? value; // null: nothing to report (About shows the live version itself)
   final VoidCallback? onTap;
-  const _Row({required this.icon, required this.label, required this.value, this.onTap});
+  const _Row({required this.icon, required this.label, this.value, this.onTap});
 
   @override
   Widget build(BuildContext context) => GestureDetector(
@@ -111,11 +110,12 @@ class _Row extends StatelessWidget {
               Expanded(
                   child: Text(label,
                       style: const TextStyle(fontSize: AppType.bodyStrong, color: AppColors.text))),
-              Text(value,
-                  style: const TextStyle(
-                      fontSize: AppType.body,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.a300)),
+              if (value != null)
+                Text(value!,
+                    style: const TextStyle(
+                        fontSize: AppType.body,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.a300)),
               if (onTap != null) ...[
                 const SizedBox(width: 6),
                 const Icon(CupertinoIcons.chevron_right, size: 16, color: AppColors.n600),

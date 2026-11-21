@@ -76,6 +76,19 @@ class YtdlpExtractor {
     }
   }
 
+  /// The bundled yt-dlp release (e.g. `2026.10.26`), or null when it can't be
+  /// read — off-device, or Python not up. Purely informational, so it never throws.
+  Future<String?> version() async {
+    try {
+      final v = await _channel.invokeMethod<String>('version');
+      return (v == null || v.trim().isEmpty) ? null : v.trim();
+    } on PlatformException {
+      return null;
+    } on MissingPluginException {
+      return null; // off-device (tests)
+    }
+  }
+
   /// Re-bind the process to the current active network. Needed after a Wi-Fi
   /// ↔ cellular switch so Python's C sockets pick up the new network.
   Future<void> rebindNetwork() async {

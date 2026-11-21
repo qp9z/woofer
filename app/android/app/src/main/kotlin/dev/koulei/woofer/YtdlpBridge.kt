@@ -76,6 +76,18 @@ class YtdlpBridge(private val appContext: Context) {
                     }.start()
                     result.success(true)
                 }
+                "version" -> {
+                    // Own thread, like cancel_download: ioExecutor may be blocked
+                    // inside a long download, and About must not wait for it.
+                    Thread {
+                        val version = try {
+                            bridge().callAttr("version").toString()
+                        } catch (e: Throwable) {
+                            null // Python not up — About just omits the line
+                        }
+                        uiHandler.post { result.success(version) }
+                    }.start()
+                }
                 "rebind_network" -> {
                     bindProcessToActiveNetwork()
                     result.success(true)

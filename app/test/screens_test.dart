@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart' show MethodChannel;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
@@ -8,9 +9,11 @@ import 'package:woofer/models/media_format.dart';
 import 'package:woofer/models/video_info.dart';
 import 'package:woofer/state/download_controller.dart';
 import 'package:woofer/state/download_state.dart';
+import 'package:woofer/services/ytdlp_extractor.dart';
 import 'package:woofer/state/share_intent.dart';
 import 'package:woofer/ui/screens/home_shell.dart';
 import 'package:woofer/ui/screens/library_tab.dart';
+import 'package:woofer/ui/sheets/about_sheet.dart';
 import 'package:woofer/ui/sheets/format_sheet.dart';
 import 'package:woofer/ui/theme/app_theme.dart';
 
@@ -55,6 +58,15 @@ class _RecordingDownloadController extends DownloadController {
   Future<void> download() async {
     downloadCalled = true;
   }
+}
+
+/// Reports a fixed yt-dlp version; everything else is never reached.
+class _VersionedYtdlp extends YtdlpExtractor {
+  _VersionedYtdlp(this._version) : super(channel: const MethodChannel('ytdlp_about_test'));
+  final String _version;
+
+  @override
+  Future<String?> version() async => _version;
 }
 
 void main() {
@@ -131,6 +143,32 @@ void main() {
     await t.pumpAndSettle();
 
     expect(find.text('Nothing here yet.'), findsOneWidget);
+  });
+
+  testWidgets('About shows the bundled yt-dlp version from the shared extractor', (
+    t,
+  ) async {
+    await t.pumpWidget(
+      _app(
+        Builder(
+          builder: (context) => CupertinoButton(
+            onPressed: () => showAboutSheet(context),
+            child: const Text('open about'),
+          ),
+        ),
+        overrides: [
+          // Must come from the provider: a fresh YtdlpExtractor would steal the
+          // channel's single method-call handler from the real one.
+          ytdlpExtractorProvider.overrideWithValue(_VersionedYtdlp('2026.10.26')),
+        ],
+      ),
+    );
+
+    await t.tap(find.text('open about'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 400));
+
+    expect(find.text('yt-dlp 2026.10.26'), findsOneWidget);
   });
 
   // Riverpod 3 pauses listeners of offstage widgets. The Download tab sits in an

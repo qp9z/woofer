@@ -31,6 +31,35 @@ void main() {
 
   YtdlpExtractor extractor() => YtdlpExtractor(channel: channel);
 
+  // Shown in Settings -> About; purely informational, so it must never throw.
+  group('version', () {
+    test('returns the bundled yt-dlp release from the native side', () async {
+      MethodCall? seen;
+      mockChannel(reply: ' 2026.10.26 ', spy: (c) => seen = c);
+
+      expect(await extractor().version(), '2026.10.26'); // trimmed
+      expect(seen?.method, 'version');
+    });
+
+    test('a blank or null reply is null', () async {
+      mockChannel(reply: '   ');
+      expect(await extractor().version(), isNull);
+
+      mockChannel(reply: null);
+      expect(await extractor().version(), isNull);
+    });
+
+    test('a PlatformException is swallowed', () async {
+      mockChannel(error: PlatformException(code: 'X', message: 'boom'));
+      expect(await extractor().version(), isNull);
+    });
+
+    test('a missing native plugin is swallowed (off-device)', () async {
+      messenger.setMockMethodCallHandler(channel, null);
+      expect(await extractor().version(), isNull);
+    });
+  });
+
   group('extractInfo', () {
     test('parses a success envelope into the shared VideoInfo model', () async {
       mockChannel(
