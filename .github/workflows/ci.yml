@@ -23,7 +23,8 @@ env:
   FLUTTER_VERSION: 3.47.1
   # Chaquopy's build toolchain requires exactly Python 3.12.
   PYTHON_VERSION: "3.12"
-  JAVA_VERSION: "17"
+  # Robolectric runs SDK 35 tests only on Java 21+ (Gradle 8.14 tops out at 24).
+  JAVA_VERSION: "21"
 
 jobs:
   flutter:
