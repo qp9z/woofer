@@ -51,9 +51,11 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
                               ],
                             ),
           const SizedBox(height: AppSpacing.md),
-          Row(
+          Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
           children: [
-            for (final f in _LibFilter.values) ...[
+            for (final f in _LibFilter.values)
               _Chip(
                 label: switch (f) {
                   _LibFilter.all => 'All',
@@ -63,8 +65,6 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
                 active: _filter == f,
                 onTap: () => setState(() => _filter = f),
               ),
-              const SizedBox(width: AppSpacing.sm),
-            ],
           ],
         ),
         const SizedBox(height: AppSpacing.md),

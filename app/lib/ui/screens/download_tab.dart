@@ -303,6 +303,58 @@ class _DetectedCard extends StatelessWidget {
     final meta =
         _sourceLabel(sourceUrl) + (duration.isEmpty ? '' : ' · $duration');
 
+    final titleBlock = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          info.title ?? 'Detected media',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: AppType.bodyStrong,
+            fontWeight: FontWeight.w600,
+            height: 1.25,
+            color: AppColors.text,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          meta,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400),
+        ),
+      ],
+    );
+    final optionsPill = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: CupertinoColors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(13),
+        border: AppGlass.hairline(0.10),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(CupertinoIcons.slider_horizontal_3, size: 18, color: AppColors.a200),
+          SizedBox(width: 7),
+          Flexible(
+            child: Text(
+              'Options',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: AppType.body,
+                fontWeight: FontWeight.w600,
+                color: AppColors.a200,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
     return TapTarget(
       onTap: onOptions,
       // Keeps the title audible: a given label replaces the card's own text.
@@ -388,70 +440,22 @@ class _DetectedCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
+              child: largeText(context)
+                  ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          info.title ?? 'Detected media',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: AppType.bodyStrong,
-                            fontWeight: FontWeight.w600,
-                            height: 1.25,
-                            color: AppColors.text,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          meta,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: AppType.meta,
-                            color: AppColors.n400,
-                          ),
-                        ),
+                        titleBlock,
+                        const SizedBox(height: AppSpacing.sm),
+                        optionsPill,
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(child: titleBlock),
+                        const SizedBox(width: 10),
+                        optionsPill,
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.white.withValues(alpha: 0.05),
-                      borderRadius: BorderRadius.circular(13),
-                      border: AppGlass.hairline(0.10),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(
-                          CupertinoIcons.slider_horizontal_3,
-                          size: 18,
-                          color: AppColors.a200,
-                        ),
-                        SizedBox(width: 7),
-                        Text(
-                          'Options',
-                          style: TextStyle(
-                            fontSize: AppType.body,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.a200,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
@@ -692,6 +696,23 @@ class _ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final red = CupertinoColors.systemRed.resolveFrom(context);
+    // Beside the message normally; underneath it at large text, where a
+    // side-by-side button would squeeze the message to nothing.
+    final stacked = largeText(context);
+    final retry = TapTarget(
+      onTap: onRetry,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+        child: Text(
+          'Try again',
+          style: TextStyle(
+            fontSize: AppType.body,
+            fontWeight: FontWeight.w600,
+            color: red,
+          ),
+        ),
+      ),
+    );
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -726,24 +747,11 @@ class _ErrorCard extends StatelessWidget {
                     color: AppColors.n400,
                   ),
                 ),
+                if (stacked) retry,
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          TapTarget(
-            onTap: onRetry,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-              child: Text(
-                'Try again',
-                style: TextStyle(
-                  fontSize: AppType.body,
-                  fontWeight: FontWeight.w600,
-                  color: red,
-                ),
-              ),
-            ),
-          ),
+          if (!stacked) ...[const SizedBox(width: AppSpacing.xs), retry],
         ],
       ),
     );

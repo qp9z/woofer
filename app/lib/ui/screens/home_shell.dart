@@ -154,6 +154,8 @@ class _NavPill extends StatelessWidget {
     (_Tab.settings, 'Settings', CupertinoIcons.gear_alt),
   ];
 
+  static Widget _flexIf(bool flex, Widget w) => flex ? Flexible(child: w) : w;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -168,11 +170,16 @@ class _NavPill extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           for (final (tab, label, icon) in _defs)
-            _NavItem(
-              label: label,
-              icon: icon,
-              active: current == tab,
-              onTap: () => onSelect(tab),
+            // The active item may shrink (label ellipsizes) so the pill fits
+            // 320 px at 200% text; the two icon-only items are fixed.
+            _flexIf(
+              current == tab,
+              _NavItem(
+                label: label,
+                icon: icon,
+                active: current == tab,
+                onTap: () => onSelect(tab),
+              ),
             ),
         ],
       ),
@@ -219,12 +226,16 @@ class _NavItem extends StatelessWidget {
             Icon(icon, size: 22, color: color),
             if (active) ...[
               const SizedBox(width: 8),
-              Text(label,
-                  style: TextStyle(
-                      fontSize: AppType.body,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.1,
-                      color: color)),
+              Flexible(
+                child: Text(label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: AppType.body,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.1,
+                        color: color)),
+              ),
             ],
           ],
         ),

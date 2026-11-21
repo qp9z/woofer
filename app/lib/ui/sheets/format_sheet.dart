@@ -296,12 +296,16 @@ class _KindChip extends StatelessWidget {
           children: [
             Icon(icon, size: 21, color: color),
             const SizedBox(width: AppSpacing.sm),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: AppType.bodyStrong,
-                fontWeight: FontWeight.w700,
-                color: color,
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: AppType.bodyStrong,
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                ),
               ),
             ),
           ],

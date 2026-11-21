@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 
+import '../motion.dart';
 import '../sheets/about_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/info_button.dart';
@@ -101,6 +102,10 @@ class _Row extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // At large text the value would crowd the label out, so it moves underneath.
+    final stacked = value != null && largeText(context);
+    const valueStyle = TextStyle(
+        fontSize: AppType.body, fontWeight: FontWeight.w600, color: AppColors.a300);
     final row = Padding(
           padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 4),
           child: Row(
@@ -108,14 +113,17 @@ class _Row extends StatelessWidget {
               Icon(icon, size: 23, color: AppColors.n300),
               const SizedBox(width: 14),
               Expanded(
-                  child: Text(label,
-                      style: const TextStyle(fontSize: AppType.bodyStrong, color: AppColors.text))),
-              if (value != null)
-                Text(value!,
-                    style: const TextStyle(
-                        fontSize: AppType.body,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.a300)),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(label,
+                        style: const TextStyle(
+                            fontSize: AppType.bodyStrong, color: AppColors.text)),
+                    if (stacked) Text(value!, style: valueStyle),
+                  ],
+                ),
+              ),
+              if (value != null && !stacked) Text(value!, style: valueStyle),
               if (onTap != null) ...[
                 const SizedBox(width: 6),
                 const Icon(CupertinoIcons.chevron_right, size: 16, color: AppColors.n600),
