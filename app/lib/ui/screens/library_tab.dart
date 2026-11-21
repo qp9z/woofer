@@ -28,8 +28,8 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
 
   bool _matches(HistoryEntry e) => switch (_filter) {
         _LibFilter.all => true,
-        _LibFilter.video => formatIsVideo(e.format),
-        _LibFilter.audio => !formatIsVideo(e.format),
+        _LibFilter.video => e.kind == MediaKind.video,
+        _LibFilter.audio => e.kind == MediaKind.audio,
       };
 
   @override
@@ -99,7 +99,7 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
   /// tap that does nothing at all reads as a broken app.
   static Future<void> _open(BuildContext context, WidgetRef ref, HistoryEntry entry) => _guard(
         context,
-        ref.read(storageServiceProvider).openFile(entry.filePath),
+        ref.read(storageServiceProvider).openFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'),
         "Couldn't open this file. It may have been moved or deleted.",
       );
 
@@ -142,7 +142,7 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             icon: CupertinoIcons.share,
             onPressed: () {
               Navigator.pop(sheetContext);
-              _guard(context, storage.shareFile(entry.filePath), "Couldn't share this file.");
+              _guard(context, storage.shareFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'), "Couldn't share this file.");
             },
             child: const Text('Share'),
           ),
@@ -176,7 +176,7 @@ class _LibraryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final video = formatIsVideo(entry.format);
+    final video = entry.kind == MediaKind.video;
     final meta = [
       if (entry.format != null && entry.format!.isNotEmpty) entry.format!,
       formatBytes(entry.size),
