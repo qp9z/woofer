@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 
+import '../motion.dart';
 import '../theme/app_theme.dart';
 
 /// The WOOFER logo mark: five vertical bars rising to a center peak
@@ -38,10 +39,22 @@ class WooferMark extends StatefulWidget {
 class _WooferMarkState extends State<WooferMark> with SingleTickerProviderStateMixin {
   AnimationController? _c;
 
+  // initState can't read MediaQuery, so the decision lives here and in
+  // didUpdateWidget. Under "Remove animations" the mark stays the static painter.
+  void _sync() {
+    final wantsMotion = widget.animated && !reduceMotion(context);
+    if (wantsMotion && _c == null) {
+      _start();
+    } else if (!wantsMotion && _c != null) {
+      _c!.dispose();
+      _c = null;
+    }
+  }
+
   @override
-  void initState() {
-    super.initState();
-    if (widget.animated) _start();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _sync();
   }
 
   void _start() {
@@ -52,12 +65,7 @@ class _WooferMarkState extends State<WooferMark> with SingleTickerProviderStateM
   @override
   void didUpdateWidget(WooferMark old) {
     super.didUpdateWidget(old);
-    if (widget.animated && _c == null) {
-      _start();
-    } else if (!widget.animated && _c != null) {
-      _c!.dispose();
-      _c = null;
-    }
+    _sync();
   }
 
   @override

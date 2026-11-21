@@ -7,6 +7,7 @@ import '../../state/download_controller.dart';
 import '../../state/download_state.dart';
 import '../../state/share_intent.dart';
 import '../format_utils.dart';
+import '../motion.dart';
 import '../sheets/about_sheet.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
@@ -651,7 +652,19 @@ class _IndeterminateStripeState extends State<_IndeterminateStripe>
   late final AnimationController _c = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1100),
-  )..repeat(reverse: true);
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Rest frame 1.0 is the solid bar.
+    if (reduceMotion(context)) {
+      _c.stop();
+      _c.value = 1.0;
+    } else if (!_c.isAnimating) {
+      _c.repeat(reverse: true);
+    }
+  }
 
   @override
   void dispose() {
