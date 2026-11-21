@@ -1,0 +1,8 @@
+# The one place the bundled yt-dlp version is pinned. Chaquopy installs this file
+# into the APK (build.gradle.kts -> chaquopy.pip), and CI's Python job installs the
+# same file, so the tests always run against what ships.
+#
+# yt-dlp breaks whenever a site changes, so bump this per release (or within days of
+# a site breaking) — see "yt-dlp update policy" in ../CHAQUOPY.md. The version also
+# shows in Settings -> About.
+yt-dlp==2026.10.26

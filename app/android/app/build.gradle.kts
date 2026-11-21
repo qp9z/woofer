@@ -70,7 +70,8 @@ android {
         }
     }
 
-    // yt-dlp is pure Python, so pip resolves it with no native build step.
+    // yt-dlp is pure Python, so pip resolves it with no native build step. Its
+    // version is pinned in requirements.txt (module dir), not floated here.
     chaquopy {
         defaultConfig {
             version = "3.12"
@@ -80,7 +81,7 @@ android {
             // local.properties (gitignored, per-machine). Auto-detected from PATH otherwise.
             chaquopyBuildPython?.let { buildPython(it) }
             pip {
-                install("yt-dlp")
+                install("-r", "requirements.txt")
             }
         }
     }
