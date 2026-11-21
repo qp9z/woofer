@@ -13,6 +13,7 @@ import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
 import '../widgets/info_button.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/wordmark.dart';
 
 /// The Download (home) tab: paste/share a link, Fetch, then pick a format in the
@@ -232,9 +233,9 @@ class _UrlField extends StatelessWidget {
             ),
           ),
           if (active)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: onClear,
+              label: 'Clear link',
               child: const Padding(
                 // Padded out to a comfortable tap target around a small glyph.
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -246,8 +247,7 @@ class _UrlField extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 2),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          TapTarget(
             onTap: onPaste,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -303,9 +303,10 @@ class _DetectedCard extends StatelessWidget {
     final meta =
         _sourceLabel(sourceUrl) + (duration.isEmpty ? '' : ' · $duration');
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onOptions,
+      // Keeps the title audible: a given label replaces the card's own text.
+      label: 'Choose a format for ${info.title ?? 'this video'}',
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.white.withValues(alpha: 0.05),
@@ -570,10 +571,10 @@ class _ActiveCard extends ConsumerWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              TapTarget(
                 onTap: () =>
                     ref.read(downloadControllerProvider.notifier).cancel(),
+                label: 'Cancel download',
                 child: const Padding(
                   padding: EdgeInsets.only(left: 12, top: 4, bottom: 4),
                   child: Icon(
@@ -729,8 +730,7 @@ class _ErrorCard extends StatelessWidget {
             ),
           ),
           const SizedBox(width: AppSpacing.xs),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          TapTarget(
             onTap: onRetry,
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),

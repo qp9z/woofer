@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import '../sheets/about_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/info_button.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/woofer_mark.dart';
 import '../widgets/wordmark.dart';
 
@@ -99,10 +100,8 @@ class _Row extends StatelessWidget {
   const _Row({required this.icon, required this.label, this.value, this.onTap});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Padding(
+  Widget build(BuildContext context) {
+    final row = Padding(
           padding: const EdgeInsets.symmetric(vertical: 17, horizontal: 4),
           child: Row(
             children: [
@@ -123,6 +122,11 @@ class _Row extends StatelessWidget {
               ],
             ],
           ),
-        ),
-      );
+        );
+    // Informational rows read as one item ("Audio format, MP3 · 192 kbps"), not
+    // as a button; only a row with an action is a TapTarget.
+    return onTap == null
+        ? MergeSemantics(child: row)
+        : TapTarget(onTap: onTap, child: row);
+  }
 }

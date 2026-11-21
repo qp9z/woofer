@@ -9,6 +9,7 @@ import '../format_utils.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
 import '../widgets/glass_sheet.dart';
+import '../widgets/tap_target.dart';
 
 /// Present the format/quality picker for [info]. Audio/Video segmented toggle,
 /// the real extracted formats as selectable rows, and a Download confirm.
@@ -127,9 +128,9 @@ class _FormatSheetState extends State<_FormatSheet> {
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: () => Navigator.of(context).pop(),
+              label: 'Close',
               child: const Padding(
                 padding: EdgeInsets.all(8),
                 child: Icon(
@@ -271,11 +272,13 @@ class _KindChip extends StatelessWidget {
     final color = active
         ? AppColors.accentInk
         : (enabled ? AppColors.n300 : AppColors.n700);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: enabled ? onTap : null,
+      selected: active,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
+        // TapTarget loosens its child; centring keeps the pill filling its half.
+        alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -322,9 +325,9 @@ class _QualityRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
+      selected: selected,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(

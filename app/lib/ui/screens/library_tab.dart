@@ -9,6 +9,7 @@ import '../theme/app_theme.dart';
 import '../widgets/glass_button.dart';
 import '../widgets/glass_sheet.dart';
 import '../widgets/info_button.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/wordmark.dart';
 
 enum _LibFilter { all, audio, video }
@@ -182,8 +183,7 @@ class _LibraryRow extends StatelessWidget {
       formatDate(entry.createdAt),
     ].join(' · ');
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
       onLongPress: onActions,
       child: Padding(
@@ -226,9 +226,9 @@ class _LibraryRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: onActions,
+              label: 'More actions for ${entry.title ?? 'this download'}',
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 // Not a play button: it opens the Open/Share/Remove sheet. A play
@@ -250,9 +250,9 @@ class _Chip extends StatelessWidget {
   const _Chip({required this.label, required this.active, required this.onTap});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
+  Widget build(BuildContext context) => TapTarget(
         onTap: onTap,
+        selected: active,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
           decoration: BoxDecoration(

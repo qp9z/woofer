@@ -29,6 +29,7 @@ class TapTarget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Semantics(
+    container: true, // its own node: a button inside a tappable row stays separate
     button: true,
     enabled: onTap != null,
     selected: selected,

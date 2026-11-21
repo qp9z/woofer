@@ -120,7 +120,10 @@ class _FetchButtonState extends State<FetchButton> with SingleTickerProviderStat
 
     return MouseRegion(
       cursor: _enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-      child: GestureDetector(
+      child: Semantics(
+        button: true,
+        enabled: _enabled,
+        child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: _enabled ? widget.onPressed : null,
         onTapDown: _enabled ? (_) => setState(() => _down = true) : null,
@@ -135,6 +138,7 @@ class _FetchButtonState extends State<FetchButton> with SingleTickerProviderStat
             child: widget.expand ? SizedBox(width: double.infinity, child: panel) : panel,
           ),
         ),
+      ),
       ),
     );
   }

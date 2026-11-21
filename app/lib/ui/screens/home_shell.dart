@@ -9,6 +9,7 @@ import '../../state/share_intent.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/aurora_background.dart';
+import '../widgets/tap_target.dart';
 import 'download_tab.dart';
 import 'library_tab.dart';
 import 'settings_tab.dart';
@@ -194,9 +195,10 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = active ? AppColors.accentInk : AppColors.textDim;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
+      label: label,
+      selected: active,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
