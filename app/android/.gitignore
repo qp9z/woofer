@@ -1,5 +1,7 @@
 gradle-wrapper.jar
 /.gradle
+# Gradle's own build/report output (the app build dir lives in app/build).
+/build/
 /captures/
 /gradlew
 /gradlew.bat
