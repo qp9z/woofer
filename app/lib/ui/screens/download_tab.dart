@@ -228,7 +228,7 @@ class _UrlField extends StatelessWidget {
               ),
               placeholderStyle: const TextStyle(
                 fontSize: AppType.body,
-                color: AppColors.n600,
+                color: AppColors.n500, // n600 is only 3.0-3.5:1 here (see contrast_test)
               ),
             ),
           ),

@@ -54,16 +54,17 @@ class SettingsTab extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpacing.xl),
-        Opacity(
-          opacity: 0.6,
-          child: Column(
-            children: const [
-              WooferMark(size: 34, tile: WooferTile.dark, bars: WooferBars.accent),
-              SizedBox(height: 10),
-              Text('Woofer 1.0 · made quiet',
-                  style: TextStyle(fontSize: AppType.label, color: AppColors.n500)),
-            ],
-          ),
+        // Only the mark is dimmed: dimming the text too took it to 2.8:1.
+        Column(
+          children: const [
+            Opacity(
+              opacity: 0.6,
+              child: WooferMark(size: 34, tile: WooferTile.dark, bars: WooferBars.accent),
+            ),
+            SizedBox(height: 10),
+            Text('Woofer 1.0 · made quiet',
+                style: TextStyle(fontSize: AppType.label, color: AppColors.n500)),
+          ],
         ),
       ],
     );
