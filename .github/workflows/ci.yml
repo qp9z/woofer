@@ -125,3 +125,19 @@ jobs:
       - name: Native unit tests
         working-directory: app/android
         run: ./gradlew :app:testDebugUnitTest
+
+      # Job logs need a signed-in account; annotations don't. Surface each
+      # failing test's message so a red run can be diagnosed from the PR.
+      - name: Annotate native test failures
+        if: failure()
+        working-directory: app/build/app/test-results/testDebugUnitTest
+        run: |
+          python3 - <<'PY'
+          import glob, xml.etree.ElementTree as ET
+          for p in glob.glob("*.xml"):
+              for case in ET.parse(p).getroot().iter("testcase"):
+                  for bad in list(case.findall("failure")) + list(case.findall("error")):
+                      text = (bad.get("message") or bad.text or "")[:600]
+                      text = text.replace("%", "%25").replace("\r", "").replace("\n", "%0A")
+                      print(f"::error title={case.get('classname')}.{case.get('name')}::{text}")
+          PY

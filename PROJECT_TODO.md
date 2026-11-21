@@ -270,36 +270,68 @@ Check an item only after its acceptance criteria are satisfied.
 
 ## P3 — Product and UX review
 
-- [ ] Make Settings copy match real behavior.
+- [x] Make Settings copy match real behavior.
   - Clarify what "Best available" means when users manually select a format.
   - Keep informational rows non-interactive until real preferences exist.
+  - **Done:** Save location reads `Downloads/woofer`; a footnote explains that every
+    download starts on the best quality, marked **Best** in the format sheet, and can
+    be changed there. The footer reads the installed version instead of a hardcoded
+    "1.0". Rows stay non-interactive.
 
-- [ ] Improve history typing.
+- [x] Improve history typing.
   - Store media kind and MIME explicitly instead of inferring audio/video from a format string.
   - Add a database migration from schema version 1.
   - Consider storing output extension and original selected format separately.
+  - **Done:** schema v2 adds `kind`, `mime_type`, `ext` and `format_id`;
+    `HistoryService.migrate()` upgrades v1 files (tested on a real v1 database) and
+    backfills `kind` from the old label once. Open/share now pass the stored MIME type.
 
-- [ ] Decide how stale history entries should behave.
+- [x] Decide how stale history entries should behave.
   - Offer to remove an entry when its underlying MediaStore item has been deleted.
   - Consider a clear-history action with confirmation.
   - Decide whether "Remove from library" should ever delete the downloaded file; keep the wording explicit.
+  - **Done:** a failed open/share offers "Remove from library" / "Keep"; Library has
+    "Clear library" behind a confirmation. **Decision: removing never deletes the
+    file** (the library is an index, the user may have moved it, and MediaStore
+    deletes need a system consent dialog); every message says the file stays in
+    Downloads.
 
-- [ ] Review accessibility and device adaptability.
+- [x] Review accessibility and device adaptability.
   - Test large font scaling, screen readers, contrast, reduced motion, landscape, and narrow devices.
   - Add semantic labels to custom gesture-based controls.
   - Verify all touch targets meet the 44 dp minimum.
   - Provide a reduced-motion path for infinite aurora/equalizer/sheen animations.
+  - **Done in code and tests, not yet on a device:** `TapTarget` gives every control
+    button semantics, a label where icon-only, and a 44 px target (guideline tests on
+    every screen and sheet); the aurora, Fetch sheen, progress stripe and equalizer
+    freeze under "Remove animations"; every screen is laid out at 320x568 and
+    800x360 at 100% and 200% text; the URL placeholder and Settings footer now meet
+    WCAG AA. Text over the drifting aurora blobs dips below AA for every token; that
+    is the brand look and was left alone.
 
-- [ ] Review loading and cancellation UX.
+- [x] Review loading and cancellation UX.
   - Make it obvious when a new URL cannot be fetched because another operation is active.
   - Show a clear cancelled state or confirmation if returning directly to format selection is ambiguous.
   - Consider progress behavior when total size is unknown.
+  - **Done:** a hint under the greyed-out Fetch, and a toast when a shared link is
+    turned away; cancelling shows "Download cancelled." instead of silently
+    re-opening the format sheet; unknown-size downloads say "size unknown".
 
-- [ ] Perform final visual QA on a real device.
+- [ ] Perform final visual QA on a real device. (Blocked: the phone is unauthorized in ADB.)
   - Launcher icon, adaptive icon, monochrome icon, and splash transition.
   - Bottom sheets with long titles and many formats.
   - Navigation pill and toast around gesture/navigation insets.
   - Library rows with long Unicode titles and missing metadata.
+  - TalkBack: swipe through each tab, the format sheet and the About sheet; every
+    control should be announced with a sensible name, the nav tabs as selected or
+    not, and toasts read aloud when they appear.
+  - Largest system font (Settings → Display → Font size, 200% if available): no
+    clipped text on any tab; the nav pill label may ellipsize.
+  - Landscape on each tab and in the sheets.
+  - Developer options → Remove animations: the aurora, Fetch sheen and splash mark
+    sit still and nothing else breaks.
+  - The new **Best** badge, the Options pill and the "Clear library" link: do they
+    look right beside the existing styling?
 
 ## Verification commands
 
@@ -338,14 +370,14 @@ Release signer check — must show the upload identity, not the Android debug ce
 & 'C:/Users/Pc/AppData/Local/Android/Sdk/build-tools/36.1.0/apksigner.bat' verify --print-certs app/build/app/outputs/flutter-apk/app-release.apk
 ```
 
-## Current baseline (2026-11-21, branch `p2-maintenance`)
+## Current baseline (2026-11-21, branch `p3-ux`)
 
 - [x] `flutter analyze` passes with no issues.
-- [x] All 129 Flutter tests pass.
+- [x] All 221 Flutter tests pass.
 - [x] Python bridge: 28 tests pass (pytest, yt-dlp 2026.10.26, offline).
 - [x] Native `:app:testDebugUnitTest`: 12 tests — 9 pass, 3 skipped on Windows (the POSIX-only FileProvider cases; first real run is Linux CI).
-- [x] `flutter build apk --release` → signed APK (168.4 MB), signer **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (`apksigner`); bundled `yt_dlp/version.py` = `2026.10.26`.
-- [x] `:app:bundleRelease` → AAB (98.9 MB), same upload signer (`keytool -printcert`), `arm64-v8a` + `x86_64`, no test modules packaged, all 22 arm64 native libraries stripped (no `.debug_info`).
+- [x] `flutter build apk --release` → signed APK (168.5 MB), signer **CN=ABDULRHMAN.ALSMADI, OU=koulei, O=koulei** (`apksigner`); bundled `yt_dlp/version.py` = `2026.10.26`.
+- [x] (Checked for P2; not rebuilt for P3, which changed no native code.) `:app:bundleRelease` → AAB (98.9 MB), same upload signer (`keytool -printcert`), `arm64-v8a` + `x86_64`, no test modules packaged, all 22 arm64 native libraries stripped (no `.debug_info`).
 - [x] `flutter build appbundle --release` exits 0 (98.9 MB). It had exited 1 ("failed to strip debug symbols") because the Android SDK cmdline-tools component was missing; after installing it from Android Studio it passes. `flutter doctor` still reports "Android license status unknown" — run `flutter doctor --android-licenses` (not blocking the build).
 - [x] Release signing restored (it had silently regressed in `998a375`).
 - [x] Generated `graphify-out` files and the Gradle problems report are no longer tracked.

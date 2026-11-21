@@ -7,10 +7,13 @@ import '../../state/download_controller.dart';
 import '../../state/download_state.dart';
 import '../../state/share_intent.dart';
 import '../format_utils.dart';
+import '../motion.dart';
 import '../sheets/about_sheet.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
+import '../widgets/info_button.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/wordmark.dart';
 
 /// The Download (home) tab: paste/share a link, Fetch, then pick a format in the
@@ -90,7 +93,7 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
                   const Expanded(
                     child: Wordmark(fontSize: AppType.display, height: 0.95),
                   ),
-                  _InfoCircle(onTap: () => showAboutSheet(context)),
+                  InfoButton(onTap: () => showAboutSheet(context)),
                 ],
               ),
         const SizedBox(height: AppSpacing.md),
@@ -115,6 +118,16 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
           loading: loading,
           onPressed: busy ? null : _fetch,
         ),
+        // Fetch is greyed out; say why rather than leave it a mystery.
+        if (state is Downloading || state is Processing)
+          const Padding(
+            padding: EdgeInsets.only(top: AppSpacing.sm),
+            child: Text(
+              busyFetchMessage,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: AppType.meta, color: AppColors.n400),
+            ),
+          ),
 
         // Detected media (formats resolved, sheet may be closed).
         if (state is FormatsReady) ...[
@@ -152,28 +165,6 @@ class _DownloadTabState extends ConsumerState<DownloadTab> {
       ],
     );
   }
-}
-
-class _InfoCircle extends StatelessWidget {
-  final VoidCallback onTap;
-  const _InfoCircle({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    behavior: HitTestBehavior.opaque,
-    onTap: onTap,
-    child: Container(
-      width: AppTouch.min,
-      height: AppTouch.min,
-      margin: const EdgeInsets.only(top: 1),
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        color: CupertinoColors.white.withValues(alpha: 0.05),
-        border: AppGlass.hairline(0.10),
-      ),
-      child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
-    ),
-  );
 }
 
 /// Uppercase section label with letter-spacing (VIDEO LINK / NOW DOWNLOADING).
@@ -247,14 +238,14 @@ class _UrlField extends StatelessWidget {
               ),
               placeholderStyle: const TextStyle(
                 fontSize: AppType.body,
-                color: AppColors.n600,
+                color: AppColors.n500, // n600 is only 3.0-3.5:1 here (see contrast_test)
               ),
             ),
           ),
           if (active)
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: onClear,
+              label: 'Clear link',
               child: const Padding(
                 // Padded out to a comfortable tap target around a small glyph.
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
@@ -266,8 +257,7 @@ class _UrlField extends StatelessWidget {
               ),
             ),
           const SizedBox(width: 2),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
+          TapTarget(
             onTap: onPaste,
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
@@ -323,9 +313,62 @@ class _DetectedCard extends StatelessWidget {
     final meta =
         _sourceLabel(sourceUrl) + (duration.isEmpty ? '' : ' · $duration');
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    final titleBlock = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text(
+          info.title ?? 'Detected media',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(
+            fontSize: AppType.bodyStrong,
+            fontWeight: FontWeight.w600,
+            height: 1.25,
+            color: AppColors.text,
+          ),
+        ),
+        const SizedBox(height: 3),
+        Text(
+          meta,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: const TextStyle(fontSize: AppType.meta, color: AppColors.n400),
+        ),
+      ],
+    );
+    final optionsPill = Container(
+      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+      decoration: BoxDecoration(
+        color: CupertinoColors.white.withValues(alpha: 0.05),
+        borderRadius: BorderRadius.circular(13),
+        border: AppGlass.hairline(0.10),
+      ),
+      child: const Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(CupertinoIcons.slider_horizontal_3, size: 18, color: AppColors.a200),
+          SizedBox(width: 7),
+          Flexible(
+            child: Text(
+              'Options',
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(
+                fontSize: AppType.body,
+                fontWeight: FontWeight.w600,
+                color: AppColors.a200,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    return TapTarget(
       onTap: onOptions,
+      // Keeps the title audible: a given label replaces the card's own text.
+      label: 'Choose a format for ${info.title ?? 'this video'}',
       child: Container(
         decoration: BoxDecoration(
           color: CupertinoColors.white.withValues(alpha: 0.05),
@@ -407,70 +450,22 @@ class _DetectedCard extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(14, 12, 14, 12),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: Column(
+              child: largeText(context)
+                  ? Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        Text(
-                          info.title ?? 'Detected media',
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: AppType.bodyStrong,
-                            fontWeight: FontWeight.w600,
-                            height: 1.25,
-                            color: AppColors.text,
-                          ),
-                        ),
-                        const SizedBox(height: 3),
-                        Text(
-                          meta,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                            fontSize: AppType.meta,
-                            color: AppColors.n400,
-                          ),
-                        ),
+                        titleBlock,
+                        const SizedBox(height: AppSpacing.sm),
+                        optionsPill,
+                      ],
+                    )
+                  : Row(
+                      children: [
+                        Expanded(child: titleBlock),
+                        const SizedBox(width: 10),
+                        optionsPill,
                       ],
                     ),
-                  ),
-                  const SizedBox(width: 10),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 14,
-                      vertical: 12,
-                    ),
-                    decoration: BoxDecoration(
-                      color: CupertinoColors.white.withValues(alpha: 0.05),
-                      borderRadius: BorderRadius.circular(13),
-                      border: AppGlass.hairline(0.10),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: const [
-                        Icon(
-                          CupertinoIcons.slider_horizontal_3,
-                          size: 18,
-                          color: AppColors.a200,
-                        ),
-                        SizedBox(width: 7),
-                        Text(
-                          'Options',
-                          style: TextStyle(
-                            fontSize: AppType.body,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.a200,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
             ),
           ],
         ),
@@ -553,7 +548,7 @@ class _ActiveCard extends ConsumerWidget {
         d.progress,
         d.total > 0
             ? '${((d.progress ?? 0) * 100).toStringAsFixed(0)}% · ${formatBytes(d.received)} of ${formatBytes(d.total)}'
-            : '${formatBytes(d.received)} downloaded',
+            : '${formatBytes(d.received)} downloaded · size unknown',
       ),
       Processing p => (
         formatLabel(p.format),
@@ -590,10 +585,10 @@ class _ActiveCard extends ConsumerWidget {
                   ),
                 ),
               ),
-              GestureDetector(
-                behavior: HitTestBehavior.opaque,
+              TapTarget(
                 onTap: () =>
                     ref.read(downloadControllerProvider.notifier).cancel(),
+                label: 'Cancel download',
                 child: const Padding(
                   padding: EdgeInsets.only(left: 12, top: 4, bottom: 4),
                   child: Icon(
@@ -672,7 +667,19 @@ class _IndeterminateStripeState extends State<_IndeterminateStripe>
   late final AnimationController _c = AnimationController(
     vsync: this,
     duration: const Duration(milliseconds: 1100),
-  )..repeat(reverse: true);
+  );
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Rest frame 1.0 is the solid bar.
+    if (reduceMotion(context)) {
+      _c.stop();
+      _c.value = 1.0;
+    } else if (!_c.isAnimating) {
+      _c.repeat(reverse: true);
+    }
+  }
 
   @override
   void dispose() {
@@ -699,6 +706,23 @@ class _ErrorCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final red = CupertinoColors.systemRed.resolveFrom(context);
+    // Beside the message normally; underneath it at large text, where a
+    // side-by-side button would squeeze the message to nothing.
+    final stacked = largeText(context);
+    final retry = TapTarget(
+      onTap: onRetry,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
+        child: Text(
+          'Try again',
+          style: TextStyle(
+            fontSize: AppType.body,
+            fontWeight: FontWeight.w600,
+            color: red,
+          ),
+        ),
+      ),
+    );
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -733,25 +757,11 @@ class _ErrorCard extends StatelessWidget {
                     color: AppColors.n400,
                   ),
                 ),
+                if (stacked) retry,
               ],
             ),
           ),
-          const SizedBox(width: AppSpacing.xs),
-          GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: onRetry,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 10),
-              child: Text(
-                'Try again',
-                style: TextStyle(
-                  fontSize: AppType.body,
-                  fontWeight: FontWeight.w600,
-                  color: red,
-                ),
-              ),
-            ),
-          ),
+          if (!stacked) ...[const SizedBox(width: AppSpacing.xs), retry],
         ],
       ),
     );

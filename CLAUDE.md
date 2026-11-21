@@ -97,6 +97,26 @@ The prototype was drawn on a 340px phone mock, so raw values from it read ~20% t
 small on a real handset — `AppType` is the corrected scale. Touch targets must
 clear `AppTouch.min` (44px).
 
+**Accessibility rules** (all enforced by tests):
+
+- Make anything tappable with `TapTarget` (`lib/ui/widgets/tap_target.dart`), never a
+  bare `GestureDetector`: it adds button semantics and a 44 px hit area. Icon-only
+  controls must pass `label:`. `TapTarget` loosens its child's constraints, so a
+  child that must fill its parent needs `alignment: Alignment.center` (see
+  `_KindChip`).
+- Any new infinite animation must freeze when `reduceMotion(context)`
+  (`lib/ui/motion.dart`) is true: create the controller without `repeat()` and start
+  or stop it in `didChangeDependencies`. Use `largeText(context)` to stack
+  side-by-side controls that won't fit at big font sizes.
+- Every screen is laid out at 320x568 and 800x360, at 100% and 200% text, by
+  `test/layout_test.dart`; `test/accessibility_test.dart` runs the tap-target and
+  label guidelines. Add new screens/sheets to both. Their `pumpApp` helper
+  (`test/support/app_harness.dart`) turns on reduced motion so `pumpAndSettle` is
+  safe. Note flutter_test's Ahem font makes each glyph a full em wide, so it is a
+  harsher check than real text.
+- Only tokens that pass WCAG AA (4.5:1) on the aurora and glass surfaces may colour
+  body text; `n600` does not (see `test/contrast_test.dart`).
+
 Design source, including the full token spec (`THEME.md`) and the interactive
 prototype, is a Claude Design project — see the `woofer-design-source` memory for
 the project id and how to read it with the DesignSync tool.
@@ -139,6 +159,13 @@ the project id and how to read it with the DesignSync tool.
 - **Launcher icons are cached hard by Android.** After changing them, a reboot may
   be needed before the new icon appears.
 
+## History
+
+`HistoryService` is schema **v2** (`kind`, `mime_type`, `ext`, `format_id` on top of
+v1). Every schema bump must add a branch to `HistoryService.migrate()` *and* a test
+that opens a database in the previous shape. "Remove from library" and "Clear
+library" never delete the downloaded file; keep that wording explicit.
+
 ## Errors
 
 yt-dlp's raw messages are user-hostile, so `ytdlp_bridge.py` classifies them into a
@@ -155,6 +182,10 @@ containing them. Use fixed `pump(Duration)` calls instead.
 
 Two things worth knowing when writing tests:
 
+- A test that shows a toast must end with `await t.pump(const Duration(seconds: 3));`
+  — the toast holds a real 2.6 s `Timer`, and flutter_test fails on one left pending.
+  The `Loading` state's spinner and `FetchButton` animate forever, so use fixed
+  `pump()` calls there rather than `pumpAndSettle()`.
 - A guard test should be **mutation-checked**: remove the code it claims to protect
   and confirm it fails. Two passed vacuously on first draft because a second layer
   enforced the same rule.
@@ -165,8 +196,9 @@ Two things worth knowing when writing tests:
 
 ## State / open items
 
-The P2 maintenance work (toolchain, dependency upgrades, tests, CI, docs) lives on
-branch `p2-maintenance`; `main` is the last released state. Outstanding:
+P2 (toolchain, dependency upgrades, tests, CI, docs) is merged to `main`. P3
+(accessibility, history schema v2, stale entries, Settings copy, cancel/busy UX)
+lives on branch `p3-ux` until reviewed and pushed. Outstanding:
 
 1. **The whole device E2E pass** (`PROJECT_TODO.md`, P1) — the phone is unauthorized
    in ADB, so nothing from the 2026-11 upgrade (Chaquopy 17.2, Riverpod 3,
@@ -175,7 +207,8 @@ branch `p2-maintenance`; `main` is the last released state. Outstanding:
    permission flow, and a **4K YouTube download** (the 416 and ffmpeg-merge fixes
    were never confirmed end-to-end; the test IP was blocked at the time).
 2. **Eyeball the launcher icon, the animated intro and the cupertino_icons 2 glyphs
-   on-device** — verified by asset inspection and tests, never seen running.
+   on-device**, plus the P3 checklist in `PROJECT_TODO.md` (TalkBack, 200% font,
+   landscape, Remove animations) — verified by asset inspection and tests, never seen running.
 3. **ffmpeg_kit 5.0 is deferred** (FFmpeg 8.1: rotation/colour-tag changes) until
    the device pass and the GPL-vs-LGPL variant decision (`THIRD_PARTY.md`).
 4. **Flutter says it will soon drop Gradle < 9.1, AGP < 9.0.1, Kotlin < 2.3.20** —

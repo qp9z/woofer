@@ -516,6 +516,12 @@ void main() {
       // has to be the openable uri — MediaStore's display path resolves to nothing.
       final rows = await history.getAll();
       expect(rows.single.filePath, 'content://media/external/downloads/42');
+      // Schema v2 stores what the file really is, so the Library never guesses
+      // and open/share can pass the true MIME type.
+      expect(rows.single.kind, MediaKind.video);
+      expect(rows.single.mimeType, 'video/mp4');
+      expect(rows.single.ext, 'mp4');
+      expect(rows.single.formatId, '18');
     });
 
     test('muxed MP4, WebM, and Matroska files use matching MIME types', () async {
@@ -596,6 +602,12 @@ void main() {
         expect(proc.ops.single, contains('+title:Clip'));
         expect(proc.ops.single, contains('+artist:Chan'));
         expect(seen.whereType<Processing>().single.label, contains('MP3'));
+        // Recorded as what was saved (the MP3), not what was downloaded (m4a).
+        final row = (await history.getAll()).single;
+        expect(row.kind, MediaKind.audio);
+        expect(row.mimeType, 'audio/mpeg');
+        expect(row.ext, 'mp3');
+        expect(row.formatId, '140');
       },
     );
 
@@ -969,6 +981,7 @@ void main() {
       await settle();
       expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
       expect(c.read(downloadControllerProvider), isA<FormatsReady>());
+      expect(c.read(shareRejectedProvider), 0); // nothing was turned away
 
       ctrl.selectFormat(_muxed);
       final download = ctrl.download();
@@ -984,6 +997,8 @@ void main() {
       expect(ytdlp.extractedUrls, ['https://youtu.be/first']);
       expect(c.read(sharedUrlProvider).value, 'https://youtu.be/first');
       expect(c.read(downloadControllerProvider), isA<Downloading>());
+      // ...and the shell is told, so the user hears why nothing happened.
+      expect(c.read(shareRejectedProvider), 1);
 
       ytdlp.firstDownload.complete('/tmp/woofer_18.bin');
       await download;

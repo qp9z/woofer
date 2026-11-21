@@ -314,7 +314,7 @@ class DownloadController extends Notifier<DownloadState> {
       // wrong for a merge (video only) and for an MP3 transcode.
       final bytes = await out.exists() ? await out.length() : fmt.filesize;
       final stored = saved.uri ?? saved.path ?? finalPath;
-      await _recordHistory(info, operation.url, stored, fmt, bytes);
+      await _recordHistory(info, operation.url, stored, fmt, bytes, mime: mime, ext: ext);
       outcome = (
         title: label,
         text: 'Saved to Downloads · tap to open',
@@ -528,8 +528,10 @@ class DownloadController extends Notifier<DownloadState> {
     String url,
     String path,
     MediaFormat format,
-    int? size,
-  ) async {
+    int? size, {
+    required String mime,
+    required String ext,
+  }) async {
     try {
       final history = await ref.read(historyServiceProvider.future);
       await history.add(
@@ -540,6 +542,10 @@ class DownloadController extends Notifier<DownloadState> {
           filePath: path,
           format: format.resolution ?? format.note ?? format.formatId,
           size: size,
+          kind: format.hasVideo ? MediaKind.video : MediaKind.audio,
+          mimeType: mime,
+          ext: ext,
+          formatId: format.formatId,
         ),
       );
       ref.invalidate(historyListProvider); // the Library tab picks it up

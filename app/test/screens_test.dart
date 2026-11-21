@@ -18,6 +18,7 @@ import 'package:woofer/ui/screens/library_tab.dart';
 import 'package:woofer/ui/sheets/about_sheet.dart';
 import 'package:woofer/ui/sheets/format_sheet.dart';
 import 'package:woofer/ui/theme/app_theme.dart';
+import 'package:woofer/ui/widgets/tap_target.dart';
 
 Widget _app(Widget home, {List<Override> overrides = const []}) =>
     ProviderScope(
@@ -91,6 +92,53 @@ final _libraryEntry = HistoryEntry(
   format: '1920x1080',
 );
 
+/// An in-memory library, so removing a row really changes what the tab shows.
+class _FakeHistory implements HistoryService {
+  _FakeHistory(this.rows);
+  final List<HistoryEntry> rows;
+
+  @override
+  Future<List<HistoryEntry>> getAll() async => List.of(rows);
+
+  @override
+  Future<int> delete(int id) async {
+    final before = rows.length;
+    rows.removeWhere((e) => e.id == id);
+    return before - rows.length;
+  }
+
+  @override
+  Future<int> clear() async {
+    final n = rows.length;
+    rows.clear();
+    return n;
+  }
+
+  @override
+  Future<void> init() async {}
+  @override
+  Future<int> add(HistoryEntry entry) async => 0;
+  @override
+  Future<void> close() async {}
+}
+
+List<HistoryEntry> _two() => [
+  HistoryEntry(
+    id: 1,
+    title: 'Gone Clip',
+    sourceUrl: 'https://youtu.be/a',
+    filePath: 'content://media/external/downloads/1',
+    format: '1920x1080',
+  ),
+  HistoryEntry(
+    id: 2,
+    title: 'Kept Song',
+    sourceUrl: 'https://youtu.be/b',
+    filePath: 'content://media/external/downloads/2',
+    format: 'medium',
+  ),
+];
+
 void main() {
   Future<_OpenStorage> tapLibraryRow(WidgetTester t, {required bool opens}) async {
     final storage = _OpenStorage(opens: opens);
@@ -154,6 +202,43 @@ void main() {
     expect(find.text('1080p · MP4'), findsOneWidget);
     expect(find.text('Download · 1080p · MP4'), findsOneWidget);
     // Note: don't pumpAndSettle — the confirm button's sheen loops forever.
+  });
+
+  // "Best" is what an untouched Download fetches; the sheet should say so, and
+  // follow the Audio/Video toggle.
+  testWidgets('the format sheet marks exactly one Best: the default pick', (
+    t,
+  ) async {
+    await t.pumpWidget(
+      _app(
+        Consumer(
+          builder: (context, ref, _) => CupertinoButton(
+            onPressed: () => showFormatSheet(context, ref, _info),
+            child: const Text('open'),
+          ),
+        ),
+      ),
+    );
+    await t.tap(find.text('open'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 400));
+
+    Finder bestIn(String rowLabel) => find.descendant(
+      of: find
+          .ancestor(of: find.text(rowLabel), matching: find.byType(TapTarget))
+          .first,
+      matching: find.text('Best'),
+    );
+
+    expect(find.text('Best'), findsOneWidget);
+    expect(bestIn('1080p · MP4'), findsOneWidget); // top video row
+    expect(bestIn('360p · MP4'), findsNothing);
+
+    await t.tap(find.text('Audio'));
+    await t.pump();
+    await t.pump(const Duration(milliseconds: 200));
+    expect(find.text('Best'), findsOneWidget);
+    expect(bestIn('Audio · M4A'), findsOneWidget);
   });
 
   testWidgets('untouched Download confirms the advertised best video', (
@@ -268,5 +353,124 @@ void main() {
       find.widgetWithText(CupertinoTextField, 'https://youtu.be/abc123'),
       findsOneWidget,
     );
+  });
+
+  group('stale entries and clearing the library', () {
+    late _FakeHistory history;
+    late _OpenStorage storage;
+
+    Future<void> pumpLibrary(WidgetTester t, {required bool opens}) async {
+      storage = _OpenStorage(opens: opens);
+      await t.pumpWidget(
+        _app(
+          const LibraryTab(),
+          overrides: [
+            historyServiceProvider.overrideWith((ref) async => history),
+            storageServiceProvider.overrideWithValue(storage),
+          ],
+        ),
+      );
+      await t.pumpAndSettle();
+    }
+
+    setUp(() => history = _FakeHistory(_two()));
+
+    testWidgets('a failed open offers to remove the stale row', (t) async {
+      await pumpLibrary(t, opens: false);
+      await t.tap(find.text('Gone Clip'));
+      await t.pumpAndSettle();
+
+      expect(storage.opened, 'content://media/external/downloads/1');
+      expect(
+        find.text('Removing only forgets it here — nothing else is deleted.'),
+        findsOneWidget,
+      );
+      await t.tap(find.text('Remove from library'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Gone Clip'), findsNothing);
+      expect(find.text('Kept Song'), findsOneWidget);
+      expect(history.rows.map((e) => e.id), [2]);
+    });
+
+    testWidgets('Keep leaves the row alone', (t) async {
+      await pumpLibrary(t, opens: false);
+      await t.tap(find.text('Gone Clip'));
+      await t.pumpAndSettle();
+      await t.tap(find.text('Keep'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Gone Clip'), findsOneWidget);
+      expect(history.rows, hasLength(2));
+    });
+
+    testWidgets('the actions sheet says the file stays in Downloads', (t) async {
+      await pumpLibrary(t, opens: true);
+      await t.tap(find.bySemanticsLabel('More actions for Gone Clip'));
+      await t.pumpAndSettle();
+
+      expect(
+        find.text('Only removes it from this list — the file stays in Downloads.'),
+        findsOneWidget,
+      );
+      await t.tap(find.text('Remove from library'));
+      await t.pumpAndSettle();
+      expect(find.text('Gone Clip'), findsNothing);
+      // Opening was never attempted: removing a row never touches the file.
+      expect(storage.opened, isNull);
+    });
+
+    testWidgets('Clear library asks first, then empties it', (t) async {
+      await pumpLibrary(t, opens: true);
+      await t.tap(find.text('Clear library'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Clear your library?'), findsOneWidget);
+      expect(
+        find.text(
+          'This removes all 2 entries from Woofer. Your downloaded files stay in Downloads.',
+        ),
+        findsOneWidget,
+      );
+      expect(history.rows, hasLength(2)); // asking changed nothing
+
+      await t.tap(find.text('Clear'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Nothing here yet.'), findsOneWidget);
+      expect(history.rows, isEmpty);
+      expect(find.text('Clear library'), findsNothing);
+    });
+
+    testWidgets('Cancel keeps every row', (t) async {
+      await pumpLibrary(t, opens: true);
+      await t.tap(find.text('Clear library'));
+      await t.pumpAndSettle();
+      await t.tap(find.text('Cancel'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Gone Clip'), findsOneWidget);
+      expect(find.text('Kept Song'), findsOneWidget);
+      expect(history.rows, hasLength(2));
+    });
+
+    testWidgets('there is nothing to clear in an empty library', (t) async {
+      history = _FakeHistory([]);
+      await pumpLibrary(t, opens: true);
+      expect(find.text('Nothing here yet.'), findsOneWidget);
+      expect(find.text('Clear library'), findsNothing);
+    });
+
+    testWidgets('a filter that matches nothing still offers Clear library', (
+      t,
+    ) async {
+      history = _FakeHistory([_two().first]); // one video, no audio
+      await pumpLibrary(t, opens: true);
+      await t.tap(find.text('Audio'));
+      await t.pumpAndSettle();
+
+      expect(find.text('Nothing here yet.'), findsOneWidget);
+      expect(find.text('Clear library'), findsOneWidget);
+    });
   });
 }

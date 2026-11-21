@@ -9,6 +9,7 @@ import '../format_utils.dart';
 import '../theme/app_theme.dart';
 import '../widgets/fetch_button.dart';
 import '../widgets/glass_sheet.dart';
+import '../widgets/tap_target.dart';
 
 /// Present the format/quality picker for [info]. Audio/Video segmented toggle,
 /// the real extracted formats as selectable rows, and a Download confirm.
@@ -74,6 +75,8 @@ class _FormatSheetState extends State<_FormatSheet> {
   @override
   Widget build(BuildContext context) {
     final info = widget.info;
+    // The format an untouched Download would fetch; marked so "best" is visible.
+    final best = chooseDefaultFormat(_list, video: _isVideo);
     final meta = [
       if (info.uploader != null && info.uploader!.isNotEmpty) info.uploader!,
       if (formatDuration(info.duration).isNotEmpty)
@@ -127,9 +130,9 @@ class _FormatSheetState extends State<_FormatSheet> {
               ),
             ),
             const SizedBox(width: AppSpacing.sm),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: () => Navigator.of(context).pop(),
+              label: 'Close',
               child: const Padding(
                 padding: EdgeInsets.all(8),
                 child: Icon(
@@ -215,6 +218,7 @@ class _FormatSheetState extends State<_FormatSheet> {
                     return _QualityRow(
                       label: formatLabel(f),
                       meta: formatSubtitle(f),
+                      best: f == best,
                       selected: f == _selected,
                       onTap: () => setState(() => _selected = f),
                     );
@@ -271,11 +275,13 @@ class _KindChip extends StatelessWidget {
     final color = active
         ? AppColors.accentInk
         : (enabled ? AppColors.n300 : AppColors.n700);
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: enabled ? onTap : null,
+      selected: active,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 160),
+        // TapTarget loosens its child; centring keeps the pill filling its half.
+        alignment: Alignment.center,
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12),
@@ -293,12 +299,16 @@ class _KindChip extends StatelessWidget {
           children: [
             Icon(icon, size: 21, color: color),
             const SizedBox(width: AppSpacing.sm),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: AppType.bodyStrong,
-                fontWeight: FontWeight.w700,
-                color: color,
+            Flexible(
+              child: Text(
+                label,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontSize: AppType.bodyStrong,
+                  fontWeight: FontWeight.w700,
+                  color: color,
+                ),
               ),
             ),
           ],
@@ -311,20 +321,22 @@ class _KindChip extends StatelessWidget {
 class _QualityRow extends StatelessWidget {
   final String label;
   final String meta;
+  final bool best;
   final bool selected;
   final VoidCallback onTap;
   const _QualityRow({
     required this.label,
     required this.meta,
+    required this.best,
     required this.selected,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
+      selected: selected,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
         decoration: BoxDecoration(
@@ -345,13 +357,20 @@ class _QualityRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      fontSize: AppType.bodyStrong,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.text,
-                    ),
+                  Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: AppSpacing.sm,
+                    children: [
+                      Text(
+                        label,
+                        style: const TextStyle(
+                          fontSize: AppType.bodyStrong,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.text,
+                        ),
+                      ),
+                      if (best) const _BestBadge(),
+                    ],
                   ),
                   const SizedBox(height: 2),
                   Text(
@@ -378,4 +397,26 @@ class _QualityRow extends StatelessWidget {
       ),
     );
   }
+}
+
+/// Small "Best" pill on the format an untouched Download would fetch.
+class _BestBadge extends StatelessWidget {
+  const _BestBadge();
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+    decoration: BoxDecoration(
+      color: AppColors.a500.withValues(alpha: 0.16),
+      borderRadius: BorderRadius.circular(AppRadius.chip),
+    ),
+    child: const Text(
+      'Best',
+      style: TextStyle(
+        fontSize: AppType.label,
+        fontWeight: FontWeight.w600,
+        color: AppColors.a300,
+      ),
+    ),
+  );
 }

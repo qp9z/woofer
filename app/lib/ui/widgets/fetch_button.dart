@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 
+import '../motion.dart';
 import '../theme/app_theme.dart';
 
 /// The hero CTA: a blurple gradient pill with a white sheen sweeping across and
@@ -31,10 +32,22 @@ class FetchButton extends StatefulWidget {
 
 class _FetchButtonState extends State<FetchButton> with SingleTickerProviderStateMixin {
   late final AnimationController _sheen =
-      AnimationController(vsync: this, duration: const Duration(milliseconds: 3400))..repeat();
+      AnimationController(vsync: this, duration: const Duration(milliseconds: 3400));
   bool _down = false;
 
   bool get _enabled => widget.onPressed != null && !widget.loading;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Rest frame 1.0 parks the sheen off-screen.
+    if (reduceMotion(context)) {
+      _sheen.stop();
+      _sheen.value = 1.0;
+    } else if (!_sheen.isAnimating) {
+      _sheen.repeat();
+    }
+  }
 
   @override
   void dispose() {
@@ -107,7 +120,10 @@ class _FetchButtonState extends State<FetchButton> with SingleTickerProviderStat
 
     return MouseRegion(
       cursor: _enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-      child: GestureDetector(
+      child: Semantics(
+        button: true,
+        enabled: _enabled,
+        child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: _enabled ? widget.onPressed : null,
         onTapDown: _enabled ? (_) => setState(() => _down = true) : null,
@@ -122,6 +138,7 @@ class _FetchButtonState extends State<FetchButton> with SingleTickerProviderStat
             child: widget.expand ? SizedBox(width: double.infinity, child: panel) : panel,
           ),
         ),
+      ),
       ),
     );
   }

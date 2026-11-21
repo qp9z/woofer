@@ -118,7 +118,10 @@ class _GlassButtonState extends State<GlassButton> {
 
     return MouseRegion(
       cursor: _enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-      child: GestureDetector(
+      child: Semantics(
+        button: true,
+        enabled: _enabled,
+        child: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: widget.onPressed,
         onTapDown: (_) => _set(true),
@@ -131,9 +134,14 @@ class _GlassButtonState extends State<GlassButton> {
           child: AnimatedOpacity(
             opacity: _enabled ? (_down ? 0.85 : 1.0) : 0.5,
             duration: const Duration(milliseconds: 120),
-            child: panel,
+            // Never shorter than a fingertip, whatever the caller's padding.
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: AppTouch.min),
+              child: panel,
+            ),
           ),
         ),
+      ),
       ),
     );
   }

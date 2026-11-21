@@ -22,7 +22,8 @@ import java.nio.ByteBuffer
  * engine's "woofer/storage" channel with no Activity alive. These pin that route.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35])
+// SDK 34, not 35: Robolectric runs SDK 35 only on Java 21+, and CI builds on JDK 17.
+@Config(sdk = [34])
 class DownloadActionReceiverTest {
 
     /** Records every method call a channel sends, decoded the way Dart would. */

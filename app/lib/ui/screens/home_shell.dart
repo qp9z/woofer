@@ -6,9 +6,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../state/download_controller.dart';
 import '../../state/download_state.dart';
 import '../../state/share_intent.dart';
+import '../format_utils.dart';
 import '../sheets/format_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/aurora_background.dart';
+import '../widgets/tap_target.dart';
 import 'download_tab.dart';
 import 'library_tab.dart';
 import 'settings_tab.dart';
@@ -28,6 +30,7 @@ enum _Tab { download, library, settings }
 class _HomeShellState extends ConsumerState<HomeShell> {
   _Tab _tab = _Tab.download;
   String? _toast;
+  IconData _toastIcon = CupertinoIcons.check_mark_circled;
   Timer? _toastTimer;
   bool _sheetOpen = false;
 
@@ -37,9 +40,12 @@ class _HomeShellState extends ConsumerState<HomeShell> {
     super.dispose();
   }
 
-  void _showToast(String msg) {
+  void _showToast(String msg, {IconData icon = CupertinoIcons.check_mark_circled}) {
     _toastTimer?.cancel();
-    setState(() => _toast = msg);
+    setState(() {
+      _toast = msg;
+      _toastIcon = icon;
+    });
     _toastTimer = Timer(const Duration(milliseconds: 2600), () {
       if (mounted) setState(() => _toast = null);
     });
@@ -65,9 +71,22 @@ class _HomeShellState extends ConsumerState<HomeShell> {
       }
     });
 
+    // A shared link arrived while a download was running: say why nothing happened.
+    ref.listen<int>(shareRejectedProvider, (prev, next) {
+      if (next > (prev ?? 0)) {
+        _showToast(busyFetchMessage, icon: CupertinoIcons.info_circle);
+      }
+    });
+
     // Link resolved -> open the format sheet (after this frame, not mid-build).
     ref.listen<DownloadState>(downloadControllerProvider, (prev, next) {
-      if (next is FormatsReady && prev is! FormatsReady) {
+      // Cancel drops back to FormatsReady; that must not re-open the sheet the
+      // user just dismissed to cancel. (Failed -> retry -> FormatsReady still does.)
+      final cancelled =
+          next is FormatsReady && (prev is Downloading || prev is Processing);
+      if (cancelled) {
+        _showToast('Download cancelled.', icon: CupertinoIcons.xmark_circle);
+      } else if (next is FormatsReady && prev is! FormatsReady) {
         WidgetsBinding.instance.addPostFrameCallback((_) => _openFormatSheet());
       } else if (next is Done && prev is! Done) {
         _showToast('Saved to your phone.');
@@ -93,7 +112,7 @@ class _HomeShellState extends ConsumerState<HomeShell> {
                 ],
               ),
               if (_toast != null)
-                Positioned(left: 20, right: 20, bottom: 104, child: _Toast(message: _toast!)),
+                Positioned(left: 20, right: 20, bottom: 104, child: _Toast(message: _toast!, icon: _toastIcon)),
               Positioned(
                 left: 0,
                 right: 0,
@@ -112,11 +131,15 @@ class _HomeShellState extends ConsumerState<HomeShell> {
 
 class _Toast extends StatelessWidget {
   final String message;
-  const _Toast({required this.message});
+  final IconData icon;
+  const _Toast({required this.message, required this.icon});
 
   @override
   Widget build(BuildContext context) {
-    return _FadeIn(
+    // liveRegion: TalkBack announces the toast when it appears.
+    return Semantics(
+      liveRegion: true,
+      child: _FadeIn(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         decoration: BoxDecoration(
@@ -127,7 +150,7 @@ class _Toast extends StatelessWidget {
         ),
         child: Row(
           children: [
-            const Icon(CupertinoIcons.check_mark_circled, size: 22, color: AppColors.a200),
+            Icon(icon, size: 22, color: AppColors.a200),
             const SizedBox(width: 11),
             Expanded(
               child: Text(message,
@@ -135,6 +158,7 @@ class _Toast extends StatelessWidget {
             ),
           ],
         ),
+      ),
       ),
     );
   }
@@ -153,6 +177,8 @@ class _NavPill extends StatelessWidget {
     (_Tab.settings, 'Settings', CupertinoIcons.gear_alt),
   ];
 
+  static Widget _flexIf(bool flex, Widget w) => flex ? Flexible(child: w) : w;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -167,11 +193,16 @@ class _NavPill extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           for (final (tab, label, icon) in _defs)
-            _NavItem(
-              label: label,
-              icon: icon,
-              active: current == tab,
-              onTap: () => onSelect(tab),
+            // The active item may shrink (label ellipsizes) so the pill fits
+            // 320 px at 200% text; the two icon-only items are fixed.
+            _flexIf(
+              current == tab,
+              _NavItem(
+                label: label,
+                icon: icon,
+                active: current == tab,
+                onTap: () => onSelect(tab),
+              ),
             ),
         ],
       ),
@@ -194,9 +225,10 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final color = active ? AppColors.accentInk : AppColors.textDim;
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
+      label: label,
+      selected: active,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         curve: Curves.easeOut,
@@ -217,12 +249,16 @@ class _NavItem extends StatelessWidget {
             Icon(icon, size: 22, color: color),
             if (active) ...[
               const SizedBox(width: 8),
-              Text(label,
-                  style: TextStyle(
-                      fontSize: AppType.body,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: -0.1,
-                      color: color)),
+              Flexible(
+                child: Text(label,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontSize: AppType.body,
+                        fontWeight: FontWeight.w700,
+                        letterSpacing: -0.1,
+                        color: color)),
+              ),
             ],
           ],
         ),

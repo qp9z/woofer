@@ -6,6 +6,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../state/download_controller.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_sheet.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/woofer_mark.dart';
 import '../widgets/wordmark.dart';
 
@@ -209,8 +210,7 @@ class _LinkRow extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
+  Widget build(BuildContext context) => TapTarget(
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -247,8 +247,7 @@ class _LegalButton extends StatelessWidget {
   const _LegalButton({required this.label, required this.onTap});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
+  Widget build(BuildContext context) => TapTarget(
         onTap: onTap,
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 15),

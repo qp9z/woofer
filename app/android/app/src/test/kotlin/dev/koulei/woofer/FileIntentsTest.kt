@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.database.Cursor
 import android.net.Uri
+import androidx.core.content.FileProvider
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotEquals
@@ -30,7 +31,8 @@ import java.io.File
  * dead URI.
  */
 @RunWith(RobolectricTestRunner::class)
-@Config(sdk = [35])
+// SDK 34, not 35: Robolectric runs SDK 35 only on Java 21+, and CI builds on JDK 17.
+@Config(sdk = [34])
 class FileIntentsTest {
 
     /** Stands in for MediaStore: serves a row whose real type is video/mp4. */
@@ -50,6 +52,13 @@ class FileIntentsTest {
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Robolectric.setupContentProvider(VideoTypeProvider::class.java, "woofer.test.media")
+        // FileProvider caches its roots per authority in a static map for the life
+        // of the JVM. Robolectric gives every test a fresh temp data dir but keeps
+        // the classloader, so without this the second file test looks up the first
+        // test's cache dir ("Failed to find configured root"). On a device the dirs
+        // never move, so this is a test-only concern.
+        FileProvider::class.java.getDeclaredField("sCache").apply { isAccessible = true }
+            .let { (it.get(null) as MutableMap<*, *>).clear() }
     }
 
     // --- content:// (what history stores on API 29+). Host-independent. ----------

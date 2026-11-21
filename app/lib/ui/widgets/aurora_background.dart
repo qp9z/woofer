@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/cupertino.dart';
 
+import '../motion.dart';
 import '../theme/app_theme.dart';
 
 /// The WOOFER canvas: a near-vertical dark gradient with four blurred blurple/
@@ -19,7 +20,7 @@ class AuroraBackground extends StatefulWidget {
 class _AuroraBackgroundState extends State<AuroraBackground>
     with SingleTickerProviderStateMixin {
   late final AnimationController _c =
-      AnimationController(vsync: this, duration: const Duration(seconds: 14))..repeat();
+      AnimationController(vsync: this, duration: const Duration(seconds: 14));
 
   // color, alpha, w%, h%, and edge anchors (fractions of the screen). One of
   // left/right and one of top/bottom is set per blob; phase staggers the drift.
@@ -29,6 +30,18 @@ class _AuroraBackgroundState extends State<AuroraBackground>
     _Blob(AppColors.blobC, 0.32, 0.74, 0.34, left: 0.08, bottom: 0.06, phase: -0.571),
     _Blob(AppColors.blobD, 0.30, 0.52, 0.30, right: -0.10, bottom: -0.14, phase: -0.786),
   ];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // "Remove animations": hold the blobs on their rest frame.
+    if (reduceMotion(context)) {
+      _c.stop();
+      _c.value = 0.0;
+    } else if (!_c.isAnimating) {
+      _c.repeat();
+    }
+  }
 
   @override
   void dispose() {

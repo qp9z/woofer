@@ -8,6 +8,8 @@ import '../sheets/about_sheet.dart';
 import '../theme/app_theme.dart';
 import '../widgets/glass_button.dart';
 import '../widgets/glass_sheet.dart';
+import '../widgets/info_button.dart';
+import '../widgets/tap_target.dart';
 import '../widgets/wordmark.dart';
 
 enum _LibFilter { all, audio, video }
@@ -26,8 +28,8 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
 
   bool _matches(HistoryEntry e) => switch (_filter) {
         _LibFilter.all => true,
-        _LibFilter.video => formatIsVideo(e.format),
-        _LibFilter.audio => !formatIsVideo(e.format),
+        _LibFilter.video => e.kind == MediaKind.video,
+        _LibFilter.audio => e.kind == MediaKind.audio,
       };
 
   @override
@@ -45,13 +47,15 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
                                 const Expanded(
                                   child: Wordmark(fontSize: AppType.display, height: 0.95),
                                 ),
-                                _InfoCircle(onTap: () => showAboutSheet(context)),
+                                InfoButton(onTap: () => showAboutSheet(context)),
                               ],
                             ),
           const SizedBox(height: AppSpacing.md),
-          Row(
+          Wrap(
+          spacing: AppSpacing.sm,
+          runSpacing: AppSpacing.sm,
           children: [
-            for (final f in _LibFilter.values) ...[
+            for (final f in _LibFilter.values)
               _Chip(
                 label: switch (f) {
                   _LibFilter.all => 'All',
@@ -61,8 +65,6 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
                 active: _filter == f,
                 onTap: () => setState(() => _filter = f),
               ),
-              const SizedBox(width: AppSpacing.sm),
-            ],
           ],
         ),
         const SizedBox(height: AppSpacing.md),
@@ -75,15 +77,34 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
               style: const TextStyle(color: AppColors.n400)),
           data: (rows) {
             final filtered = rows.where(_matches).toList();
-            if (filtered.isEmpty) return const _Empty();
             return Column(
               children: [
-                for (final entry in filtered)
-                  _LibraryRow(
-                    entry: entry,
-                    onTap: () => _open(context, ref, entry),
-                    onActions: () => _openActions(context, ref, entry),
+                if (filtered.isEmpty)
+                  const _Empty()
+                else
+                  for (final entry in filtered)
+                    _LibraryRow(
+                      entry: entry,
+                      onTap: () => _open(context, ref, entry),
+                      onActions: () => _openActions(context, ref, entry),
+                    ),
+                if (rows.isNotEmpty) ...[
+                  const SizedBox(height: AppSpacing.md),
+                  TapTarget(
+                    onTap: () => _confirmClear(context, ref, rows.length),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+                      child: Text(
+                        'Clear library',
+                        style: TextStyle(
+                          fontSize: AppType.body,
+                          fontWeight: FontWeight.w600,
+                          color: CupertinoColors.systemRed.resolveFrom(context),
+                        ),
+                      ),
+                    ),
                   ),
+                ],
               ],
             );
           },
@@ -97,19 +118,83 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
   /// tap that does nothing at all reads as a broken app.
   static Future<void> _open(BuildContext context, WidgetRef ref, HistoryEntry entry) => _guard(
         context,
-        ref.read(storageServiceProvider).openFile(entry.filePath),
+        ref.read(storageServiceProvider).openFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'),
         "Couldn't open this file. It may have been moved or deleted.",
+        onRemove: () => _remove(ref, entry),
       );
 
-  static Future<void> _guard(BuildContext context, Future<bool> action, String failure) async {
+  /// Forget [entry]. The file itself is never touched: the library is only an
+  /// index, the user may have moved the file, and deleting from MediaStore needs
+  /// a system consent dialog.
+  static Future<void> _remove(WidgetRef ref, HistoryEntry entry) async {
+    final id = entry.id;
+    if (id == null) return;
+    final history = await ref.read(historyServiceProvider.future);
+    await history.delete(id);
+    ref.invalidate(historyListProvider);
+  }
+
+  /// Run [action]; if it reports failure, say so. With [onRemove] the dialog
+  /// also offers to drop the (probably stale) row.
+  static Future<void> _guard(
+    BuildContext context,
+    Future<bool> action,
+    String failure, {
+    VoidCallback? onRemove,
+  }) async {
     if (await action) return;
     if (!context.mounted) return;
     await showCupertinoDialog<void>(
       context: context,
       builder: (c) => CupertinoAlertDialog(
         title: Text(failure),
+        content: onRemove == null
+            ? null
+            : const Text('Removing only forgets it here — nothing else is deleted.'),
+        actions: onRemove == null
+            ? [CupertinoDialogAction(onPressed: () => Navigator.pop(c), child: const Text('OK'))]
+            : [
+                CupertinoDialogAction(
+                  isDestructiveAction: true,
+                  onPressed: () {
+                    Navigator.pop(c);
+                    onRemove();
+                  },
+                  child: const Text('Remove from library'),
+                ),
+                CupertinoDialogAction(
+                  onPressed: () => Navigator.pop(c),
+                  child: const Text('Keep'),
+                ),
+              ],
+      ),
+    );
+  }
+
+  static Future<void> _confirmClear(BuildContext context, WidgetRef ref, int count) {
+    return showCupertinoDialog<void>(
+      context: context,
+      builder: (c) => CupertinoAlertDialog(
+        title: const Text('Clear your library?'),
+        content: Text(
+          'This removes all $count ${count == 1 ? 'entry' : 'entries'} from Woofer. '
+          'Your downloaded files stay in Downloads.',
+        ),
         actions: [
-          CupertinoDialogAction(onPressed: () => Navigator.pop(c), child: const Text('OK')),
+          CupertinoDialogAction(
+            onPressed: () => Navigator.pop(c),
+            child: const Text('Cancel'),
+          ),
+          CupertinoDialogAction(
+            isDestructiveAction: true,
+            onPressed: () async {
+              Navigator.pop(c);
+              final history = await ref.read(historyServiceProvider.future);
+              await history.clear();
+              ref.invalidate(historyListProvider);
+            },
+            child: const Text('Clear'),
+          ),
         ],
       ),
     );
@@ -140,7 +225,12 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             icon: CupertinoIcons.share,
             onPressed: () {
               Navigator.pop(sheetContext);
-              _guard(context, storage.shareFile(entry.filePath), "Couldn't share this file.");
+              _guard(
+                context,
+                storage.shareFile(entry.filePath, mimeType: entry.mimeType ?? '*/*'),
+                "Couldn't share this file.",
+                onRemove: () => _remove(ref, entry),
+              );
             },
             child: const Text('Share'),
           ),
@@ -150,15 +240,17 @@ class _LibraryTabState extends ConsumerState<LibraryTab> {
             enableBlur: false,
             tint: CupertinoColors.systemRed.resolveFrom(context).withValues(alpha: 0.18),
             icon: CupertinoIcons.delete,
-            onPressed: () async {
+            onPressed: () {
               Navigator.pop(sheetContext);
-              final id = entry.id;
-              if (id == null) return;
-              final history = await ref.read(historyServiceProvider.future);
-              await history.delete(id);
-              ref.invalidate(historyListProvider);
+              _remove(ref, entry);
             },
             child: const Text('Remove from library'),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+          const Text(
+            'Only removes it from this list — the file stays in Downloads.',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: AppType.meta, height: 1.4, color: AppColors.n400),
           ),
         ],
       ),
@@ -174,15 +266,14 @@ class _LibraryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final video = formatIsVideo(entry.format);
+    final video = entry.kind == MediaKind.video;
     final meta = [
       if (entry.format != null && entry.format!.isNotEmpty) entry.format!,
       formatBytes(entry.size),
       formatDate(entry.createdAt),
     ].join(' · ');
 
-    return GestureDetector(
-      behavior: HitTestBehavior.opaque,
+    return TapTarget(
       onTap: onTap,
       onLongPress: onActions,
       child: Padding(
@@ -225,9 +316,9 @@ class _LibraryRow extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            GestureDetector(
-              behavior: HitTestBehavior.opaque,
+            TapTarget(
               onTap: onActions,
+              label: 'More actions for ${entry.title ?? 'this download'}',
               child: const Padding(
                 padding: EdgeInsets.all(6),
                 // Not a play button: it opens the Open/Share/Remove sheet. A play
@@ -249,9 +340,9 @@ class _Chip extends StatelessWidget {
   const _Chip({required this.label, required this.active, required this.onTap});
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
+  Widget build(BuildContext context) => TapTarget(
         onTap: onTap,
+        selected: active,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
           decoration: BoxDecoration(
@@ -277,29 +368,6 @@ class _Empty extends StatelessWidget {
         child: Center(
           child: Text('Nothing here yet.',
               style: TextStyle(fontSize: AppType.body, color: AppColors.n500)),
-        ),
-      );
-}
-
-/// Copied from DownloadTab for consistent header.
-class _InfoCircle extends StatelessWidget {
-  final VoidCallback onTap;
-  const _InfoCircle({required this.onTap});
-
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-        behavior: HitTestBehavior.opaque,
-        onTap: onTap,
-        child: Container(
-          width: AppTouch.min,
-          height: AppTouch.min,
-          margin: const EdgeInsets.only(top: 1),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: CupertinoColors.white.withValues(alpha: 0.05),
-            border: AppGlass.hairline(0.10),
-          ),
-          child: const Icon(CupertinoIcons.info, size: 24, color: AppColors.a200),
         ),
       );
 }
