@@ -27,7 +27,7 @@ transcode to MP3 with the thumbnail embedded as cover art.
 | Need | Notes |
 | --- | --- |
 | Flutter | 3.47.1 stable (Dart 3.13) |
-| JDK 21–24 | Java/Kotlin targets are 17, but Robolectric needs JDK 21 to run (CI uses Temurin 21). **Gradle 8.14 cannot run on JDK 25** — see below |
+| JDK 17–24 | Java/Kotlin targets are 17 (CI uses Temurin 17). **Gradle 8.14 cannot run on JDK 25** — see below |
 | Android SDK | Platform `android-37.0` (`compileSdk 37`) and build-tools; `adb` is not on PATH on the dev machine |
 | Python 3.12 | **Chaquopy's build toolchain requires exactly 3.12.** `uv python install 3.12` is the easy way |
 | `app/android/local.properties` | Gitignored. Flutter writes `sdk.dir` and `flutter.sdk`; you add `chaquopy.buildPython=<path to a Python 3.12>` (`uv python find 3.12`) if 3.12 isn't your default `python` |
@@ -77,7 +77,7 @@ also shows the bundled yt-dlp version.
 - **A bare `./gradlew` fails with just `25.0.2`** — Gradle 8.14 can't run on JDK 25
   (`JAVA_HOME` points at one). `flutter build` is unaffected because Flutter uses
   Android Studio's bundled JDK; for direct Gradle runs set
-  `JAVA_HOME` to that (`…/Android Studio/jbr`) or any JDK 21–24.
+  `JAVA_HOME` to that (`…/Android Studio/jbr`) or any JDK 17–24.
 - **`Couldn't find Python 3.12`** — set `chaquopy.buildPython` in `local.properties`.
 - **`Python 3.12 is not available for the ABI 'armeabi-v7a'`** — `gradle.properties`
   must keep `disable-abi-filtering=true`.

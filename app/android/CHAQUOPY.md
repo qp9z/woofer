@@ -83,7 +83,7 @@ of the same commit could ship different extractors. So:
 uv run --python 3.12 --with-requirements requirements.txt --with pytest \
   python -m pytest src/test/python
 
-# Kotlin, incl. Robolectric (from app/android; needs JAVA_HOME on a JDK 21–24):
+# Kotlin, incl. Robolectric (from app/android; needs JAVA_HOME on a JDK 17–24):
 ./gradlew :app:testDebugUnitTest
 ```
 
@@ -106,7 +106,7 @@ yet on a device).
 | Python (build + runtime) | 3.12 | exact match required |
 | yt-dlp | pinned in `requirements.txt` | |
 | `compileSdk` / `minSdk` / `targetSdk` | 37 / 24 / Flutter default | |
-| JDK | 21 in CI; 21–24 locally | Robolectric needs 21+ for SDK 35; Gradle 8.14 can't run on JDK 25 |
+| JDK | 17 in CI; 17–24 locally | Gradle 8.14 can't run on JDK 25 |
 | Robolectric / androidx.test core | 4.18.1 / 1.7.0 | test-only |
 
 `gradle.properties` keeps `android.builtInKotlin=false` and `android.newDsl=false`

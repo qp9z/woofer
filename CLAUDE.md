@@ -32,7 +32,7 @@ flutter install --release -d R5CXA4Q2SHK  # SM A556E, Android 16
 The other two suites (CI runs all three):
 
 ```bash
-# Kotlin + Robolectric. Needs JAVA_HOME on a JDK 21-24 (Robolectric needs 21 for SDK 35): Gradle 8.14 cannot run on
+# Kotlin + Robolectric. Needs JAVA_HOME on a JDK 17-24: Gradle 8.14 cannot run on
 # JDK 25 (error is just "25.0.2"). Android Studio's jbr works.
 cd app/android && JAVA_HOME="C:\Program Files\Android\Android Studio\jbr" ./gradlew :app:testDebugUnitTest
 
